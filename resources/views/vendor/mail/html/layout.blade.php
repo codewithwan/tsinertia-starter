@@ -4,23 +4,65 @@
 <title>{{ config('app.name') }}</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<meta name="color-scheme" content="light">
-<meta name="supported-color-schemes" content="light">
+<meta name="color-scheme" content="light dark">
+<meta name="supported-color-schemes" content="light dark">
 <style>
-@media only screen and (max-width: 600px) {
-.inner-body {
-width: 100% !important;
+@media (prefers-color-scheme: dark) {
+    body {
+        background-color: #0f172a !important;
+        color: #e2e8f0 !important;
+    }
+    .wrapper {
+        background-color: #0f172a !important;
+    }
+    .body {
+        background-color: #0f172a !important;
+    }
+    .inner-body {
+        background-color: #1e293b !important;
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.2), 0 2px 4px -1px rgba(0, 0, 0, 0.1) !important;
+    }
+    h1, h2, h3, .header a {
+        color: #f8fafc !important;
+    }
+    p {
+        color: #e2e8f0 !important;
+    }
+    .footer p, .footer a, p.sub, .subcopy p {
+        color: #94a3b8 !important;
+    }
+    .panel {
+        border-left-color: #475569 !important;
+    }
+    .panel-content {
+        background-color: #1e293b !important;
+        color: #e2e8f0 !important;
+    }
+    .table th {
+        color: #f8fafc !important;
+        border-bottom-color: #475569 !important;
+    }
+    .table td {
+        color: #e2e8f0 !important;
+    }
+    .subcopy {
+        border-top-color: #475569 !important;
+    }
 }
 
-.footer {
-width: 100% !important;
-}
+@media only screen and (max-width: 600px) {
+    .inner-body {
+        width: 100% !important;
+    }
+    .footer {
+        width: 100% !important;
+    }
 }
 
 @media only screen and (max-width: 500px) {
-.button {
-width: 100% !important;
-}
+    .button {
+        width: 100% !important;
+    }
 }
 </style>
 {!! $head ?? '' !!}
@@ -35,7 +77,7 @@ width: 100% !important;
 
 <!-- Email Body -->
 <tr>
-<td class="body" width="100%" cellpadding="0" cellspacing="0" style="border: hidden !important;">
+<td class="body" width="100%" cellpadding="0" cellspacing="0">
 <table class="inner-body" align="center" width="570" cellpadding="0" cellspacing="0" role="presentation">
 <!-- Body content -->
 <tr>
