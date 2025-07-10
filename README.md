@@ -13,6 +13,7 @@ A modern, production-ready boilerplate for rapid web application development, co
 - **🐳 Docker** - Containerized development environment
 - **🔥 FrankenPHP** - Modern PHP application server for superior performance
 - **🔐 Authentication** - Complete auth system with email verification
+- **👥 RBAC** - Role-Based Access Control with Spatie Permissions
 - **📱 Responsive Design** - Mobile-first responsive layouts
 - **🌙 Dark Mode** - Built-in dark/light theme support
 - **🧪 Testing** - Pest PHP testing framework setup
@@ -32,6 +33,7 @@ A modern, production-ready boilerplate for rapid web application development, co
 | Docker | Containerization | Latest |
 | MySQL | Database | 8.0 |
 | Vite | Build Tool | 6.x |
+| Spatie Permissions | RBAC | Latest |
 
 ## 🚀 Quick Start
 
@@ -44,7 +46,7 @@ A modern, production-ready boilerplate for rapid web application development, co
 
 1. **Clone the repository**
    ```bash
-   git clone <repository-url> my-app
+   git clone https://github.com/codewithwan/tsinertia-starter.git my-app
    cd my-app
    ```
 
@@ -78,17 +80,25 @@ That's it! 🎉 Your application is ready.
 ```
 ├── app/                    # Laravel application logic
 │   ├── Http/Controllers/   # API & web controllers
+│   │   ├── Admin/         # Admin controllers for RBAC
+│   │   └── Auth/          # Authentication controllers
 │   ├── Models/            # Eloquent models
 │   └── Providers/         # Service providers
 ├── resources/
 │   ├── js/                # React TypeScript frontend
 │   │   ├── components/    # Reusable React components
 │   │   ├── pages/         # Inertia.js pages
+│   │   │   └── admin/    # Admin panel pages with RBAC
 │   │   ├── layouts/       # Page layouts
 │   │   └── types/         # TypeScript type definitions
 │   └── css/               # Stylesheets
 ├── routes/                # Laravel routes
+│   ├── web.php           # Main routes
+│   ├── admin.php         # Admin panel routes
+│   └── auth.php          # Authentication routes
 ├── database/              # Migrations, seeders, factories
+│   ├── migrations/       # Including RBAC tables
+│   └── seeders/         # Role and permission seeders
 ├── docker-compose.yml     # Docker services configuration
 ├── Dockerfile            # Application container definition
 └── package.json          # Frontend dependencies
@@ -177,19 +187,39 @@ This starter kit uses **ShadCN/UI** components built on **Radix UI** primitives.
 - Tables, Charts, Data displays
 - And many more...
 
-## 🔐 Authentication
+## 🔐 Authentication & Authorization
 
-Pre-configured authentication system includes:
+Pre-configured authentication and authorization system includes:
 
 - User registration and login
 - Email verification
 - Password reset functionality
 - Profile management
 - Session management
+- Role-Based Access Control (RBAC)
+  - Pre-configured roles and permissions
+  - Role management interface
+  - Permission-based access control
+  - Easy role assignment to users
+  - Middleware for protecting routes
 
 ### Protected Routes
 
-Routes are automatically protected using Laravel's authentication middleware and Inertia.js.
+Routes are automatically protected using Laravel's authentication middleware, Inertia.js, and Spatie's permission middleware.
+
+Example of protected routes:
+```php
+Route::middleware(['auth', 'role:admin'])->group(function () {
+    Route::get('/admin/users', [UserController::class, 'index']);
+});
+```
+
+### Available Roles
+
+The starter kit comes with pre-configured roles:
+- Admin: Full system access
+- User: Basic authenticated access
+- Custom roles can be added through the admin interface
 
 ## 📱 Responsive Design
 

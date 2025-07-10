@@ -5,8 +5,8 @@ import { type BreadcrumbItem } from '@/types';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
-        title: 'Admin',
-        href: '/admin',
+        title: 'Dashboard',
+        href: '/dashboard',
     },
     {
         title: 'Reports',
