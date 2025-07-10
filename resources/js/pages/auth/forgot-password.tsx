@@ -17,7 +17,6 @@ export default function ForgotPassword({ status }: { status?: string }) {
 
     const submit: FormEventHandler = (e) => {
         e.preventDefault();
-
         post(route('password.email'));
     };
 
@@ -25,29 +24,40 @@ export default function ForgotPassword({ status }: { status?: string }) {
         <AuthLayout title="Forgot password" description="Enter your email to receive a password reset link">
             <Head title="Forgot password" />
 
-            {status && <div className="mb-4 text-center text-sm font-medium text-green-600">{status}</div>}
+            {status && (
+                <div className="mb-6 rounded-md bg-emerald-50 p-3 text-center text-sm font-medium text-emerald-600 dark:bg-emerald-950/30">
+                    {status}
+                </div>
+            )}
 
             <div className="space-y-6">
-                <form onSubmit={submit}>
-                    <div className="grid gap-2">
-                        <Label htmlFor="email">Email address</Label>
-                        <Input
-                            id="email"
-                            type="email"
-                            name="email"
-                            autoComplete="off"
-                            value={data.email}
-                            autoFocus
-                            onChange={(e) => setData('email', e.target.value)}
-                            placeholder="email@example.com"
-                        />
-
-                        <InputError message={errors.email} />
+                <form onSubmit={submit} className="animate-in fade-in-0 slide-in-from-bottom-1">
+                    <div className="grid gap-3">
+                        <div className="space-y-2">
+                            <Label htmlFor="email" className="text-sm font-medium">
+                                Email address
+                            </Label>
+                            <Input
+                                id="email"
+                                type="email"
+                                name="email"
+                                autoComplete="off"
+                                value={data.email}
+                                autoFocus
+                                onChange={(e) => setData('email', e.target.value)}
+                                placeholder="email@example.com"
+                                className="h-11 transition-colors focus-visible:ring-2"
+                            />
+                            <InputError message={errors.email} className="animate-in fade-in-0 zoom-in-95" />
+                        </div>
                     </div>
 
-                    <div className="my-6 flex items-center justify-start">
-                        <Button className="w-full" disabled={processing}>
-                            {processing && <LoaderCircle className="h-4 w-4 animate-spin" />}
+                    <div className="mt-6">
+                        <Button 
+                            className="h-11 w-full transition-all duration-200 hover:shadow-md disabled:opacity-50" 
+                            disabled={processing}
+                        >
+                            {processing && <LoaderCircle className="mr-2 h-4 w-4 animate-spin" />}
                             Email password reset link
                         </Button>
                     </div>
@@ -55,7 +65,9 @@ export default function ForgotPassword({ status }: { status?: string }) {
 
                 <div className="space-x-1 text-center text-sm text-muted-foreground">
                     <span>Or, return to</span>
-                    <TextLink href={route('login')}>log in</TextLink>
+                    <TextLink href={route('login')} className="font-medium hover:underline">
+                        log in
+                    </TextLink>
                 </div>
             </div>
         </AuthLayout>

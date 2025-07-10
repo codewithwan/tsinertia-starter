@@ -5,14 +5,13 @@ import AppearanceToggleDropdown from '@/components/appearance-dropdown';
 import WelcomeTemplate from '@/components/welcome-template';
 import {
     ArrowRight,
-    // Terminal,
-    TerminalIcon
 } from 'lucide-react';
+
+import AppLogo from '@/components/app-logo';
 // import { SiLaravel } from 'react-icons/si';
 
 export default function Welcome() {
     const { auth } = usePage<SharedData>().props;
-
     return (
         <>
             <Head title="TSInertia Starter">
@@ -28,13 +27,7 @@ export default function Welcome() {
                     <div className="container mx-auto px-6 py-4">
                         <nav className="flex items-center justify-between">
                             <div className="flex items-center gap-2">
-                                <div className="h-9 w-9 rounded-xl bg-black dark:bg-white flex items-center justify-center">
-                                    <TerminalIcon className="h-5 w-5 text-white dark:text-black" />
-                                </div>
-                                <div className='flex flex-col'>
-                                    <span className="font-bold text-l text-gray-900 dark:text-white">TSInertia</span>
-                                    <span className="text-xs text-gray-500 dark:text-gray-400">Starter</span>
-                                </div>
+                                <AppLogo />
                             </div>
 
                             <div className="flex items-center gap-4">

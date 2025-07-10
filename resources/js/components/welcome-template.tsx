@@ -8,7 +8,7 @@
  * 3. The navbar and basic layout structure will remain intact
  */
 
-import { 
+import {
     Github,
     Copy,
     Check
@@ -16,22 +16,23 @@ import {
 import { Button } from '@/components/ui/button';
 
 // Simple Icons imports
-import { 
+import {
     SiLaravel,
-    SiReact, 
+    SiReact,
     SiTypescript,
     SiTailwindcss,
     SiDocker,
     SiMysql,
     SiPhp,
-    SiInertia
+    SiInertia,
+    SiShadcnui
 } from 'react-icons/si';
 import { useState } from 'react';
 
 export default function WelcomeTemplate() {
     const [copied, setCopied] = useState(false);
     const [activeIcon, setActiveIcon] = useState<number | null>(null);
-    
+
     const gitCommand = "git clone https://github.com/codewithwan/tsinertia-starter.git";
     const gitUrl = "https://github.com/codewithwan/tsinertia-starter.git";
 
@@ -46,77 +47,86 @@ export default function WelcomeTemplate() {
     };
 
     const techIcons = [
-        { 
-            icon: SiLaravel, 
+        {
+            icon: SiLaravel,
             name: "Laravel",
-            color: "text-red-500", 
+            color: "text-red-500",
             bgColor: "bg-red-500/10",
             description: "Elegant PHP framework",
-            position: { x: 50, y: 20 },
+            position: { x: 30, y: 50 },
             tooltipClass: "bottom-full left-1/2 -translate-x-1/2 mb-4"
         },
-        { 
-            icon: SiReact, 
+        {
+            icon: SiReact,
             name: "React",
-            color: "text-blue-500", 
+            color: "text-blue-500",
             bgColor: "bg-blue-500/10",
             description: "Modern UI library",
-            position: { x: 75, y: 35 },
+            position: { x: 70, y: 50 },
             tooltipClass: "right-full top-1/2 -translate-y-1/2 mr-4"
         },
-        { 
-            icon: SiTypescript, 
+        {
+            icon: SiTypescript,
             name: "TypeScript",
-            color: "text-blue-600", 
+            color: "text-blue-600",
             bgColor: "bg-blue-600/10",
             description: "Type-safe JavaScript",
-            position: { x: 85, y: 65 },
+            position: { x: 65, y: 80 },
             tooltipClass: "right-full top-1/2 -translate-y-1/2 mr-4"
         },
-        { 
-            icon: SiInertia, 
+        {
+            icon: SiInertia,
             name: "Inertia.js",
-            color: "text-purple-600", 
+            color: "text-purple-600",
             bgColor: "bg-purple-600/10",
             description: "Modern monolith",
-            position: { x: 50, y: 80 },
+            position: { x: 50, y: 50 },
             tooltipClass: "top-full left-1/2 -translate-x-1/2 mt-4"
         },
-        { 
-            icon: SiTailwindcss, 
+        {
+            icon: SiTailwindcss,
             name: "Tailwind",
-            color: "text-cyan-500", 
+            color: "text-cyan-500",
             bgColor: "bg-cyan-500/10",
             description: "Utility-first CSS",
-            position: { x: 15, y: 65 },
+            position: { x: 80, y: 25 },
             tooltipClass: "left-full top-1/2 -translate-y-1/2 ml-4"
         },
-        { 
-            icon: SiDocker, 
+        {
+            icon: SiDocker,
             name: "Docker",
-            color: "text-blue-600", 
+            color: "text-blue-600",
             bgColor: "bg-blue-600/10",
             description: "Containerization",
-            position: { x: 25, y: 35 },
+            position: { x: 15, y: 25 },
             tooltipClass: "left-full top-1/2 -translate-y-1/2 ml-4"
         },
-        { 
-            icon: SiMysql, 
+        {
+            icon: SiMysql,
             name: "MySQL",
-            color: "text-orange-600", 
+            color: "text-orange-600",
             bgColor: "bg-orange-600/10",
             description: "Reliable database",
-            position: { x: 50, y: 50 },
+            position: { x: 35, y: 10 },
             tooltipClass: "bottom-full left-1/2 -translate-x-1/2 mb-4"
         },
-        { 
-            icon: SiPhp, 
+        {
+            icon: SiPhp,
             name: "FrankenPHP",
-            color: "text-indigo-600", 
+            color: "text-indigo-600",
             bgColor: "bg-indigo-600/10",
             description: "Modern PHP runtime",
-            position: { x: 35, y: 75 },
+            position: { x: 15, y: 75 },
             tooltipClass: "left-full top-1/2 -translate-y-1/2 ml-4"
+        },
+        {
+            icon: SiShadcnui,
+            name: "Shadcn UI",
+            color: "text-purple-600",
+            bgColor: "bg-purple-600/10",
+            description: "Modern UI library",
+            position: { x: 85, y: 70 },
+            tooltipClass: "bottom-full left-1/2 -translate-x-1/2 mb-4"
         }
     ];
 
@@ -130,23 +140,27 @@ export default function WelcomeTemplate() {
         { from: 5, to: 0 }, // Docker -> Laravel
         { from: 7, to: 0 }, // FrankenPHP -> Laravel
         { from: 6, to: 5 }, // MySQL -> Docker
+        { from: 8, to: 1 }, // Shadcn UI -> React
+        { from: 2, to: 8 }, // TypeScript -> Shadcn UI
+        { from: 4, to: 8 }, // Tailwind -> Shadcn UI
+        { from: 5, to: 7 }, // Docker -> FrankenPHP
     ];
 
     return (
         <div className="container mx-auto px-6 py-16 h-[calc(100vh-88px)] flex items-center">
             <div className="grid lg:grid-cols-2 gap-20 items-center w-full">
-                
+
                 {/* Left Side - Typography & Command */}
                 <div className="space-y-10">
                     <div className="space-y-6">
                         <h1 className="text-5xl lg:text-6xl xl:text-7xl font-bold text-gray-900 dark:text-white leading-tight">
                             Laravel + React + TypeScript
                         </h1>
-                        
+
                         <p className="text-2xl lg:text-3xl text-gray-600 dark:text-gray-400 font-medium">
                             Make it simple
                         </p>
-                        
+
                         <p className="text-lg text-gray-600 dark:text-gray-400 max-w-lg leading-relaxed">
                             Everything you need to build modern applications. No setup headaches.
                         </p>
@@ -190,13 +204,13 @@ export default function WelcomeTemplate() {
                 {/* Right Side - Connected Tech Diagram */}
                 <div className="relative h-[600px] hidden lg:block">
                     <div className="absolute inset-0 rounded-3xl bg-gray-50/30 dark:bg-gray-900/20 border border-gray-200/30 dark:border-gray-800/30">
-                        
+
                         {/* Static Connection Lines */}
                         <svg className="absolute inset-0 w-full h-full pointer-events-none">
                             {connections.map((connection, index) => {
                                 const from = techIcons[connection.from].position;
                                 const to = techIcons[connection.to].position;
-                                
+
                                 return (
                                     <line
                                         key={index}
@@ -206,11 +220,10 @@ export default function WelcomeTemplate() {
                                         y2={`${to.y}%`}
                                         stroke="currentColor"
                                         strokeWidth="1.5"
-                                        className={`transition-all duration-300 ${
-                                            activeIcon === connection.from || activeIcon === connection.to
-                                                ? "text-blue-500 opacity-80" 
+                                        className={`transition-all duration-300 ${activeIcon === connection.from || activeIcon === connection.to
+                                                ? "text-blue-500 opacity-80"
                                                 : "text-gray-300 dark:text-gray-600 opacity-40"
-                                        }`}
+                                            }`}
                                         strokeDasharray="4 4"
                                     />
                                 );
@@ -221,7 +234,7 @@ export default function WelcomeTemplate() {
                         {techIcons.map((tech, index) => {
                             const IconComponent = tech.icon;
                             const isActive = activeIcon === index;
-                            
+
                             return (
                                 <div
                                     key={index}
@@ -241,7 +254,7 @@ export default function WelcomeTemplate() {
                                             <div className={`w-18 h-18 rounded-full ${tech.bgColor} -translate-x-1/2 -translate-y-1/2 absolute top-1/2 left-1/2`}></div>
                                         </div>
                                     )}
-                                    
+
                                     {/* Icon Container */}
                                     <div className={`
                                         relative w-16 h-16 rounded-2xl ${tech.bgColor} border border-gray-200 dark:border-gray-700
@@ -250,7 +263,7 @@ export default function WelcomeTemplate() {
                                         ${isActive ? 'scale-115 shadow-xl' : ''}
                                     `}>
                                         <IconComponent className={`h-8 w-8 ${tech.color} transition-all duration-300`} />
-                                        
+
                                         {/* Glow Effect */}
                                         {isActive && (
                                             <div className={`absolute inset-0 rounded-2xl ${tech.bgColor} blur-lg opacity-50 -z-10`}></div>
@@ -266,7 +279,7 @@ export default function WelcomeTemplate() {
                                         `}>
                                             <div className="text-sm font-semibold text-gray-900 dark:text-white">{tech.name}</div>
                                             <div className="text-xs text-gray-600 dark:text-gray-400">{tech.description}</div>
-                                            
+
                                             {/* Fixed Tooltip Arrow */}
                                             <div className={`
                                                 absolute w-2 h-2 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rotate-45
