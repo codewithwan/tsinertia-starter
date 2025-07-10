@@ -1,10 +1,15 @@
 import AppLogoIcon from './app-logo-icon';
+import { cn } from '@/lib/utils';
 
-export default function AppLogo() {
+interface AppLogoProps {
+    className?: string;
+}
+
+export default function AppLogo({ className }: AppLogoProps) {
     return (
         <>
-            <div className="flex aspect-square size-8 items-center justify-center rounded-md bg-sidebar-primary text-sidebar-primary-foreground">
-                <AppLogoIcon className="size-5 fill-current text-white dark:text-black" />
+            <div className={cn("flex aspect-square size-8 items-center justify-center rounded-md bg-primary/10", className)}>
+                <AppLogoIcon className="size-5 fill-current text-primary" />
             </div>
             <div className="ml-1 text-left text-sm flex flex-col">
                 <span className="mb-0.5 truncate leading-tight font-semibold">TSInertia</span>
