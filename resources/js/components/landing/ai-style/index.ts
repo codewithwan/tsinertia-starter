@@ -1,0 +1,10 @@
+export { default as HeroSection } from './hero-section';
+export { default as AnimatedCounter } from './animated-counter';
+export { default as QuoteSection } from './quote-section';
+export { default as FeaturesSection } from './features-section';
+export { default as ProductFeaturesSection } from './product-features-section';
+export { default as PlatformFeaturesSection } from './platform-features-section';
+export { default as PricingSection } from './pricing-section';
+export { default as CTASection } from './cta-section';
+export { default as FAQSection } from './faq-section';
+export { default as FooterSection } from './footer-section';
