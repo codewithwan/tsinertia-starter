@@ -2,16 +2,17 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 
 class DashboardController extends Controller
 {
     public function index()
     {
-        $user = auth()->user();
+        /** @var User $user */
+        $user = Auth::user();   
         
-        // Redirect to role-specific dashboard
         if ($user->hasRole('superadmin')) {
             return Inertia::render('superadmin/dashboard');
         } elseif ($user->hasRole('admin')) {
