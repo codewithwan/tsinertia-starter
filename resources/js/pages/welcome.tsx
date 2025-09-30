@@ -6,30 +6,26 @@ import { ArrowRight } from 'lucide-react';
 import AppLogo from '@/components/app-logo';
 import {
     HeroSection,
-    QuoteSection,
     FeaturesSection,
-    ProductFeaturesSection,
-    PlatformFeaturesSection,
-    PricingSection,
-    CTASection,
-    FAQSection,
-    FooterSection
-} from '@/components/landing/ai-style';
+    HowItWorksSection,
+    TeamSection,
+    QuoteSection,
+    CtaSection,
+    FooterSection,
+} from '@/components/landing/nutantra';
 
 export default function Welcome() {
     const { auth } = usePage<SharedData>().props;
 
     return (
         <>
-            <Head title="AI SaaS Platform - Build Your AI Business">
+            <Head title="Nutantra - AI-Powered Nutrition Tracker">
                 <link rel="preconnect" href="https://fonts.bunny.net" />
                 <link href="https://fonts.bunny.net/css?family=inter:400,500,600,700,800,900" rel="stylesheet" />
-                <meta name="description" content="Complete AI SaaS platform template. Build, launch, and scale your AI-powered software business with our ready-to-use template." />
+                <meta name="description" content="Track your nutrition with AI precision. Nutantra uses AI Vision to identify food and calculate nutrition automatically. Start your healthy journey today!" />
             </Head>
 
             <div className="min-h-screen bg-background text-foreground relative">
-                {/* Grid Pattern Background */}
-                <div className="absolute inset-0 bg-[linear-gradient(rgba(0,0,0,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(0,0,0,0.02)_1px,transparent_1px)] dark:bg-[linear-gradient(rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:24px_24px] pointer-events-none"></div>
 
                 {/* Sticky Header */}
                 <header className="sticky top-0 z-50 w-full border-b border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
@@ -86,15 +82,13 @@ export default function Welcome() {
                     </div>
                 </header>
 
-                {/* AI Style Welcome Page Sections */}
+                {/* Nutantra Landing Page Sections */}
                 <HeroSection />
-                <QuoteSection />
                 <FeaturesSection />
-                <ProductFeaturesSection />
-                <PlatformFeaturesSection />
-                <PricingSection />
-                <CTASection />
-                <FAQSection />
+                <HowItWorksSection />
+                <TeamSection />
+                <QuoteSection />
+                <CtaSection />
                 <FooterSection />
             </div>
         </>
