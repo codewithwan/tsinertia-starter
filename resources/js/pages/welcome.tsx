@@ -6,28 +6,30 @@ import { ArrowRight } from 'lucide-react';
 import AppLogo from '@/components/app-logo';
 import {
     HeroSection,
-    FeaturesSection,
-    HowItWorksSection,
-    PricingSection,
-    PartnershipSection,
-    TeamSection,
     QuoteSection,
-    CtaSection,
-    FooterSection,
-} from '@/components/landing/nutantra';
+    FeaturesSection,
+    ProductFeaturesSection,
+    PlatformFeaturesSection,
+    PricingSection,
+    CTASection,
+    FAQSection,
+    FooterSection
+} from '@/components/landing/ai-style';
 
 export default function Welcome() {
     const { auth } = usePage<SharedData>().props;
 
     return (
         <>
-            <Head title="Nutantra - AI-Powered Nutrition Tracker">
+            <Head title="AI SaaS Platform - Build Your AI Business">
                 <link rel="preconnect" href="https://fonts.bunny.net" />
                 <link href="https://fonts.bunny.net/css?family=inter:400,500,600,700,800,900" rel="stylesheet" />
-                <meta name="description" content="Track your nutrition with AI precision. Nutantra uses AI Vision to identify food and calculate nutrition automatically. Start your healthy journey today!" />
+                <meta name="description" content="Complete AI SaaS platform template. Build, launch, and scale your AI-powered software business with our ready-to-use template." />
             </Head>
 
             <div className="min-h-screen bg-background text-foreground relative">
+                {/* Grid Pattern Background */}
+                <div className="absolute inset-0 bg-[linear-gradient(rgba(0,0,0,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(0,0,0,0.02)_1px,transparent_1px)] dark:bg-[linear-gradient(rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:24px_24px] pointer-events-none"></div>
 
                 {/* Sticky Header */}
                 <header className="sticky top-0 z-50 w-full border-b border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
@@ -53,9 +55,9 @@ export default function Welcome() {
                                         <Button variant="ghost" asChild>
                                             <Link href={'/login'}>Login</Link>
                                         </Button>
-                                        <Button asChild className="shadow-lg bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700">
-                                            <Link href={'/download'}>
-                                                Download App
+                                        <Button asChild className="shadow-lg">
+                                            <Link href={'/register'}>
+                                                Get Started
                                                 <ArrowRight className="h-4 w-4 ml-2" />
                                             </Link>
                                         </Button>
@@ -73,8 +75,8 @@ export default function Welcome() {
                                         </Link>
                                     </Button>
                                 ) : (
-                                    <Button size="sm" asChild className="bg-gradient-to-r from-green-600 to-emerald-600">
-                                        <Link href={'/download'}>
+                                    <Button size="sm" asChild>
+                                        <Link href={'/register'}>
                                             <ArrowRight className="h-4 w-4" />
                                         </Link>
                                     </Button>
@@ -84,15 +86,15 @@ export default function Welcome() {
                     </div>
                 </header>
 
-                {/* Nutantra Landing Page Sections */}
+                {/* AI Style Welcome Page Sections */}
                 <HeroSection />
-                <FeaturesSection />
-                <HowItWorksSection />
-                <PricingSection />
-                <PartnershipSection />
                 <QuoteSection />
-                <TeamSection />
-                <CtaSection />
+                <FeaturesSection />
+                <ProductFeaturesSection />
+                <PlatformFeaturesSection />
+                <PricingSection />
+                <CTASection />
+                <FAQSection />
                 <FooterSection />
             </div>
         </>

@@ -11,9 +11,9 @@ export default function AppLogo({ className }: AppLogoProps) {
             <div className={cn("flex aspect-square size-8 items-center justify-center rounded-md bg-primary/10", className)}>
                 <AppLogoIcon className="size-5 fill-current text-primary" />
             </div>
-            <div className="ml-1 text-left text-lg flex flex-col">
-                <span className="mb-0.5 truncate leading-tight font-semibold">Nutantra</span>
-                {/* <span className="text-xs text-gray-500 dark:text-gray-400"></span> */}
+            <div className="ml-1 text-left text-sm flex flex-col">
+                <span className="mb-0.5 truncate leading-tight font-semibold">TSInertia</span>
+                <span className="text-xs text-gray-500 dark:text-gray-400">Starter</span>
             </div>
         </>
     );

@@ -29,5 +29,8 @@ class RoleAndPermissionSeeder extends Seeder
 
         $admin = Role::create(['name' => 'admin']);
         $admin->givePermissionTo(['view dashboard', 'view reports']);
+
+        $user = Role::create(['name' => 'user']);
+        $user->givePermissionTo(['view dashboard']);
     }
 }
