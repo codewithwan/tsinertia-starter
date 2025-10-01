@@ -8,6 +8,8 @@ import {
     HeroSection,
     FeaturesSection,
     HowItWorksSection,
+    PricingSection,
+    PartnershipSection,
     TeamSection,
     QuoteSection,
     CtaSection,
@@ -51,9 +53,9 @@ export default function Welcome() {
                                         <Button variant="ghost" asChild>
                                             <Link href={'/login'}>Login</Link>
                                         </Button>
-                                        <Button asChild className="shadow-lg">
-                                            <Link href={'/register'}>
-                                                Get Started
+                                        <Button asChild className="shadow-lg bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700">
+                                            <Link href={'/download'}>
+                                                Download App
                                                 <ArrowRight className="h-4 w-4 ml-2" />
                                             </Link>
                                         </Button>
@@ -71,8 +73,8 @@ export default function Welcome() {
                                         </Link>
                                     </Button>
                                 ) : (
-                                    <Button size="sm" asChild>
-                                        <Link href={'/register'}>
+                                    <Button size="sm" asChild className="bg-gradient-to-r from-green-600 to-emerald-600">
+                                        <Link href={'/download'}>
                                             <ArrowRight className="h-4 w-4" />
                                         </Link>
                                     </Button>
@@ -86,8 +88,10 @@ export default function Welcome() {
                 <HeroSection />
                 <FeaturesSection />
                 <HowItWorksSection />
-                <TeamSection />
+                <PricingSection />
+                <PartnershipSection />
                 <QuoteSection />
+                <TeamSection />
                 <CtaSection />
                 <FooterSection />
             </div>

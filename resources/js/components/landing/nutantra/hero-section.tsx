@@ -84,9 +84,12 @@ export default function HeroSection({ className = '' }: HeroSectionProps) {
                             <Button
                                 size="lg"
                                 className="px-10 sm:px-14 py-7 sm:py-8 text-base sm:text-lg font-bold bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 shadow-xl hover:shadow-2xl transition-all"
+                                asChild
                             >
-                                <Download className="h-5 w-5 mr-2" />
-                                Download Sekarang
+                                <Link href={'/download'}>
+                                    <Download className="h-5 w-5 mr-2" />
+                                    Download Sekarang
+                                </Link>
                             </Button>
                             {auth.user && (
                                 <Button
