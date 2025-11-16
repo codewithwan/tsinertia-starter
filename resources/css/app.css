@@ -189,7 +189,103 @@
   * {
     @apply border-border outline-ring/50;
     }
+  html {
+    scroll-behavior: smooth;
+    }
   body {
     @apply bg-background text-foreground;
+    }
+}
+
+/* Futuristic Neon 2030 Animations */
+@layer utilities {
+    /* Neon glow pulse */
+    @keyframes neon-pulse {
+        0%, 100% {
+            opacity: 1;
+            filter: brightness(1);
+        }
+        50% {
+            opacity: 0.8;
+            filter: brightness(1.2);
+        }
+    }
+
+    .animate-neon-pulse {
+        animation: neon-pulse 3s ease-in-out infinite;
+    }
+
+    /* Scan line effect */
+    @keyframes scan-line {
+        0% {
+            transform: translateY(-100%);
+        }
+        100% {
+            transform: translateY(100vh);
+        }
+    }
+
+    .animate-scan-line {
+        animation: scan-line 8s linear infinite;
+    }
+
+    /* Floating animations */
+    @keyframes float-slow {
+        0%, 100% {
+            transform: translate(0, 0) scale(1);
+        }
+        33% {
+            transform: translate(30px, -30px) scale(1.05);
+        }
+        66% {
+            transform: translate(-20px, 20px) scale(0.95);
+        }
+    }
+
+    @keyframes float-medium {
+        0%, 100% {
+            transform: translate(0, 0) scale(1);
+        }
+        50% {
+            transform: translate(-40px, -40px) scale(1.08);
+        }
+    }
+
+    @keyframes float-slower {
+        0%, 100% {
+            transform: translate(0, 0) scale(1);
+        }
+        33% {
+            transform: translate(-40px, 30px) scale(0.98);
+        }
+        66% {
+            transform: translate(30px, -20px) scale(1.02);
+        }
+    }
+
+    .animate-float-slow {
+        animation: float-slow 20s ease-in-out infinite;
+    }
+
+    .animate-float-medium {
+        animation: float-medium 15s ease-in-out infinite;
+    }
+
+    .animate-float-slower {
+        animation: float-slower 25s ease-in-out infinite;
+    }
+
+    /* Neon line glow */
+    @keyframes line-glow {
+        0%, 100% {
+            box-shadow: 0 0 5px currentColor, 0 0 10px currentColor;
+        }
+        50% {
+            box-shadow: 0 0 10px currentColor, 0 0 20px currentColor;
+        }
+    }
+
+    .animate-line-glow {
+        animation: line-glow 2s ease-in-out infinite;
     }
 }

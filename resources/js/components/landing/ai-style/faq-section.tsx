@@ -1,6 +1,6 @@
 import { motion } from 'framer-motion';
 import { Card } from '@/components/ui/card';
-import { HelpCircle, ChevronDown, ChevronUp } from 'lucide-react';
+import { ChevronDown, ChevronUp } from 'lucide-react';
 import { useState } from 'react';
 
 interface FAQItemProps {
@@ -54,7 +54,7 @@ interface FAQSectionProps {
 }
 
 export default function FAQSection({ className = '' }: FAQSectionProps) {
-    const faqs = [
+    const leftFaqs = [
         {
             question: "What's included in the AI SaaS template?",
             answer: "The template includes a complete Laravel + React setup with user authentication, AI integration, admin dashboard, payment system (Stripe), responsive design, and comprehensive documentation."
@@ -70,7 +70,10 @@ export default function FAQSection({ className = '' }: FAQSectionProps) {
         {
             question: "What AI models are integrated?",
             answer: "The template includes pre-configured integration with popular AI providers like OpenAI, Anthropic, and others. You can easily add more AI models as needed."
-        },
+        }
+    ];
+
+    const rightFaqs = [
         {
             question: "Is payment processing included?",
             answer: "Yes! The Pro template includes Stripe integration for subscription management, billing, and payment processing out of the box."
@@ -86,58 +89,106 @@ export default function FAQSection({ className = '' }: FAQSectionProps) {
     ];
 
     return (
-        <section className={`py-24 bg-muted/30 ${className}`}>
-            <div className="container mx-auto px-6">
+        <section className={`relative py-24 overflow-hidden ${className}`}>
+            {/* Background */}
+            <div className="absolute inset-0 bg-background"></div>
+
+            {/* Circuit board pattern */}
+            <div className="absolute inset-0 opacity-[0.01]" style={{
+                backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 0h60v60H0z' fill='none'/%3E%3Ccircle cx='30' cy='30' r='2' fill='currentColor'/%3E%3Cpath d='M30 0v60M0 30h60' stroke='currentColor' stroke-width='0.5'/%3E%3C/svg%3E")`,
+                backgroundSize: '60px 60px'
+            }}></div>
+
+            {/* Decorative glows */}
+            <div className="absolute top-0 right-0 w-96 h-96 bg-foreground/6 rounded-full blur-3xl"></div>
+            <div className="absolute bottom-0 left-0 w-72 h-72 bg-foreground/8 rounded-full blur-3xl"></div>
+
+            <div className="container mx-auto px-6 relative">
+                {/* Header */}
                 <motion.div
                     initial={{ opacity: 0, y: 30 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.6 }}
-                    viewport={{ once: true }}
-                    className="text-center mb-16"
+                    viewport={{ once: true, margin: "-100px" }}
+                    className="text-center mb-20"
                 >
-                    <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center mx-auto mb-6">
-                        <HelpCircle className="h-6 w-6 text-primary" />
+                    <div className="inline-block mb-6">
+                        <div className="h-px w-12 bg-foreground/20 mb-4 mx-auto"></div>
+                        <span className="text-sm font-mono text-muted-foreground tracking-wider uppercase">FAQ</span>
                     </div>
-                    <h2 className="text-4xl font-bold text-foreground mb-4">
+                    <h2 className="text-4xl sm:text-5xl font-bold text-foreground mb-4">
                         Common Questions
                     </h2>
                     <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-                        Frequently asked questions about our AI SaaS template
+                        Everything you need to know about our AI SaaS template
                     </p>
                 </motion.div>
 
-                <div className="max-w-4xl mx-auto space-y-6">
-                    {faqs.map((faq, index) => (
+                {/* Two Column Layout */}
+                <div className="max-w-7xl mx-auto grid lg:grid-cols-2 gap-6 lg:gap-8">
+                    {/* Left Column */}
+                    <motion.div
+                        initial={{ opacity: 0, x: -30 }}
+                        whileInView={{ opacity: 1, x: 0 }}
+                        transition={{ duration: 0.6, delay: 0.2 }}
+                        viewport={{ once: true, margin: "-100px" }}
+                        className="space-y-4"
+                    >
+                        {leftFaqs.map((faq, index) => (
+                            <motion.div
+                                key={index}
+                                initial={{ opacity: 0, y: 20 }}
+                                whileInView={{ opacity: 1, y: 0 }}
+                                transition={{ duration: 0.5, delay: 0.3 + index * 0.1 }}
+                                viewport={{ once: true }}
+                            >
+                                <FAQItem question={faq.question} answer={faq.answer} />
+                            </motion.div>
+                        ))}
+                    </motion.div>
+
+                    {/* Right Column */}
+                    <motion.div
+                        initial={{ opacity: 0, x: 30 }}
+                        whileInView={{ opacity: 1, x: 0 }}
+                        transition={{ duration: 0.6, delay: 0.2 }}
+                        viewport={{ once: true, margin: "-100px" }}
+                        className="space-y-4"
+                    >
+                        {rightFaqs.map((faq, index) => (
+                            <motion.div
+                                key={index}
+                                initial={{ opacity: 0, y: 20 }}
+                                whileInView={{ opacity: 1, y: 0 }}
+                                transition={{ duration: 0.5, delay: 0.3 + index * 0.1 }}
+                                viewport={{ once: true }}
+                            >
+                                <FAQItem question={faq.question} answer={faq.answer} />
+                            </motion.div>
+                        ))}
+
+                        {/* Bottom CTA Card in right column */}
                         <motion.div
-                            key={index}
                             initial={{ opacity: 0, y: 20 }}
                             whileInView={{ opacity: 1, y: 0 }}
-                            transition={{ duration: 0.6, delay: index * 0.1 }}
+                            transition={{ duration: 0.6, delay: 0.6 }}
                             viewport={{ once: true }}
+                            className="mt-6 p-8 rounded-2xl border border-foreground/10 bg-foreground/5 backdrop-blur-sm"
                         >
-                            <FAQItem question={faq.question} answer={faq.answer} />
+                            <h3 className="text-2xl font-bold text-foreground mb-3">
+                                Still have questions?
+                            </h3>
+                            <p className="text-muted-foreground mb-4">
+                                Join our community of AI SaaS entrepreneurs ready to share knowledge and experience
+                            </p>
+                            <div className="flex items-center gap-3">
+                                <div className="h-px flex-1 bg-foreground/10"></div>
+                                <span className="text-sm font-mono font-bold text-foreground">#buildwithai</span>
+                                <div className="h-px flex-1 bg-foreground/10"></div>
+                            </div>
                         </motion.div>
-                    ))}
+                    </motion.div>
                 </div>
-
-                {/* CTA di bawah FAQ */}
-                <motion.div
-                    initial={{ opacity: 0, y: 30 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.6, delay: 0.8 }}
-                    viewport={{ once: true }}
-                    className="text-center mt-16"
-                >
-                    <h3 className="text-2xl font-bold text-foreground mb-4">
-                        Still have questions? Let's build together!
-                    </h3>
-                    <p className="text-lg text-muted-foreground mb-6">
-                        Join our community of AI SaaS entrepreneurs ready to share knowledge and experience
-                    </p>
-                    <div className="text-lg font-mono font-bold text-primary">
-                        #buildwithai
-                    </div>
-                </motion.div>
             </div>
         </section>
     );
