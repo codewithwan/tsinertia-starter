@@ -3,23 +3,6 @@
     order php_server before file_server
 }
 
-# For production with automatic HTTPS (uncomment and replace with your domain)
-# {$APP_URL:localhost} {
-#     root * public
-#     php_server
-#
-#     # Allow access to storage files through the symlink
-#     @storage {
-#         path /storage/*
-#     }
-#     handle @storage {
-#         header Cache-Control "public, max-age=3600"
-#     }
-#
-#     file_server
-# }
-
-# For development/local (current configuration)
 :{$PORT:8080} {
     root * public
     php_server
