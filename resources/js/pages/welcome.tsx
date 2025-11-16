@@ -32,6 +32,27 @@ export default function Welcome() {
         return () => window.removeEventListener('scroll', handleScroll);
     }, []);
 
+    const scrollToSection = (sectionId: string) => {
+        const element = document.getElementById(sectionId);
+        if (element) {
+            const headerOffset = 100;
+            const elementPosition = element.getBoundingClientRect().top;
+            const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+
+            window.scrollTo({
+                top: offsetPosition,
+                behavior: 'smooth'
+            });
+        }
+    };
+
+    const scrollToTop = () => {
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        });
+    };
+
     return (
         <>
             <Head title="AI SaaS Platform - Build Your AI Business">
@@ -78,16 +99,47 @@ export default function Welcome() {
                                 ? 'max-w-4xl mx-auto rounded-full border border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/80 shadow-lg shadow-primary/5'
                                 : 'border-b border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60'
                         }`}>
-                            <nav className={`flex items-center justify-between transition-all duration-500 ease-in-out ${
+                            <nav className={`relative flex items-center justify-between transition-all duration-500 ease-in-out ${
                                 isScrolled ? 'px-6 py-3' : 'container mx-auto py-5 sm:py-6'
                             }`}>
                                 {/* Logo - Always visible */}
-                                <div className="flex items-center gap-2 sm:gap-3">
+                                <button 
+                                    onClick={scrollToTop}
+                                    className="flex items-center gap-2 sm:gap-3 cursor-pointer hover:opacity-80 transition-opacity z-10"
+                                >
                                     <AppLogo />
+                                </button>
+
+                                {/* Desktop Navigation - Centered */}
+                                <div className="hidden lg:flex items-center gap-6 absolute left-1/2 -translate-x-1/2">
+                                    <button
+                                        onClick={() => scrollToSection('features')}
+                                        className="text-sm font-medium text-foreground/70 hover:text-foreground transition-colors"
+                                    >
+                                        Features
+                                    </button>
+                                    <button
+                                        onClick={() => scrollToSection('platform')}
+                                        className="text-sm font-medium text-foreground/70 hover:text-foreground transition-colors"
+                                    >
+                                        Platform
+                                    </button>
+                                    <button
+                                        onClick={() => scrollToSection('pricing')}
+                                        className="text-sm font-medium text-foreground/70 hover:text-foreground transition-colors"
+                                    >
+                                        Pricing
+                                    </button>
+                                    <button
+                                        onClick={() => scrollToSection('faq')}
+                                        className="text-sm font-medium text-foreground/70 hover:text-foreground transition-colors"
+                                    >
+                                        FAQ
+                                    </button>
                                 </div>
 
-                                {/* Desktop Navigation */}
-                                <div className="hidden sm:flex items-center gap-4">
+                                {/* Desktop Actions */}
+                                <div className="hidden sm:flex items-center gap-4 z-10">
                                     <AppearanceToggleDropdown />
                                     {auth.user ? (
                                         <Button variant="outline" asChild className="shadow-sm">

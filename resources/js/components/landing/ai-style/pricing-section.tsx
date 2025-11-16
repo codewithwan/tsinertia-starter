@@ -12,7 +12,7 @@ interface PricingSectionProps {
 
 export default function PricingSection({ className = '' }: PricingSectionProps) {
     return (
-        <section className={`relative py-32 overflow-hidden ${className}`}>
+        <section id="pricing" className={`relative py-32 overflow-hidden ${className}`}>
             {/* Background */}
             <div className="absolute inset-0 bg-background"></div>
 

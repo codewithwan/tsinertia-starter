@@ -89,7 +89,7 @@ export default function FAQSection({ className = '' }: FAQSectionProps) {
     ];
 
     return (
-        <section className={`relative py-24 overflow-hidden ${className}`}>
+        <section id="faq" className={`relative py-24 overflow-hidden ${className}`}>
             {/* Background */}
             <div className="absolute inset-0 bg-background"></div>
 

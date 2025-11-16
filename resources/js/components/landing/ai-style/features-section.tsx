@@ -130,7 +130,7 @@ export default function FeaturesSection({ className = '' }: FeaturesSectionProps
   };
 
   return (
-    <section className={`relative py-24 overflow-hidden ${className}`}>
+    <section id="features" className={`relative py-24 overflow-hidden ${className}`}>
       {/* Background */}
       <div className="absolute inset-0 bg-background"></div>
 

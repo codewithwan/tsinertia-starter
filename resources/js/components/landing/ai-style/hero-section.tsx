@@ -19,11 +19,15 @@ export default function HeroSection({ className = '' }: HeroSectionProps) {
         target: containerRef,
         offset: ["start start", "end start"]
     });
-    const opacity = useTransform(scrollYProgress, [0, 1], [1, 0]);
-    const scale = useTransform(scrollYProgress, [0, 1], [1, 0.8]);
+    const opacity = useTransform(scrollYProgress, [0, 0.6, 1], [1, 0.7, 0], {
+        clamp: false
+    });
+    const scale = useTransform(scrollYProgress, [0, 0.6, 1], [1, 0.98, 0.96], {
+        clamp: false
+    });
 
     return (
-        <main ref={containerRef} className={`relative flex items-center justify-center min-h-[calc(100vh-80px)] py-20 overflow-hidden ${className}`}>
+        <main id="home" ref={containerRef} className={`relative flex items-center justify-center min-h-[calc(100vh-80px)] py-20 overflow-hidden ${className}`}>
             {/* Futuristic Background */}
             <div className="absolute inset-0">
                 {/* Subtle dot pattern */}
@@ -154,7 +158,11 @@ export default function HeroSection({ className = '' }: HeroSectionProps) {
 
             <motion.div
                 className="text-center max-w-6xl mx-auto px-4 sm:px-6 relative z-10"
-                style={{ opacity, scale }}
+                style={{ 
+                    opacity, 
+                    scale,
+                    willChange: 'opacity, transform'
+                }}
             >
                 {/* Badge */}
                 <motion.div
@@ -207,7 +215,7 @@ export default function HeroSection({ className = '' }: HeroSectionProps) {
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     transition={{ duration: 0.6, delay: 0.3 }}
-                    className="mb-10 relative"
+                    className="mb-10 relative mt-4"
                 >
                     <div className="flex items-center justify-center gap-2 mb-4">
                         <div className="h-[1px] w-8 bg-gradient-to-r from-transparent to-primary/50"></div>
@@ -268,17 +276,17 @@ export default function HeroSection({ className = '' }: HeroSectionProps) {
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.6, delay: 0.7 }}
-                    className="inline-flex flex-col sm:flex-row items-center gap-0 border border-primary/20 rounded-2xl overflow-hidden backdrop-blur-sm bg-background/30"
+                    className="inline-flex flex-row items-center gap-0 border border-primary/20 rounded-2xl overflow-hidden backdrop-blur-sm bg-background/30"
                 >
-                    <div className="px-8 py-6 text-center border-b sm:border-b-0 sm:border-r border-primary/20 w-full sm:w-auto">
+                    <div className="px-4 sm:px-8 py-4 sm:py-6 text-center border-r border-primary/20 flex-1 sm:flex-none sm:w-auto">
                         <AnimatedCounter value="100%" />
                         <div className="text-xs text-muted-foreground mt-1 uppercase tracking-wider">Ready</div>
                     </div>
-                    <div className="px-8 py-6 text-center border-b sm:border-b-0 sm:border-r border-primary/20 w-full sm:w-auto">
+                    <div className="px-4 sm:px-8 py-4 sm:py-6 text-center border-r border-primary/20 flex-1 sm:flex-none sm:w-auto">
                         <AnimatedCounter value="24/7" />
                         <div className="text-xs text-muted-foreground mt-1 uppercase tracking-wider">Always On</div>
                     </div>
-                    <div className="px-8 py-6 text-center w-full sm:w-auto">
+                    <div className="px-4 sm:px-8 py-4 sm:py-6 text-center flex-1 sm:flex-none sm:w-auto">
                         <AnimatedCounter value="∞" />
                         <div className="text-xs text-muted-foreground mt-1 uppercase tracking-wider">Scalable</div>
                     </div>
