@@ -12,8 +12,8 @@ export default function AppLogo({ className }: AppLogoProps) {
                 <AppLogoIcon className="size-5 fill-current text-primary" />
             </div>
             <div className="ml-1 text-left text-sm flex flex-col">
-                <span className="mb-0.5 truncate leading-tight font-semibold">TSInertia</span>
-                <span className="text-xs text-gray-500 dark:text-gray-400">Starter</span>
+                <span className="mb-0.5 truncate leading-tight font-semibold">IDcloudlabs</span>
+                <span className="text-xs text-gray-500 dark:text-gray-400">cloud solutions</span>
             </div>
         </>
     );
