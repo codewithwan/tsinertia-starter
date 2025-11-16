@@ -1,9 +1,7 @@
-import { TerminalIcon } from 'lucide-react';
-import { SVGAttributes } from 'react';
-// import { SiLaravel } from 'react-icons/si';
+import { ImgHTMLAttributes, SVGAttributes } from 'react';
 
 export default function AppLogoIcon(props: SVGAttributes<SVGElement>) {
     return (
-        <TerminalIcon {...props} />
+        <img src="/favicon.svg" alt="App Logo" width={54} height={54} {...props as ImgHTMLAttributes<HTMLImageElement>} />
     );
 }

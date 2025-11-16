@@ -74,10 +74,10 @@ export default function CTASection({ className = '' }: CTASectionProps) {
                                 viewport={{ once: true }}
                                 className="text-4xl sm:text-5xl md:text-6xl font-bold text-foreground mb-6 leading-tight"
                             >
-                                Ready to Build the
+                                Ready to Deploy Your
                                 <br />
                                 <span className="text-foreground/90">
-                                    Next Big Thing?
+                                    Next Project?
                                 </span>
                             </motion.h2>
 
@@ -89,8 +89,8 @@ export default function CTASection({ className = '' }: CTASectionProps) {
                                 viewport={{ once: true }}
                                 className="text-lg sm:text-xl text-muted-foreground mb-8 max-w-2xl mx-auto leading-relaxed"
                             >
-                                Join entrepreneurs building successful AI SaaS businesses.
-                                Start your journey today with our complete template.
+                                Join developers building and deploying applications for free.
+                                Start your journey today with our free platform.
                             </motion.p>
 
                             {/* Hashtag */}
@@ -101,7 +101,7 @@ export default function CTASection({ className = '' }: CTASectionProps) {
                                 viewport={{ once: true }}
                                 className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-foreground/5 border border-foreground/10 mb-8"
                             >
-                                <span className="text-sm font-mono font-bold text-foreground">#buildwithai</span>
+                                <span className="text-sm font-mono font-bold text-foreground">#freepaas</span>
                                 <div className="w-2 h-2 rounded-full bg-foreground/30 animate-pulse"></div>
                             </motion.div>
 
@@ -117,7 +117,7 @@ export default function CTASection({ className = '' }: CTASectionProps) {
                                     <Button size="lg" className="group relative overflow-hidden px-10 py-7 text-lg shadow-lg shadow-primary/25" asChild>
                                         <Link href={'/dashboard'}>
                                             <Rocket className="h-5 w-5 mr-2 group-hover:translate-y-[-2px] transition-transform" />
-                                            Launch Your SaaS
+                                            Go to Dashboard
                                         </Link>
                                     </Button>
                                 ) : (
@@ -125,7 +125,7 @@ export default function CTASection({ className = '' }: CTASectionProps) {
                                         <Button size="lg" className="group relative overflow-hidden px-10 py-7 text-lg shadow-lg shadow-primary/25" asChild>
                                             <Link href={'/register'}>
                                                 <Play className="h-5 w-5 mr-2 group-hover:translate-x-1 transition-transform" />
-                                                Start Building Now
+                                                Get Started Free
                                             </Link>
                                         </Button>
                                         <Button size="lg" variant="outline" className="px-10 py-7 text-lg border-primary/20" asChild>

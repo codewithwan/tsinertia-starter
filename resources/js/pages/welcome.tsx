@@ -55,10 +55,10 @@ export default function Welcome() {
 
     return (
         <>
-            <Head title="AI SaaS Platform - Build Your AI Business">
+            <Head title="Free PaaS for Developers - Deploy Your Apps">
                 <link rel="preconnect" href="https://fonts.bunny.net" />
                 <link href="https://fonts.bunny.net/css?family=inter:400,500,600,700,800,900" rel="stylesheet" />
-                <meta name="description" content="Complete AI SaaS platform template. Build, launch, and scale your AI-powered software business with our ready-to-use template." />
+                <meta name="description" content="Free Platform as a Service for developers. Deploy, scale, and manage your applications with our free platform. No credit card required." />
             </Head>
 
             <div className="min-h-screen bg-background text-foreground relative overflow-hidden">
@@ -84,7 +84,7 @@ export default function Welcome() {
                     <div className="absolute top-1/2 left-1/2 w-[400px] h-[400px] bg-foreground/6 rounded-full blur-[120px] animate-float-medium"></div>
 
                     {/* Vignette overlay */}
-                    <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,transparent_0%,rgba(0,0,0,0.4)_100%)] dark:bg-[radial-gradient(circle_at_50%_50%,transparent_0%,rgba(0,0,0,0.6)_100%)]"></div>
+                    <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,transparent_0%,rgba(0,0,0,0.1)_100%)] dark:bg-[radial-gradient(circle_at_50%_50%,transparent_0%,rgba(0,0,0,0.6)_100%)]"></div>
                 </div>
 
                 {/* Sticky Header with Floating Effect */}
@@ -97,10 +97,10 @@ export default function Welcome() {
                         <div className={`transition-all duration-500 ease-in-out ${
                             isScrolled
                                 ? 'max-w-4xl mx-auto rounded-full border border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/80 shadow-lg shadow-primary/5'
-                                : 'border-b border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60'
+                                : 'w-full border-b border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60'
                         }`}>
                             <nav className={`relative flex items-center justify-between transition-all duration-500 ease-in-out ${
-                                isScrolled ? 'px-6 py-3' : 'container mx-auto py-5 sm:py-6'
+                                isScrolled ? 'px-6 py-3' : 'w-full px-4 sm:px-6 py-5 sm:py-6'
                             }`}>
                                 {/* Logo - Always visible */}
                                 <button 

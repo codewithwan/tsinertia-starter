@@ -107,7 +107,7 @@ export default function Maintenance() {
                         transition={{ duration: 0.6, delay: 0.6 }}
                         className="mb-8"
                     >
-                        <span className="text-xs font-mono text-muted-foreground/40 uppercase tracking-widest">#buildwithai / 2030</span>
+                        <span className="text-xs font-mono text-muted-foreground/40 uppercase tracking-widest">#freepaas</span>
                     </motion.div>
 
                     {/* Buttons */}

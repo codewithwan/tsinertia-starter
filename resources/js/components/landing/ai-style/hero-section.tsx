@@ -175,7 +175,7 @@ export default function HeroSection({ className = '' }: HeroSectionProps) {
                         <div className="absolute inset-0 bg-primary/20 blur-xl"></div>
                         <div className="relative px-4 py-1.5 border border-primary/30 rounded-full bg-background/50 backdrop-blur-sm flex items-center gap-2">
                             <Sparkles className="h-3.5 w-3.5 text-primary" />
-                            <span className="text-xs font-medium uppercase tracking-wider">AI-Powered SaaS</span>
+                            <span className="text-xs font-medium uppercase tracking-wider">Free PaaS for Dev</span>
                             <div className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse"></div>
                         </div>
                     </div>
@@ -190,13 +190,13 @@ export default function HeroSection({ className = '' }: HeroSectionProps) {
                 >
                     <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight">
                         <div className="relative inline-block">
-                            <span className="block text-foreground">Build</span>
+                            <span className="block text-foreground">Free</span>
                         </div>
                     </h1>
                     <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight">
                         <div className="relative inline-block">
                             <span className="block bg-gradient-to-r from-primary to-primary/60 bg-clip-text text-transparent">
-                                AI-Powered
+                                Platform
                             </span>
                             <motion.div
                                 className="absolute -inset-2 bg-primary/5 blur-2xl -z-10"
@@ -206,7 +206,7 @@ export default function HeroSection({ className = '' }: HeroSectionProps) {
                         </div>
                     </h1>
                     <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight">
-                        <span className="block text-foreground">SaaS Business</span>
+                        <span className="block text-foreground">for Developers</span>
                     </h1>
                 </motion.div>
 
@@ -224,9 +224,9 @@ export default function HeroSection({ className = '' }: HeroSectionProps) {
                     </div>
 
                     <p className="text-base sm:text-lg md:text-xl max-w-3xl mx-auto text-muted-foreground leading-relaxed">
-                        Launch & Scale Your AI SaaS, <span className="text-foreground font-medium">Faster</span>
+                        Deploy & Scale Your Apps, <span className="text-foreground font-medium">Instantly</span>
                         <br className="hidden sm:block" />
-                        With Complete Template. Ready to <span className="text-primary font-medium">Customize</span>
+                        No Credit Card Required. Start <span className="text-primary font-medium">Building</span> Today
                     </p>
 
                     <div className="flex items-center justify-center gap-2 mt-4">
@@ -246,10 +246,10 @@ export default function HeroSection({ className = '' }: HeroSectionProps) {
                     {auth.user ? (
                         <Button size="lg" className="group relative overflow-hidden px-8 py-6 text-base" asChild>
                             <Link href={'/dashboard'}>
-                                <span className="relative z-10 flex items-center gap-2">
-                                    Launch Your SaaS
-                                    <ArrowRight className="h-4 w-4 group-hover:translate-x-1 transition-transform" />
-                                </span>
+                                    <span className="relative z-10 flex items-center gap-2">
+                                        Go to Dashboard
+                                        <ArrowRight className="h-4 w-4 group-hover:translate-x-1 transition-transform" />
+                                    </span>
                             </Link>
                         </Button>
                     ) : (
@@ -257,7 +257,7 @@ export default function HeroSection({ className = '' }: HeroSectionProps) {
                             <Button size="lg" className="group relative overflow-hidden px-8 py-6 text-base" asChild>
                                 <Link href={'/register'}>
                                     <span className="relative z-10 flex items-center gap-2">
-                                        Start Building
+                                        Get Started Free
                                         <ArrowRight className="h-4 w-4 group-hover:translate-x-1 transition-transform" />
                                     </span>
                                 </Link>
@@ -300,7 +300,7 @@ export default function HeroSection({ className = '' }: HeroSectionProps) {
                     className="mt-12"
                 >
                     <div className="text-sm font-mono text-muted-foreground/60">
-                        #buildwithai
+                        #freepaas
                     </div>
                 </motion.div>
             </motion.div>

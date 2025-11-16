@@ -54,9 +54,9 @@ export default function QuoteSection({ className = '' }: QuoteSectionProps) {
 
                     {/* Main quote */}
                     <blockquote className="relative z-10 text-3xl sm:text-4xl md:text-5xl font-light text-foreground mb-8 leading-tight px-4">
-                        The <span className="font-semibold">future</span> of business is{' '}
-                        <span className="font-semibold">AI-powered</span> and{' '}
-                        <span className="font-semibold">data-driven</span>
+                        Build, <span className="font-semibold">deploy</span>, and{' '}
+                        <span className="font-semibold">scale</span> your{' '}
+                        <span className="font-semibold">applications</span>
                     </blockquote>
 
                     {/* Attribution */}
@@ -69,7 +69,7 @@ export default function QuoteSection({ className = '' }: QuoteSectionProps) {
                     >
                         <div className="h-px w-12 bg-gradient-to-r from-transparent to-foreground/30"></div>
                         <cite className="text-sm text-muted-foreground font-mono not-italic uppercase tracking-wider">
-                            <span className="text-foreground">AI Leaders</span> / 2030
+                            <span className="text-foreground">Free PaaS</span> / For Dev
                         </cite>
                         <div className="h-px w-12 bg-gradient-to-l from-transparent to-foreground/30"></div>
                     </motion.div>
@@ -82,8 +82,8 @@ export default function QuoteSection({ className = '' }: QuoteSectionProps) {
                         viewport={{ once: true }}
                         className="text-base sm:text-lg text-muted-foreground max-w-2xl mx-auto"
                     >
-                        Every <span className="text-foreground font-medium">AI SaaS</span> you build today shapes{' '}
-                        <span className="text-foreground font-medium">tomorrow's digital economy</span>
+                        Every <span className="text-foreground font-medium">application</span> you deploy today brings you{' '}
+                        <span className="text-foreground font-medium">one step closer to your goals</span>
                     </motion.div>
                 </motion.div>
             </div>

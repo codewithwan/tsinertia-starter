@@ -56,35 +56,35 @@ interface FAQSectionProps {
 export default function FAQSection({ className = '' }: FAQSectionProps) {
     const leftFaqs = [
         {
-            question: "What's included in the AI SaaS template?",
-            answer: "The template includes a complete Laravel + React setup with user authentication, AI integration, admin dashboard, payment system (Stripe), responsive design, and comprehensive documentation."
+            question: "Is it really free?",
+            answer: "Yes! Our platform is completely free to use. No credit card required, no hidden fees. Start building and deploying your applications right away."
         },
         {
-            question: "Do I need coding experience to use this template?",
-            answer: "Basic coding knowledge is helpful, but the template comes with detailed documentation and setup guides to help you customize it for your specific AI SaaS needs."
+            question: "What can I build on this platform?",
+            answer: "You can deploy any type of application - web apps, APIs, microservices, and more. The platform supports multiple programming languages and frameworks."
         },
         {
-            question: "Can I customize the template for my business?",
-            answer: "Absolutely! The template is fully customizable. You can modify the design, add new features, integrate different AI models, and adapt it to your specific business requirements."
+            question: "Are there any limits?",
+            answer: "Our free tier includes generous resources to get you started. You can deploy multiple applications and scale as needed."
         },
         {
-            question: "What AI models are integrated?",
-            answer: "The template includes pre-configured integration with popular AI providers like OpenAI, Anthropic, and others. You can easily add more AI models as needed."
+            question: "How do I get started?",
+            answer: "Simply sign up for a free account and start deploying. No complex setup or configuration required."
         }
     ];
 
     const rightFaqs = [
         {
-            question: "Is payment processing included?",
-            answer: "Yes! The Pro template includes Stripe integration for subscription management, billing, and payment processing out of the box."
+            question: "What technologies are supported?",
+            answer: "We support a wide range of technologies and frameworks. Deploy applications built with Node.js, Python, PHP, and more."
         },
         {
-            question: "How do I deploy the template?",
-            answer: "The template includes deployment scripts and documentation for popular hosting platforms like Vercel, Netlify, and traditional VPS hosting."
+            question: "How does auto scaling work?",
+            answer: "Our platform automatically scales your applications based on traffic. No manual configuration needed - it just works."
         },
         {
-            question: "What support do you provide?",
-            answer: "We provide documentation, setup guides, and email support. Pro template buyers get priority support for faster response times."
+            question: "What support is available?",
+            answer: "We provide comprehensive documentation, community support, and resources to help you build and deploy successfully."
         }
     ];
 
@@ -120,7 +120,7 @@ export default function FAQSection({ className = '' }: FAQSectionProps) {
                         Common Questions
                     </h2>
                     <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-                        Everything you need to know about our AI SaaS template
+                        Everything you need to know about our free platform
                     </p>
                 </motion.div>
 
@@ -179,11 +179,11 @@ export default function FAQSection({ className = '' }: FAQSectionProps) {
                                 Still have questions?
                             </h3>
                             <p className="text-muted-foreground mb-4">
-                                Join our community of AI SaaS entrepreneurs ready to share knowledge and experience
+                                Join our community of developers building amazing applications
                             </p>
                             <div className="flex items-center gap-3">
                                 <div className="h-px flex-1 bg-foreground/10"></div>
-                                <span className="text-sm font-mono font-bold text-foreground">#buildwithai</span>
+                                <span className="text-sm font-mono font-bold text-foreground">#freepaas</span>
                                 <div className="h-px flex-1 bg-foreground/10"></div>
                             </div>
                         </motion.div>

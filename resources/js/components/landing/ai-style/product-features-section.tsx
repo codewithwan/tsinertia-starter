@@ -26,30 +26,30 @@ export default function ProductFeaturesSection({ className = '' }: ProductFeatur
                     whileInView={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.6 }}
                     viewport={{ once: true, margin: "-100px" }}
-                    className="mb-20"
+                    className="mb-8"
                 >
-                    <div className="flex items-center gap-4 mb-6">
+                    <div className="flex items-center gap-4 mb-3">
                         <div className="h-px w-16 bg-foreground/20"></div>
                         <span className="text-sm font-mono text-muted-foreground tracking-wider uppercase">Platform</span>
                     </div>
-                    <h2 className="text-4xl sm:text-5xl font-bold text-foreground mb-4">
-                        Complete AI SaaS Platform
+                    <h2 className="text-4xl sm:text-5xl font-bold text-foreground mb-2">
+                        Free Platform for Developers
                     </h2>
                     <p className="text-xl text-muted-foreground max-w-2xl">
-                        Everything you need to build, launch, and scale your AI-powered SaaS business
+                        Everything you need to deploy, run, and scale your applications
                     </p>
                 </motion.div>
 
-                <div className="grid lg:grid-cols-2 gap-12 items-center">
+                <div className="grid lg:grid-cols-2 gap-12 items-start">
                     {/* Left Side - Features */}
                     <motion.div
                         initial={{ opacity: 0, x: -30 }}
                         whileInView={{ opacity: 1, x: 0 }}
                         transition={{ duration: 0.6, delay: 0.2 }}
                         viewport={{ once: true }}
-                        className="space-y-8"
+                        className="space-y-5"
                     >
-                        <div className="space-y-6">
+                        <div className="space-y-4">
                             <motion.div
                                 initial={{ opacity: 0, y: 20 }}
                                 whileInView={{ opacity: 1, y: 0 }}
@@ -73,8 +73,8 @@ export default function ProductFeaturesSection({ className = '' }: ProductFeatur
                                 </div>
 
                                 <div>
-                                    <h3 className="text-xl font-semibold text-foreground mb-2">AI Model Integration</h3>
-                                    <p className="text-muted-foreground">Pre-configured integration with OpenAI, Anthropic, and other AI providers for seamless AI functionality</p>
+                                    <h3 className="text-xl font-semibold text-foreground mb-2">Instant Deployment</h3>
+                                    <p className="text-muted-foreground">Deploy your applications in seconds with our streamlined deployment process</p>
                                 </div>
                             </motion.div>
 
@@ -96,8 +96,8 @@ export default function ProductFeaturesSection({ className = '' }: ProductFeatur
                                 </div>
 
                                 <div>
-                                    <h3 className="text-xl font-semibold text-foreground mb-2">User Authentication</h3>
-                                    <p className="text-muted-foreground">Complete user registration, login, and session management system with role-based access control</p>
+                                    <h3 className="text-xl font-semibold text-foreground mb-2">Free Hosting</h3>
+                                    <p className="text-muted-foreground">Free hosting with generous resources to get your projects up and running</p>
                                 </div>
                             </motion.div>
 
@@ -119,8 +119,8 @@ export default function ProductFeaturesSection({ className = '' }: ProductFeatur
                                 </div>
 
                                 <div>
-                                    <h3 className="text-xl font-semibold text-foreground mb-2">Payment Integration</h3>
-                                    <p className="text-muted-foreground">Built-in Stripe integration for subscription management, billing, and payment processing</p>
+                                    <h3 className="text-xl font-semibold text-foreground mb-2">Auto Scaling</h3>
+                                    <p className="text-muted-foreground">Automatic scaling to handle traffic spikes and ensure optimal performance</p>
                                 </div>
                             </motion.div>
 
@@ -142,8 +142,8 @@ export default function ProductFeaturesSection({ className = '' }: ProductFeatur
                                 </div>
 
                                 <div>
-                                    <h3 className="text-xl font-semibold text-foreground mb-2">Admin Dashboard</h3>
-                                    <p className="text-muted-foreground">Complete admin panel for user management, analytics, and business insights</p>
+                                    <h3 className="text-xl font-semibold text-foreground mb-2">Developer Tools</h3>
+                                    <p className="text-muted-foreground">Complete set of tools and APIs to build, deploy, and manage your applications</p>
                                 </div>
                             </motion.div>
                         </div>
@@ -155,7 +155,7 @@ export default function ProductFeaturesSection({ className = '' }: ProductFeatur
                         whileInView={{ opacity: 1, x: 0 }}
                         transition={{ duration: 0.6, delay: 0.4 }}
                         viewport={{ once: true }}
-                        className="space-y-6"
+                        className="space-y-4"
                     >
                         <div className="bg-muted/30 rounded-xl p-6 border border-border/50">
                             <motion.h3
@@ -172,18 +172,18 @@ export default function ProductFeaturesSection({ className = '' }: ProductFeatur
                                 whileInView={{ opacity: 1, y: 0 }}
                                 transition={{ duration: 0.5, delay: 0.6 }}
                                 viewport={{ once: true }}
-                                className="text-muted-foreground mb-6"
+                                className="text-muted-foreground mb-4"
                             >
-                                Modern, scalable technology stack for your AI SaaS
+                                Modern, scalable technology stack for developers
                             </motion.p>
 
-                            <div className="space-y-4">
+                            <div className="space-y-3">
                                 <motion.div
                                     initial={{ opacity: 0, x: -20 }}
                                     whileInView={{ opacity: 1, x: 0 }}
                                     transition={{ duration: 0.5, delay: 0.7 }}
                                     viewport={{ once: true }}
-                                    className="flex items-center justify-between p-4 rounded-lg bg-background border border-border/50"
+                                    className="flex items-center justify-between p-3 rounded-lg bg-background border border-border/50"
                                 >
                                     <div>
                                         <div className="font-semibold text-foreground">Laravel + React</div>
@@ -197,7 +197,7 @@ export default function ProductFeaturesSection({ className = '' }: ProductFeatur
                                     whileInView={{ opacity: 1, x: 0 }}
                                     transition={{ duration: 0.5, delay: 0.8 }}
                                     viewport={{ once: true }}
-                                    className="flex items-center justify-between p-4 rounded-lg bg-foreground/5 border border-foreground/20"
+                                    className="flex items-center justify-between p-3 rounded-lg bg-foreground/5 border border-foreground/20"
                                 >
                                     <div>
                                         <div className="font-semibold text-foreground">TypeScript</div>
@@ -211,7 +211,7 @@ export default function ProductFeaturesSection({ className = '' }: ProductFeatur
                                     whileInView={{ opacity: 1, x: 0 }}
                                     transition={{ duration: 0.5, delay: 0.9 }}
                                     viewport={{ once: true }}
-                                    className="flex items-center justify-between p-4 rounded-lg bg-background border border-border/50"
+                                    className="flex items-center justify-between p-3 rounded-lg bg-background border border-border/50"
                                 >
                                     <div>
                                         <div className="font-semibold text-foreground">Tailwind CSS</div>
@@ -229,7 +229,7 @@ export default function ProductFeaturesSection({ className = '' }: ProductFeatur
                             viewport={{ once: true }}
                             className="rounded-xl p-6 border border-foreground/20 bg-foreground/5"
                         >
-                            <div className="mb-4">
+                            <div className="mb-2">
                                 <div className="inline-flex items-center gap-2 mb-2">
                                     <div className="h-px w-8 bg-foreground/30"></div>
                                     <div className="w-2 h-2 rounded-full bg-foreground/50"></div>
@@ -237,7 +237,7 @@ export default function ProductFeaturesSection({ className = '' }: ProductFeatur
                                 <h4 className="text-lg font-semibold text-foreground">Ready to Deploy</h4>
                             </div>
                             <p className="text-muted-foreground text-sm">
-                                Deploy your AI SaaS in minutes, not months. Complete template ready for customization.
+                                Deploy your applications in minutes. Start building today with our free platform.
                             </p>
                         </motion.div>
                     </motion.div>

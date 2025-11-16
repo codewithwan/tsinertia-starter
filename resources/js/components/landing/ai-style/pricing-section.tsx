@@ -39,10 +39,10 @@ export default function PricingSection({ className = '' }: PricingSectionProps) 
                         <div className="h-px w-8 bg-foreground/20"></div>
                     </div>
                     <h2 className="text-4xl sm:text-5xl font-bold text-foreground mb-4">
-                        Template Packages
+                        Free Forever
                     </h2>
                     <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-                        Choose the perfect template package for your AI SaaS business
+                        Start building with our free platform. No credit card required.
                     </p>
                 </motion.div>
 
@@ -69,12 +69,12 @@ export default function PricingSection({ className = '' }: PricingSectionProps) 
 
                                 <div className="flex items-center justify-between pr-16">
                                     <div>
-                                        <CardTitle className="text-2xl mb-2">Starter Template</CardTitle>
-                                        <CardDescription>Perfect for MVP and testing</CardDescription>
+                                        <CardTitle className="text-2xl mb-2">Free Tier</CardTitle>
+                                        <CardDescription>Perfect for getting started</CardDescription>
                                     </div>
                                     <div className="text-right">
-                                        <div className="text-3xl font-bold text-foreground">$99</div>
-                                        <div className="text-sm text-muted-foreground">One-time</div>
+                                        <div className="text-3xl font-bold text-foreground">Free</div>
+                                        <div className="text-sm text-muted-foreground">Forever</div>
                                     </div>
                                 </div>
                             </CardHeader>
@@ -96,11 +96,11 @@ export default function PricingSection({ className = '' }: PricingSectionProps) 
                                     <h4 className="font-semibold text-foreground">Features</h4>
                                     <ul className="space-y-2">
                                         {[
-                                            'Complete Laravel + React setup',
-                                            'User authentication system',
-                                            'Basic AI integration',
-                                            'Admin dashboard',
-                                            'Responsive design'
+                                            'Free hosting for your apps',
+                                            'Easy deployment process',
+                                            'Auto scaling included',
+                                            'Developer dashboard',
+                                            'API access'
                                         ].map((feature, index) => (
                                             <li key={index} className="flex items-center gap-2 text-sm">
                                                 <Check className="h-4 w-4 text-foreground/60 flex-shrink-0" />
@@ -115,9 +115,9 @@ export default function PricingSection({ className = '' }: PricingSectionProps) 
                                     <h4 className="font-semibold text-foreground">What's Included</h4>
                                     <div className="space-y-2">
                                         {[
-                                            { item: 'Source Code', price: '✓' },
-                                            { item: 'Documentation', price: '✓' },
-                                            { item: 'Setup Guide', price: '✓' }
+                                            { item: 'Free Hosting', price: '✓' },
+                                            { item: 'Auto Scaling', price: '✓' },
+                                            { item: 'API Access', price: '✓' }
                                         ].map((option, index) => (
                                             <div key={index} className="flex justify-between items-center py-2 px-3 bg-foreground/5 rounded border border-foreground/10">
                                                 <span className="text-sm text-foreground">{option.item}</span>
@@ -129,7 +129,7 @@ export default function PricingSection({ className = '' }: PricingSectionProps) 
 
                                 <Button className="w-full mt-auto" variant="outline" asChild>
                                     <Link href={'/register'}>
-                                        Get Starter
+                                        Get Started Free
                                         <ArrowRight className="h-4 w-4 ml-2" />
                                     </Link>
                                 </Button>
@@ -160,12 +160,12 @@ export default function PricingSection({ className = '' }: PricingSectionProps) 
 
                                 <div className="flex items-center justify-between pr-20">
                                     <div>
-                                        <CardTitle className="text-2xl mb-2">Pro Template</CardTitle>
-                                        <CardDescription>Advanced features for serious businesses</CardDescription>
+                                        <CardTitle className="text-2xl mb-2">Free Platform</CardTitle>
+                                        <CardDescription>Everything you need to build and deploy</CardDescription>
                                     </div>
                                     <div className="text-right">
-                                        <div className="text-3xl font-bold text-foreground">$299</div>
-                                        <div className="text-sm text-muted-foreground">One-time</div>
+                                        <div className="text-3xl font-bold text-foreground">Free</div>
+                                        <div className="text-sm text-muted-foreground">No Limits</div>
                                     </div>
                                 </div>
                             </CardHeader>
@@ -184,15 +184,15 @@ export default function PricingSection({ className = '' }: PricingSectionProps) 
 
                                 {/* Features */}
                                 <div className="space-y-3 flex-1">
-                                    <h4 className="font-semibold text-foreground">Everything in Starter, plus:</h4>
+                                    <h4 className="font-semibold text-foreground">What's Included:</h4>
                                     <ul className="space-y-2">
                                         {[
-                                            'Payment integration (Stripe)',
-                                            'Advanced AI models',
-                                            'Email notifications',
-                                            'API documentation',
-                                            'Deployment scripts',
-                                            'Priority support'
+                                            'Unlimited deployments',
+                                            'Managed databases',
+                                            'Auto scaling',
+                                            'Full API access',
+                                            'Developer tools',
+                                            'Community support'
                                         ].map((feature, index) => (
                                             <li key={index} className="flex items-center gap-2 text-sm">
                                                 <Check className="h-4 w-4 text-foreground/80 flex-shrink-0" />
@@ -207,9 +207,9 @@ export default function PricingSection({ className = '' }: PricingSectionProps) 
                                     <h4 className="font-semibold text-foreground">What's Included</h4>
                                     <div className="space-y-2">
                                         {[
-                                            { item: 'Everything in Starter', price: '✓' },
-                                            { item: 'Advanced Features', price: '✓' },
-                                            { item: 'Priority Support', price: '✓' }
+                                            { item: 'Free Forever', price: '✓' },
+                                            { item: 'No Credit Card', price: '✓' },
+                                            { item: 'Start Building', price: '✓' }
                                         ].map((option, index) => (
                                             <div key={index} className="flex justify-between items-center py-2 px-3 bg-foreground/10 rounded border border-foreground/20">
                                                 <span className="text-sm text-foreground">{option.item}</span>
@@ -221,7 +221,7 @@ export default function PricingSection({ className = '' }: PricingSectionProps) 
 
                                 <Button className="w-full mt-auto" asChild>
                                     <Link href={'/register'}>
-                                        Get Pro
+                                        Get Started Free
                                         <ArrowRight className="h-4 w-4 ml-2" />
                                     </Link>
                                 </Button>

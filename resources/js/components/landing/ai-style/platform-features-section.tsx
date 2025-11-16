@@ -9,23 +9,23 @@ export default function PlatformFeaturesSection({ className = '' }: PlatformFeat
     const features = [
         {
             icon: <Globe className="h-6 w-6" />,
-            title: "User Management",
-            description: "Complete user registration and authentication system"
+            title: "Easy Deployment",
+            description: "Deploy your applications with just a few clicks"
         },
         {
             icon: <Shield className="h-6 w-6" />,
-            title: "Payment System",
-            description: "Built-in Stripe integration for subscriptions"
+            title: "Free Hosting",
+            description: "Free hosting with generous resources included"
         },
         {
             icon: <BarChart3 className="h-6 w-6" />,
-            title: "Admin Dashboard",
-            description: "Complete admin panel for business management"
+            title: "Auto Scaling",
+            description: "Automatic scaling to handle traffic spikes"
         },
         {
             icon: <Zap className="h-6 w-6" />,
-            title: "AI Integration",
-            description: "Ready-to-use AI model integrations"
+            title: "Developer Tools",
+            description: "Complete set of tools and APIs for developers"
         }
     ];
 
@@ -57,7 +57,7 @@ export default function PlatformFeaturesSection({ className = '' }: PlatformFeat
                         Platform Features
                     </h2>
                     <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-                        Everything you need to build and launch your AI-powered SaaS business
+                        Everything you need to deploy and scale your applications
                     </p>
                 </motion.div>
 

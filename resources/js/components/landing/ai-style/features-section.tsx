@@ -78,41 +78,41 @@ interface FeaturesSectionProps {
 
 const items = [
   {
-    title: 'AI Integration',
+    title: 'Easy Deployment',
     description:
-      'Pre-configured AI model endpoints with OpenAI, Anthropic, and other providers for seamless AI functionality.',
+      'Deploy your applications instantly with one-click deployment. No complex setup required.',
     icon: <Cpu className="size-6" />,
     size: 'large' as const,
   },
   {
-    title: 'User Management',
+    title: 'Free Hosting',
     description:
-      'Complete user registration, authentication, and management system built-in.',
+      'Free hosting for your applications with generous resources to get you started.',
     icon: <Globe className="size-6" />,
     size: 'small' as const,
   },
   {
-    title: 'Payment System',
-    description: 'Built-in Stripe integration for subscriptions and billing management.',
+    title: 'Auto Scaling',
+    description: 'Automatic scaling to handle traffic spikes without manual configuration.',
     icon: <Shield className="size-6" />,
     size: 'medium' as const,
   },
   {
-    title: 'Admin Dashboard',
-    description: "Complete admin panel for business management and analytics.",
+    title: 'Developer Tools',
+    description: "Complete set of tools and APIs to build and manage your applications.",
     icon: <BarChart3 className="size-6" />,
     size: 'medium' as const,
   },
   {
     title: 'Database',
-    description: 'Scalable data storage with unlimited capacity for user data.',
+    description: 'Managed database services with automatic backups and scaling.',
     icon: <HardDrive className="size-6" />,
     size: 'small' as const,
   },
   {
-    title: 'API Ready',
+    title: 'API Access',
     description:
-      'RESTful API endpoints with complete documentation and developer tools.',
+      'Full API access with comprehensive documentation and developer-friendly tools.',
     icon: <Zap className="size-6" />,
     size: 'large' as const,
   },
@@ -159,7 +159,7 @@ export default function FeaturesSection({ className = '' }: FeaturesSectionProps
             Everything You Need
           </h2>
           <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-            Build production-ready AI SaaS with modern architecture
+            Deploy and scale your applications with our free platform
           </p>
         </motion.div>
 
