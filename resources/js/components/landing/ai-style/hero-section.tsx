@@ -300,7 +300,7 @@ export default function HeroSection({ className = '' }: HeroSectionProps) {
                     className="mt-12"
                 >
                     <div className="text-sm font-mono text-muted-foreground/60">
-                        #freepaas
+                        {/* plis jangan abuse */}
                     </div>
                 </motion.div>
             </motion.div>
