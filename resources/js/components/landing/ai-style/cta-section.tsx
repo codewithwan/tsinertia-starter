@@ -1,9 +1,10 @@
-import { motion } from 'framer-motion';
+import { motion, useScroll, useTransform } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import { Link } from '@inertiajs/react';
-import { Play, Rocket, Sparkles } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
 import { type SharedData } from '@/types';
 import { usePage } from '@inertiajs/react';
+import { useRef } from 'react';
 // import { dashboard, register } from '@/routes';
 
 interface CTASectionProps {
@@ -12,25 +13,43 @@ interface CTASectionProps {
 
 export default function CTASection({ className = '' }: CTASectionProps) {
     const { auth } = usePage<SharedData>().props;
+    const sectionRef = useRef<HTMLElement>(null);
+    const { scrollYProgress } = useScroll({
+        target: sectionRef,
+        offset: ["start end", "end start"]
+    });
+    
+    const backgroundY = useTransform(scrollYProgress, [0, 1], [0, -50]);
+    const orb1Y = useTransform(scrollYProgress, [0, 1], [0, -100]);
+    const orb2Y = useTransform(scrollYProgress, [0, 1], [0, 50]);
 
     return (
-        <section className={`relative py-32 overflow-hidden ${className}`}>
+        <section ref={sectionRef} className={`relative py-32 overflow-hidden ${className}`} style={{ zIndex: 1, marginTop: '-2rem' }}>
             {/* Background */}
             <div className="absolute inset-0 bg-background"></div>
+            
+            {/* Enhanced depth shadow */}
+            <div className="absolute inset-0 bg-gradient-to-b from-background/90 via-transparent to-background pointer-events-none"></div>
 
-            {/* Hexagonal pattern */}
-            <div className="absolute inset-0 opacity-[0.015]" style={{
-                backgroundImage: `url("data:image/svg+xml,%3Csvg width='100' height='100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M50 0L100 25L100 75L50 100L0 75L0 25Z' fill='none' stroke='currentColor' stroke-width='1'/%3E%3C/svg%3E")`,
-                backgroundSize: '100px 100px'
+            {/* Subtle grid pattern */}
+            <motion.div 
+                style={{ y: backgroundY }}
+                className="absolute inset-0 opacity-[0.01]" 
+            >
+                <div style={{
+                backgroundImage: 'linear-gradient(to right, currentColor 1px, transparent 1px), linear-gradient(to bottom, currentColor 1px, transparent 1px)',
+                backgroundSize: '60px 60px',
+                height: '150%'
             }}></div>
+            </motion.div>
 
-            {/* Floating orbs */}
-            <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-foreground/8 rounded-full blur-3xl animate-float-slow"></div>
-            <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-foreground/12 rounded-full blur-3xl animate-float-slower"></div>
+            {/* Subtle floating orbs */}
+            <motion.div style={{ y: orb1Y }} className="absolute top-1/4 left-1/4 w-96 h-96 bg-foreground/5 rounded-full blur-3xl"></motion.div>
+            <motion.div style={{ y: orb2Y }} className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-foreground/8 rounded-full blur-3xl"></motion.div>
 
             <div className="container mx-auto px-6 relative">
                 <div className="max-w-4xl mx-auto">
-                    {/* Main CTA Card */}
+                    {/* Main CTA Card - Clean & Elegant */}
                     <motion.div
                         initial={{ opacity: 0, y: 30 }}
                         whileInView={{ opacity: 1, y: 0 }}
@@ -38,124 +57,106 @@ export default function CTASection({ className = '' }: CTASectionProps) {
                         viewport={{ once: true, margin: "-100px" }}
                         className="relative"
                     >
-                        {/* Glow effect */}
-                        <div className="absolute -inset-1 bg-gradient-to-r from-foreground/20 via-foreground/30 to-foreground/20 opacity-20 blur-2xl"></div>
+                        {/* Subtle glow */}
+                        <div className="absolute -inset-px bg-gradient-to-r from-foreground/10 via-foreground/5 to-foreground/10 opacity-50 blur-xl rounded-3xl"></div>
 
                         {/* Card content */}
-                        <div className="relative bg-background/95 backdrop-blur-sm border border-foreground/10 rounded-3xl p-8 sm:p-12 text-center">
-                            {/* PREMIUM ICON - LIKE MAINTENANCE PAGE */}
+                        <div className="relative bg-background border border-foreground/10 rounded-3xl p-12 sm:p-16 text-center">
+                            
+                            {/* Clean Badge */}
                             <motion.div
-                                initial={{ opacity: 0, scale: 0.8 }}
-                                whileInView={{ opacity: 1, scale: 1 }}
-                                transition={{ duration: 0.6, delay: 0.1 }}
+                                initial={{ opacity: 0, y: 10 }}
+                                whileInView={{ opacity: 1, y: 0 }}
+                                transition={{ duration: 0.5, delay: 0.1 }}
                                 viewport={{ once: true }}
-                                className="inline-flex items-center justify-center mb-8"
+                                className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-foreground/5 border border-foreground/10 mb-8"
                             >
-                                <div className="relative">
-                                    {/* Outer neon ring */}
-                                    <div className="absolute inset-0 rounded-full bg-gradient-to-br from-foreground/20 to-foreground/5 blur-2xl animate-neon-pulse"></div>
-
-                                    {/* Glass circle */}
-                                    <div className="relative w-24 h-24 rounded-full bg-foreground/5 backdrop-blur-xl border border-foreground/20 flex items-center justify-center">
-                                        <Sparkles className="h-11 w-11 text-foreground/60" strokeWidth={1.5} />
-                                    </div>
-
-                                    {/* Corner accents */}
-                                    <div className="absolute -top-1 -left-1 w-8 h-8 border-t-2 border-l-2 border-foreground/20 rounded-tl-full"></div>
-                                    <div className="absolute -bottom-1 -right-1 w-8 h-8 border-b-2 border-r-2 border-foreground/20 rounded-br-full"></div>
-                                </div>
+                                <div className="w-1.5 h-1.5 rounded-full bg-foreground/60"></div>
+                                <span className="text-xs font-medium uppercase tracking-wider text-foreground/70">Coming Soon</span>
                             </motion.div>
 
-                            {/* Heading */}
+                            {/* Heading - Clean & Bold */}
                             <motion.h2
                                 initial={{ opacity: 0, y: 20 }}
                                 whileInView={{ opacity: 1, y: 0 }}
-                                transition={{ duration: 0.6, delay: 0.3 }}
+                                transition={{ duration: 0.6, delay: 0.2 }}
                                 viewport={{ once: true }}
                                 className="text-4xl sm:text-5xl md:text-6xl font-bold text-foreground mb-6 leading-tight"
                             >
-                                Ready to Deploy Your
-                                <br />
-                                <span className="text-foreground/90">
-                                    Next Project?
-                                </span>
+                                Ready to Get Started?
                             </motion.h2>
 
                             {/* Description */}
                             <motion.p
                                 initial={{ opacity: 0, y: 20 }}
                                 whileInView={{ opacity: 1, y: 0 }}
-                                transition={{ duration: 0.6, delay: 0.4 }}
+                                transition={{ duration: 0.6, delay: 0.3 }}
                                 viewport={{ once: true }}
-                                className="text-lg sm:text-xl text-muted-foreground mb-8 max-w-2xl mx-auto leading-relaxed"
+                                className="text-lg sm:text-xl text-muted-foreground mb-10 max-w-2xl mx-auto leading-relaxed"
                             >
-                                Join developers building and deploying applications for free.
-                                Start your journey today with our free platform.
+                                Join the waitlist and be the first to experience our cloud platform.
+                                <br className="hidden sm:block" />
+                                Simple, fast, and built for developers.
                             </motion.p>
 
-                            {/* Hashtag */}
-                            <motion.div
-                                initial={{ opacity: 0, scale: 0.9 }}
-                                whileInView={{ opacity: 1, scale: 1 }}
-                                transition={{ duration: 0.5, delay: 0.5 }}
-                                viewport={{ once: true }}
-                                className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-foreground/5 border border-foreground/10 mb-8"
-                            >
-                                <span className="text-sm font-mono font-bold text-foreground">#freepaas</span>
-                                <div className="w-2 h-2 rounded-full bg-foreground/30 animate-pulse"></div>
-                            </motion.div>
-
-                            {/* CTA Button */}
+                            {/* CTA Buttons - Clean Design */}
                             <motion.div
                                 initial={{ opacity: 0, y: 20 }}
                                 whileInView={{ opacity: 1, y: 0 }}
-                                transition={{ duration: 0.6, delay: 0.6 }}
+                                transition={{ duration: 0.6, delay: 0.4 }}
                                 viewport={{ once: true }}
-                                className="flex flex-col sm:flex-row gap-4 justify-center items-center"
+                                className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-10"
                             >
                                 {auth.user ? (
-                                    <Button size="lg" className="group relative overflow-hidden px-10 py-7 text-lg shadow-lg shadow-primary/25" asChild>
+                                    <Button size="lg" className="group relative px-10 py-6 text-base font-semibold" asChild>
                                         <Link href={'/dashboard'}>
-                                            <Rocket className="h-5 w-5 mr-2 group-hover:translate-y-[-2px] transition-transform" />
                                             Go to Dashboard
+                                            <ArrowRight className="h-5 w-5 ml-2 group-hover:translate-x-1 transition-transform" />
                                         </Link>
                                     </Button>
                                 ) : (
                                     <>
-                                        <Button size="lg" className="group relative overflow-hidden px-10 py-7 text-lg shadow-lg shadow-primary/25" asChild>
-                                            <Link href={'/register'}>
-                                                <Play className="h-5 w-5 mr-2 group-hover:translate-x-1 transition-transform" />
-                                                Get Started Free
+                                        <Button size="lg" className="group relative px-10 py-6 text-base font-semibold" asChild>
+                                            <Link href={'#'}>
+                                                Join Waitlist
+                                                <ArrowRight className="h-5 w-5 ml-2 group-hover:translate-x-1 transition-transform" />
                                             </Link>
                                         </Button>
-                                        <Button size="lg" variant="outline" className="px-10 py-7 text-lg border-primary/20" asChild>
-                                            <Link href={'/login'}>
-                                                View Demo
+                                        <Button size="lg" variant="outline" className="px-10 py-6 text-base font-semibold border-foreground/20 hover:bg-foreground/5" asChild>
+                                            <Link href={'#features'}>
+                                                Learn More
                                             </Link>
                                         </Button>
                                     </>
                                 )}
                             </motion.div>
 
-                            {/* Trust indicators */}
+                            {/* Simple divider */}
+                            <div className="flex items-center justify-center gap-3 mb-8">
+                                <div className="h-px w-16 bg-foreground/10"></div>
+                                <div className="w-1 h-1 rounded-full bg-foreground/20"></div>
+                                <div className="h-px w-16 bg-foreground/10"></div>
+                            </div>
+
+                            {/* Trust indicators - Minimal */}
                             <motion.div
                                 initial={{ opacity: 0 }}
                                 whileInView={{ opacity: 1 }}
-                                transition={{ duration: 0.6, delay: 0.8 }}
+                                transition={{ duration: 0.6, delay: 0.5 }}
                                 viewport={{ once: true }}
-                                className="mt-8 flex items-center justify-center gap-8 text-sm text-muted-foreground"
+                                className="flex flex-wrap items-center justify-center gap-6 sm:gap-8 text-sm text-muted-foreground"
                             >
                                 <div className="flex items-center gap-2">
-                                    <div className="w-2 h-2 rounded-full bg-foreground/40"></div>
-                                    <span>Production Ready</span>
+                                    <div className="w-1.5 h-1.5 rounded-full bg-foreground/40"></div>
+                                    <span>Free to Start</span>
                                 </div>
                                 <div className="flex items-center gap-2">
-                                    <div className="w-2 h-2 rounded-full bg-foreground/60"></div>
-                                    <span>Full Documentation</span>
+                                    <div className="w-1.5 h-1.5 rounded-full bg-foreground/40"></div>
+                                    <span>No Credit Card</span>
                                 </div>
                                 <div className="flex items-center gap-2">
-                                    <div className="w-2 h-2 rounded-full bg-foreground/80"></div>
-                                    <span>Regular Updates</span>
+                                    <div className="w-1.5 h-1.5 rounded-full bg-foreground/40"></div>
+                                    <span>Cancel Anytime</span>
                                 </div>
                             </motion.div>
                         </div>

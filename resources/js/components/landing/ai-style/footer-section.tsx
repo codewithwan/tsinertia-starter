@@ -33,7 +33,7 @@ export default function FooterSection({ className = '' }: FooterSectionProps) {
                             <AppLogo />
                         </div>
                         <p className="text-sm text-muted-foreground max-w-md mx-auto">
-                            Free Platform as a Service for developers
+                            Cloud platform for developers. Reverse tunnel, static hosting, custom domain.
                         </p>
                     </div>
 

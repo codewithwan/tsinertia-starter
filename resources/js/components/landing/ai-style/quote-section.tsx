@@ -1,34 +1,49 @@
-import { motion } from 'framer-motion';
+import { motion, useScroll, useTransform } from 'framer-motion';
 import { Sparkles } from 'lucide-react';
+import { useRef } from 'react';
 
 interface QuoteSectionProps {
     className?: string;
 }
 
 export default function QuoteSection({ className = '' }: QuoteSectionProps) {
+    const sectionRef = useRef<HTMLElement>(null);
+    const { scrollYProgress } = useScroll({
+        target: sectionRef,
+        offset: ["start end", "end start"]
+    });
+
+    const y = useTransform(scrollYProgress, [0, 1], [150, -150]);
+    const opacity = useTransform(scrollYProgress, [0, 0.2, 0.8, 1], [0, 1, 1, 0]);
+    const scale = useTransform(scrollYProgress, [0, 0.2, 0.8, 1], [0.85, 1.05, 1, 0.9]);
+
     return (
-        <section className={`relative py-24 overflow-hidden ${className}`}>
+        <section ref={sectionRef} className={`relative py-24 overflow-hidden ${className}`} style={{ zIndex: 10, marginTop: '-4rem' }}>
             {/* Modern background */}
             <div className="absolute inset-0 bg-background"></div>
+            
+            {/* Enhanced depth shadow */}
+            <div className="absolute inset-0 bg-gradient-to-b from-background/70 via-transparent to-background/95 pointer-events-none"></div>
 
             {/* Neon scan lines */}
-            <div className="absolute inset-0 opacity-[0.02]" style={{
-                backgroundImage: 'repeating-linear-gradient(0deg, transparent, transparent 2px, currentColor 2px, currentColor 3px)',
-                backgroundSize: '100% 40px'
-            }}></div>
+            <motion.div
+                style={{ y: useTransform(scrollYProgress, [0, 1], [0, -50]) }}
+                className="absolute inset-0 opacity-[0.02]"
+                transition={{ type: "spring", stiffness: 100 }}
+            >
+                <div style={{
+                    backgroundImage: 'repeating-linear-gradient(0deg, transparent, transparent 2px, currentColor 2px, currentColor 3px)',
+                    backgroundSize: '100% 40px',
+                    height: '100%'
+                }}></div>
+            </motion.div>
 
             {/* Decorative neon lines */}
             <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-foreground/30 to-transparent"></div>
             <div className="absolute bottom-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-foreground/30 to-transparent"></div>
 
-            <div className="container mx-auto px-6 relative">
-                <motion.div
-                    initial={{ opacity: 0, y: 30 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.8 }}
-                    viewport={{ once: true, margin: "-100px" }}
-                    className="text-center max-w-5xl mx-auto"
-                >
+            <div className="container mx-auto px-6 relative z-20">
+                <motion.div style={{ y, opacity, scale }} className="text-center max-w-5xl mx-auto relative z-20">
                     {/* Premium Icon - Like Maintenance Page */}
                     <motion.div
                         initial={{ opacity: 0, scale: 0.8 }}
@@ -54,9 +69,9 @@ export default function QuoteSection({ className = '' }: QuoteSectionProps) {
 
                     {/* Main quote */}
                     <blockquote className="relative z-10 text-3xl sm:text-4xl md:text-5xl font-light text-foreground mb-8 leading-tight px-4">
-                        Build, <span className="font-semibold">deploy</span>, and{' '}
-                        <span className="font-semibold">scale</span> your{' '}
-                        <span className="font-semibold">applications</span>
+                        Expose local apps, <span className="font-semibold">deploy static</span>, and{' '}
+                        <span className="font-semibold">custom domain</span> with{' '}
+                        <span className="font-semibold">ease</span>
                     </blockquote>
 
                     {/* Attribution */}
@@ -69,7 +84,7 @@ export default function QuoteSection({ className = '' }: QuoteSectionProps) {
                     >
                         <div className="h-px w-12 bg-gradient-to-r from-transparent to-foreground/30"></div>
                         <cite className="text-sm text-muted-foreground font-mono not-italic uppercase tracking-wider">
-                            <span className="text-foreground">Free PaaS</span> / For Dev
+                            <span className="text-foreground">idcloudlabs</span> / Cloud Platform
                         </cite>
                         <div className="h-px w-12 bg-gradient-to-l from-transparent to-foreground/30"></div>
                     </motion.div>
@@ -82,8 +97,8 @@ export default function QuoteSection({ className = '' }: QuoteSectionProps) {
                         viewport={{ once: true }}
                         className="text-base sm:text-lg text-muted-foreground max-w-2xl mx-auto"
                     >
-                        Every <span className="text-foreground font-medium">application</span> you deploy today brings you{' '}
-                        <span className="text-foreground font-medium">one step closer to your goals</span>
+                        Simple, fast, and affordable cloud platform built for{' '}
+                        <span className="text-foreground font-medium">developers</span>
                     </motion.div>
                 </motion.div>
             </div>

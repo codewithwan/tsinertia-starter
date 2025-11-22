@@ -1,8 +1,9 @@
-import { motion } from 'framer-motion';
+import { motion, useScroll, useTransform } from 'framer-motion';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { ArrowRight, Check, Rocket, Zap } from 'lucide-react';
 import { Link } from '@inertiajs/react';
+import { useRef } from 'react';
 // import { register } from '@/routes';
 import AnimatedCounter from './animated-counter';
 
@@ -11,19 +12,42 @@ interface PricingSectionProps {
 }
 
 export default function PricingSection({ className = '' }: PricingSectionProps) {
+    const sectionRef = useRef<HTMLElement>(null);
+    const { scrollYProgress } = useScroll({
+        target: sectionRef,
+        offset: ["start end", "end start"]
+    });
+
+    const yLeft = useTransform(scrollYProgress, [0, 1], [100, -100]);
+    const yRight = useTransform(scrollYProgress, [0, 1], [-80, 80]);
+    const rotate = useTransform(scrollYProgress, [0, 1], [-5, 5]);
+    const scale = useTransform(scrollYProgress, [0, 0.3, 0.7, 1], [0.8, 1, 1, 0.8]);
+
     return (
-        <section id="pricing" className={`relative py-32 overflow-hidden ${className}`}>
+        <section ref={sectionRef} id="pricing" className={`relative py-24 md:py-32 overflow-hidden ${className}`} style={{ zIndex: 1 }}>
             {/* Background */}
             <div className="absolute inset-0 bg-background"></div>
+            
+            {/* Enhanced depth shadow */}
+            <div className="absolute inset-0 bg-gradient-to-b from-background/60 via-transparent to-background/90 pointer-events-none"></div>
 
-            {/* Dot matrix pattern */}
-            <div className="absolute inset-0 opacity-[0.02]" style={{
-                backgroundImage: 'radial-gradient(circle, currentColor 1px, transparent 1px)',
-                backgroundSize: '30px 30px'
-            }}></div>
+            {/* Dot matrix pattern with parallax - reduced on mobile */}
+            <motion.div
+                style={{ y: useTransform(scrollYProgress, [0, 1], [0, -100]), rotate }}
+                className="absolute inset-0 opacity-[0.02] hidden md:block"
+            >
+                <div style={{
+                    backgroundImage: 'radial-gradient(circle, currentColor 1px, transparent 1px)',
+                    backgroundSize: '30px 30px',
+                    height: '150%'
+                }}></div>
+            </motion.div>
 
-            {/* Centered glow */}
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-foreground/5 rounded-full blur-3xl"></div>
+            {/* Centered glow with parallax - reduced on mobile */}
+            <motion.div
+                style={{ scale }}
+                className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-foreground/5 rounded-full blur-3xl hidden md:block"
+            ></motion.div>
 
             <div className="container mx-auto px-6 relative">
                 <motion.div
@@ -39,16 +63,17 @@ export default function PricingSection({ className = '' }: PricingSectionProps) 
                         <div className="h-px w-8 bg-foreground/20"></div>
                     </div>
                     <h2 className="text-4xl sm:text-5xl font-bold text-foreground mb-4">
-                        Free Forever
+                        Affordable Pricing
                     </h2>
                     <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-                        Start building with our free platform. No credit card required.
+                        Affordable plans for developers. Free reverse tunnel, premium plans for business needs.
                     </p>
                 </motion.div>
 
                 <div className="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto">
-                    {/* Starter Plan */}
+                    {/* Starter Plan with parallax - reduced on mobile */}
                     <motion.div
+                        style={{ y: yLeft }}
                         initial={{ opacity: 0, x: -30 }}
                         whileInView={{ opacity: 1, x: 0 }}
                         transition={{ duration: 0.6, delay: 0.2 }}
@@ -96,11 +121,11 @@ export default function PricingSection({ className = '' }: PricingSectionProps) 
                                     <h4 className="font-semibold text-foreground">Features</h4>
                                     <ul className="space-y-2">
                                         {[
-                                            'Free hosting for your apps',
-                                            'Easy deployment process',
-                                            'Auto scaling included',
-                                            'Developer dashboard',
-                                            'API access'
+                                            'Free reverse tunnel',
+                                            'Limited static hosting',
+                                            'Subdomain .idlabs.cloud',
+                                            'Basic dashboard',
+                                            'Automatic SSL'
                                         ].map((feature, index) => (
                                             <li key={index} className="flex items-center gap-2 text-sm">
                                                 <Check className="h-4 w-4 text-foreground/60 flex-shrink-0" />
@@ -128,8 +153,8 @@ export default function PricingSection({ className = '' }: PricingSectionProps) 
                                 </div>
 
                                 <Button className="w-full mt-auto" variant="outline" asChild>
-                                    <Link href={'/register'}>
-                                        Get Started Free
+                                    <Link href={'#'}>
+                                        Notify Me
                                         <ArrowRight className="h-4 w-4 ml-2" />
                                     </Link>
                                 </Button>
@@ -137,8 +162,9 @@ export default function PricingSection({ className = '' }: PricingSectionProps) 
                         </Card>
                     </motion.div>
 
-                    {/* Pro Plan */}
+                    {/* Pro Plan with parallax - reduced on mobile */}
                     <motion.div
+                        style={{ y: yRight }}
                         initial={{ opacity: 0, x: 30 }}
                         whileInView={{ opacity: 1, x: 0 }}
                         transition={{ duration: 0.6, delay: 0.4 }}
@@ -160,12 +186,12 @@ export default function PricingSection({ className = '' }: PricingSectionProps) 
 
                                 <div className="flex items-center justify-between pr-20">
                                     <div>
-                                        <CardTitle className="text-2xl mb-2">Free Platform</CardTitle>
-                                        <CardDescription>Everything you need to build and deploy</CardDescription>
+                                        <CardTitle className="text-2xl mb-2">Premium</CardTitle>
+                                        <CardDescription>For business & production needs</CardDescription>
                                     </div>
                                     <div className="text-right">
-                                        <div className="text-3xl font-bold text-foreground">Free</div>
-                                        <div className="text-sm text-muted-foreground">No Limits</div>
+                                        <div className="text-3xl font-bold text-foreground">Coming</div>
+                                        <div className="text-sm text-muted-foreground">Soon</div>
                                     </div>
                                 </div>
                             </CardHeader>
@@ -187,12 +213,12 @@ export default function PricingSection({ className = '' }: PricingSectionProps) 
                                     <h4 className="font-semibold text-foreground">What's Included:</h4>
                                     <ul className="space-y-2">
                                         {[
-                                            'Unlimited deployments',
-                                            'Managed databases',
-                                            'Auto scaling',
-                                            'Full API access',
-                                            'Developer tools',
-                                            'Community support'
+                                            'Unlimited tunnel & deploy',
+                                            'Custom domain unlimited',
+                                            'Priority support',
+                                            'Analytics & logs',
+                                            'Team collaboration',
+                                            'Asia Pacific Server'
                                         ].map((feature, index) => (
                                             <li key={index} className="flex items-center gap-2 text-sm">
                                                 <Check className="h-4 w-4 text-foreground/80 flex-shrink-0" />
@@ -207,9 +233,9 @@ export default function PricingSection({ className = '' }: PricingSectionProps) 
                                     <h4 className="font-semibold text-foreground">What's Included</h4>
                                     <div className="space-y-2">
                                         {[
-                                            { item: 'Free Forever', price: '✓' },
-                                            { item: 'No Credit Card', price: '✓' },
-                                            { item: 'Start Building', price: '✓' }
+                                            { item: 'Affordable Pricing', price: '✓' },
+                                            { item: 'Asia Pacific Server', price: '✓' },
+                                            { item: 'Local Support', price: '✓' }
                                         ].map((option, index) => (
                                             <div key={index} className="flex justify-between items-center py-2 px-3 bg-foreground/10 rounded border border-foreground/20">
                                                 <span className="text-sm text-foreground">{option.item}</span>
@@ -220,8 +246,8 @@ export default function PricingSection({ className = '' }: PricingSectionProps) 
                                 </div>
 
                                 <Button className="w-full mt-auto" asChild>
-                                    <Link href={'/register'}>
-                                        Get Started Free
+                                    <Link href={'#'}>
+                                        Notify Me
                                         <ArrowRight className="h-4 w-4 ml-2" />
                                     </Link>
                                 </Button>

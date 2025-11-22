@@ -1,7 +1,7 @@
-import { motion } from 'framer-motion';
+import { motion, useScroll, useTransform } from 'framer-motion';
 import { Card } from '@/components/ui/card';
 import { ChevronDown, ChevronUp } from 'lucide-react';
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 
 interface FAQItemProps {
     question: string;
@@ -54,54 +54,77 @@ interface FAQSectionProps {
 }
 
 export default function FAQSection({ className = '' }: FAQSectionProps) {
+    const sectionRef = useRef<HTMLElement>(null);
+    const { scrollYProgress } = useScroll({
+        target: sectionRef,
+        offset: ["start end", "end start"]
+    });
+
+    const backgroundY = useTransform(scrollYProgress, [0, 1], [0, -50]);
+    const glowY1 = useTransform(scrollYProgress, [0, 1], [0, 100]);
+    const glowY2 = useTransform(scrollYProgress, [0, 1], [0, -100]);
+
     const leftFaqs = [
         {
-            question: "Is it really free?",
-            answer: "Yes! Our platform is completely free to use. No credit card required, no hidden fees. Start building and deploying your applications right away."
+            question: "What is idcloudlabs?",
+            answer: "idcloudlabs is a cloud platform for developers providing reverse tunnel, static hosting, and custom domain with automatic SSL. Similar to Ngrok and Vercel but more affordable."
         },
         {
-            question: "What can I build on this platform?",
-            answer: "You can deploy any type of application - web apps, APIs, microservices, and more. The platform supports multiple programming languages and frameworks."
+            question: "What features are available?",
+            answer: "Main features: HTTP/HTTPS reverse tunnel to expose local apps, static site hosting for website deployment, custom domain with automatic SSL, and modern dashboard for management."
         },
         {
-            question: "Are there any limits?",
-            answer: "Our free tier includes generous resources to get you started. You can deploy multiple applications and scale as needed."
+            question: "When will the platform launch?",
+            answer: "We're currently in development. Sign up to get notified when we launch. Launch target coming soon."
         },
         {
-            question: "How do I get started?",
-            answer: "Simply sign up for a free account and start deploying. No complex setup or configuration required."
+            question: "What are the pricing plans?",
+            answer: "We offer affordable plans for developers. Free reverse tunnel with limits, and premium plans for business needs. Pricing will be announced at launch."
         }
     ];
 
     const rightFaqs = [
         {
-            question: "What technologies are supported?",
-            answer: "We support a wide range of technologies and frameworks. Deploy applications built with Node.js, Python, PHP, and more."
+            question: "How do I use reverse tunnel?",
+            answer: "After platform launch, install the idcloudlabs CLI and run commands to expose your local app. You'll get a public URL like `subdomain.idlabs.cloud`"
         },
         {
-            question: "How does auto scaling work?",
-            answer: "Our platform automatically scales your applications based on traffic. No manual configuration needed - it just works."
+            question: "Can I deploy static websites?",
+            answer: "Yes! Deploy static websites super fast with simple CLI commands. Supports Next.js, React, Vue, and other static frameworks. Auto-build and deploy with CI/CD."
         },
         {
-            question: "What support is available?",
-            answer: "We provide comprehensive documentation, community support, and resources to help you build and deploy successfully."
+            question: "What about custom domains?",
+            answer: "You can map custom domains to tunnels or static sites. SSL automatically installed via Let's Encrypt. Simple DNS configuration through our dashboard."
+        },
+        {
+            question: "Where are servers located?",
+            answer: "Our servers are located in the Asia Pacific region for low latency and optimal performance. Pricing is also more affordable compared to international platforms."
         }
     ];
 
     return (
-        <section id="faq" className={`relative py-24 overflow-hidden ${className}`}>
+        <section ref={sectionRef} id="faq" className={`relative py-24 overflow-hidden ${className}`} style={{ zIndex: 1, marginTop: '-3rem' }}>
             {/* Background */}
             <div className="absolute inset-0 bg-background"></div>
+            
+            {/* Enhanced depth shadow */}
+            <div className="absolute inset-0 bg-gradient-to-b from-background/80 via-transparent to-background pointer-events-none"></div>
 
             {/* Circuit board pattern */}
-            <div className="absolute inset-0 opacity-[0.01]" style={{
-                backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 0h60v60H0z' fill='none'/%3E%3Ccircle cx='30' cy='30' r='2' fill='currentColor'/%3E%3Cpath d='M30 0v60M0 30h60' stroke='currentColor' stroke-width='0.5'/%3E%3C/svg%3E")`,
-                backgroundSize: '60px 60px'
-            }}></div>
+            <motion.div 
+                style={{ y: backgroundY }}
+                className="absolute inset-0 opacity-[0.01]"
+            >
+                <div style={{
+                    backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 0h60v60H0z' fill='none'/%3E%3Ccircle cx='30' cy='30' r='2' fill='currentColor'/%3E%3Cpath d='M30 0v60M0 30h60' stroke='currentColor' stroke-width='0.5'/%3E%3C/svg%3E")`,
+                    backgroundSize: '60px 60px',
+                    height: '150%'
+                }}></div>
+            </motion.div>
 
             {/* Decorative glows */}
-            <div className="absolute top-0 right-0 w-96 h-96 bg-foreground/6 rounded-full blur-3xl"></div>
-            <div className="absolute bottom-0 left-0 w-72 h-72 bg-foreground/8 rounded-full blur-3xl"></div>
+            <motion.div style={{ y: glowY1 }} className="absolute top-0 right-0 w-96 h-96 bg-foreground/6 rounded-full blur-3xl"></motion.div>
+            <motion.div style={{ y: glowY2 }} className="absolute bottom-0 left-0 w-72 h-72 bg-foreground/8 rounded-full blur-3xl"></motion.div>
 
             <div className="container mx-auto px-6 relative">
                 {/* Header */}
@@ -120,7 +143,7 @@ export default function FAQSection({ className = '' }: FAQSectionProps) {
                         Common Questions
                     </h2>
                     <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-                        Everything you need to know about our free platform
+                        Everything you need to know about idcloudlabs
                     </p>
                 </motion.div>
 
@@ -179,11 +202,11 @@ export default function FAQSection({ className = '' }: FAQSectionProps) {
                                 Still have questions?
                             </h3>
                             <p className="text-muted-foreground mb-4">
-                                Join our community of developers building amazing applications
+                                Join the community of developers building cloud platforms
                             </p>
                             <div className="flex items-center gap-3">
                                 <div className="h-px flex-1 bg-foreground/10"></div>
-                                <span className="text-sm font-mono font-bold text-foreground">#freepaas</span>
+                                <span className="text-sm font-mono font-bold text-foreground">#idcloudlabs</span>
                                 <div className="h-px flex-1 bg-foreground/10"></div>
                             </div>
                         </motion.div>

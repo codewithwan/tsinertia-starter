@@ -1,352 +1,220 @@
-# 🚀 Laravel React Starter Kit
+# IDLabs Cloud Tunnel — Project Overview
 
-A modern, production-ready boilerplate for rapid web application development, combining the best of Laravel 12, React 19, TypeScript, Inertia.js, ShadCN/UI, and Docker with FrankenPHP.
+## 🌐 Ringkasan Singkat
 
-## ✨ Features
+IDLabs Cloud Tunnel adalah sistem **reverse tunneling modern** (mirip Ngrok & Cloudflare Tunnel) yang memungkinkan developer mengekspose aplikasi lokal mereka ke internet secara aman dan cepat.
 
-- **⚡ Laravel 12** - Latest PHP framework with modern features
-- **⚛️ React 19** - Latest React with concurrent features and server components
-- **🔷 TypeScript** - Full type safety across the entire stack
-- **🔄 Inertia.js** - Build single-page apps with server-side routing
-- **🎨 ShadCN/UI** - Beautiful, accessible React components built on Radix UI
-- **🎯 Tailwind CSS** - Utility-first CSS framework
-- **🐳 Docker** - Containerized development environment
-- **🔥 FrankenPHP** - Modern PHP application server for superior performance
-- **🔐 Authentication** - Complete auth system with email verification
-- **👥 RBAC** - Role-Based Access Control with Spatie Permissions
-- **📱 Responsive Design** - Mobile-first responsive layouts
-- **🌙 Dark Mode** - Built-in dark/light theme support
-- **🧪 Testing** - Pest PHP testing framework setup
-- **📦 Database** - MySQL 8.0 with migrations and seeders
+Sistem ini terdiri dari dua komponen utama:
 
-## 🛠️ Tech Stack
+1. **Tunnel Server (Go)**
+2. **IDL CLI (Go)**
 
-| Technology | Purpose | Version |
-|------------|---------|---------|
-| Laravel | Backend Framework | 12.x |
-| React | Frontend Library | 19.x |
-| TypeScript | Type Safety | 5.x |
-| Inertia.js | SPA Bridge | 2.x |
-| ShadCN/UI | UI Components | Latest |
-| Tailwind CSS | Styling | 4.x |
-| FrankenPHP | PHP Runtime | Latest |
-| Docker | Containerization | Latest |
-| MySQL | Database | 8.0 |
-| Vite | Build Tool | 6.x |
-| Spatie Permissions | RBAC | Latest |
-
-## 🚀 Quick Start
-
-### Prerequisites
-
-- Docker & Docker Compose
-- Git
-
-### Installation
-
-1. **Clone the repository**
-   ```bash
-   git clone https://github.com/codewithwan/tsinertia-starter.git my-app
-   cd my-app
-   ```
-
-2. **Copy environment file**
-   ```bash
-   cp .env.example .env
-   ```
-
-3. **Start the development environment**
-   ```bash
-   docker-compose up -d
-   ```
-
-4. **Install dependencies & setup**
-   ```bash
-   # The container will automatically run these commands:
-   # - composer install
-   # - npm install
-   # - php artisan key:generate
-   # - php artisan migrate
-   ```  
-
-5. **Visit your application**
-   - Frontend: http://localhost:8080
-   - Database: localhost:3309
-
-That's it! 🎉 Your application is ready.
-
-## 📁 Project Structure
-
-```
-├── app/                    # Laravel application logic
-│   ├── Http/Controllers/   # API & web controllers
-│   │   ├── Admin/         # Admin controllers for RBAC
-│   │   └── Auth/          # Authentication controllers
-│   ├── Models/            # Eloquent models
-│   └── Providers/         # Service providers
-├── resources/
-│   ├── js/                # React TypeScript frontend
-│   │   ├── components/    # Reusable React components
-│   │   ├── pages/         # Inertia.js pages
-│   │   │   └── admin/    # Admin panel pages with RBAC
-│   │   ├── layouts/       # Page layouts
-│   │   └── types/         # TypeScript type definitions
-│   └── css/               # Stylesheets
-├── routes/                # Laravel routes
-│   ├── web.php           # Main routes
-│   ├── admin.php         # Admin panel routes
-│   └── auth.php          # Authentication routes
-├── database/              # Migrations, seeders, factories
-│   ├── migrations/       # Including RBAC tables
-│   └── seeders/         # Role and permission seeders
-├── docker-compose.yml     # Docker services configuration
-├── Dockerfile            # Application container definition
-└── package.json          # Frontend dependencies
-```
-
-## 🔧 Development
-
-### Running Tests
-
-```bash
-# PHP tests with Pest
-composer test
-
-# Frontend tests (if configured)
-npm test
-```
-
-### Building for Production
-
-```bash
-# Build frontend assets
-npm run build
-
-# Build with SSR support
-npm run build:ssr
-```
-
-### Development Commands
-
-```bash
-# Start development with hot reload
-composer dev
-
-# Start with SSR support
-composer dev:ssr
-
-# Format code
-npm run format
-
-# Lint code
-npm run lint
-
-# Type checking
-npm run types
-```
-
-## 🐳 Docker Services
-
-The development environment includes:
-
-- **app**: FrankenPHP application server
-- **db**: MySQL 8.0 database
-- **volumes**: Persistent database storage
-
-### Environment Variables
-
-Key environment variables in `.env`:
-
-```bash
-APP_NAME=LaravelReact
-APP_URL=http://localhost:8080
-
-DB_CONNECTION=mysql
-DB_HOST=db
-DB_PORT=3306
-DB_DATABASE=laravel
-DB_USERNAME=laravel
-DB_PASSWORD=password
-```
-
-## 🎨 UI Components
-
-This starter kit uses **ShadCN/UI** components built on **Radix UI** primitives. All components are:
-
-- ✅ Fully accessible (WCAG compliant)
-- ✅ Keyboard navigable
-- ✅ Dark mode compatible
-- ✅ Customizable with Tailwind CSS
-- ✅ TypeScript ready
-
-### Available Components
-
-- Buttons, Forms, Inputs
-- Cards, Dialogs, Modals
-- Navigation, Menus, Dropdowns
-- Tables, Charts, Data displays
-- And many more...
-
-## 🔐 Authentication & Authorization
-
-Pre-configured authentication and authorization system includes:
-
-- User registration and login
-- Email verification
-- Password reset functionality
-- Profile management
-- Session management
-- Role-Based Access Control (RBAC)
-  - Pre-configured roles and permissions
-  - Role management interface
-  - Permission-based access control
-  - Easy role assignment to users
-  - Middleware for protecting routes
-
-### Protected Routes
-
-Routes are automatically protected using Laravel's authentication middleware, Inertia.js, and Spatie's permission middleware.
-
-Example of protected routes:
-```php
-Route::middleware(['auth', 'role:admin'])->group(function () {
-    Route::get('/admin/users', [UserController::class, 'index']);
-});
-```
-
-### Available Roles
-
-The starter kit comes with pre-configured roles:
-- Admin: Full system access
-- User: Basic authenticated access
-- Custom roles can be added through the admin interface
-
-## 📱 Responsive Design
-
-The application is built with a mobile-first approach:
-
-- **Breakpoints**: Tailwind CSS responsive breakpoints
-- **Components**: All components are responsive by default
-- **Navigation**: Adaptive navigation patterns
-- **Typography**: Responsive text scaling
-
-## 🌙 Theme Support
-
-Built-in dark/light theme support:
-
-- System preference detection
-- Manual theme switching
-- Persistent theme selection
-- Component-level theme support
-
-## 🔄 State Management
-
-State management is handled through:
-
-- **Inertia.js**: Server-state synchronization
-- **React Hooks**: Local component state
-- **Form Handling**: React Hook Form with validation
-
-## 📈 Performance
-
-Optimized for performance:
-
-- **FrankenPHP**: High-performance PHP runtime
-- **Code Splitting**: Automatic route-based splitting
-- **Tree Shaking**: Dead code elimination
-- **Image Optimization**: Responsive images
-- **Caching**: Laravel caching strategies
-
-## 🧪 Testing
-
-Testing setup includes:
-
-- **Pest PHP**: Modern PHP testing framework
-- **Feature Tests**: End-to-end testing
-- **Unit Tests**: Component testing
-- **Database Testing**: In-memory SQLite for tests
-
-Run tests:
-
-```bash
-composer test
-```
-
-## 🚀 Deployment
-
-### Production Build
-
-1. **Build assets**
-   ```bash
-   npm run build
-   ```
-
-2. **Configure environment**
-   ```bash
-   # Set production environment variables
-   APP_ENV=production
-   APP_DEBUG=false
-   ```
-
-3. **Deploy with Docker**
-   ```bash
-   docker-compose -f docker-compose.prod.yml up -d
-   ```
-
-### Deployment Platforms
-
-This starter kit is ready for deployment on:
-
-- DigitalOcean App Platform
-- Railway
-- Fly.io
-- AWS ECS
-- Google Cloud Run
-- Traditional VPS
-
-## 📚 Documentation
-
-### Laravel Resources
-
-- [Laravel Documentation](https://laravel.com/docs)
-- [Inertia.js Documentation](https://inertiajs.com)
-
-### Frontend Resources
-
-- [React Documentation](https://react.dev)
-- [TypeScript Documentation](https://www.typescriptlang.org/docs)
-- [ShadCN/UI Components](https://ui.shadcn.com)
-- [Tailwind CSS Documentation](https://tailwindcss.com/docs)
-
-## 🤝 Contributing
-
-1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
-
-## 📄 License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
-## 🙏 Acknowledgments
-
-- [Laravel](https://laravel.com) - The PHP framework
-- [React](https://react.dev) - The JavaScript library
-- [Inertia.js](https://inertiajs.com) - The modern monolith
-- [ShadCN](https://ui.shadcn.com) - The component library
-- [Tailwind CSS](https://tailwindcss.com) - The CSS framework
-- [FrankenPHP](https://frankenphp.dev) - The modern PHP app server
-
-## 📞 Support
-
-If you have any questions or need help:
-
-- 📧 Create an issue on GitHub
-- 💬 Join our Discord community
-- 📖 Check the documentation
+Tunnel Server menerima HTTP request dari internet, lalu meneruskannya ke client lokal melalui WebSocket. Client kemudian meneruskan request ke localhost (mis. port 3000) dan mengirim response kembali.
 
 ---
 
-**Happy coding!** 🎉 Built with ❤️ for developers who want to ship fast. 
+## 🚀 Tujuan Project
+
+Project ini adalah fondasi dari **IDLabs Cloud**, layanan cloud developer-friendly untuk:
+
+- HTTP reverse tunnel
+- Static site hosting
+- Custom domain routing
+- SSL otomatis
+- Analytics & logs
+- Multi-tenant dashboard
+
+Tunnel server adalah komponen inti yang harus ada sebelum fitur lain berjalan.
+
+---
+
+## 🧱 Arsitektur Utama
+
+### **1. Tunnel Server (Go)**
+
+Server bertugas:
+
+- ✔ Menerima WebSocket connection dari CLI (`/ws`)
+- ✔ Registrasi hostname → client
+- ✔ Forward semua HTTP traffic ke tunnel-client
+- ✔ Multiplexing request menggunakan UUID
+- ✔ Mengirim kembali response ke browser
+
+Flow:
+Visitor → Nginx → Tunnel Server → WS → CLI → localhost:3000
+↓
+Response back
+
+Tunnel server menangani ribuan request paralel dengan aman dan cepat.
+
+---
+
+### **2. IDL CLI (Go + Cobra)**
+
+CLI dipakai user untuk:
+
+- Membuka tunnel:
+
+idl http 3000 --subdomain wan
+
+- Login (OAuth Device Flow)
+- Cek versi
+- (future) Deploy website static
+- (future) Kelola domain
+
+CLI meng-handle:
+
+- WS connection
+- Forward request ke localhost
+- Response encoding
+- Tunnel agent lifecycle
+
+---
+
+# 🏗 Struktur Project
+
+### **Tunnel Server**
+
+idlabs-tunnel-server/
+├── cmd/server/main.go
+└── internal/
+├── config/
+├── logger/
+└── tunnel/
+├── http/ # HTTP → WS proxy handler
+├── ws/ # client connection, hub, messages
+└── registry/ # hostname → client mapping
+
+### **IDL CLI**
+
+idl-cli/
+├── cmd/idl/main.go
+└── internal/cmd/
+├── root.go
+├── login.go
+├── http.go
+└── version.go
+
+---
+
+# 🔧 Fitur yang Sudah Ada
+
+### **Tunnel Server (Go)**
+
+- WebSocket server (`/ws`)
+- Register & unregister client
+- In-memory registry (thread-safe)
+- HTTP → WS forwarding
+- Request multiplexing via UUID
+- Response routing
+- Chi router + logging middleware
+- Clean Go architecture
+- Configurable via env
+
+### **IDL CLI**
+
+- Cobra CLI framework
+- Command:
+    - `idl login`
+    - `idl http <port>`
+    - `idl version`
+- Struktur modular siap dikembangkan
+
+---
+
+# 🧪 End-to-End Flow
+
+1. User menjalankan app lokal:
+
+localhost:3000
+
+2. User membuka tunnel:
+
+idl http 3000 --subdomain wan
+
+3. CLI:
+
+- Connect WebSocket → `/ws`
+- Register hostname
+- Tunggu `proxy_request`
+
+4. Visitor membuka:
+
+https://wan.idlabs.cloud
+
+5. Nginx → Tunnel Server:
+
+- Extract hostname
+- Cari client
+- Forward via WS
+
+6. CLI:
+
+- Terima request
+- Forward ke localhost
+- Balikan response
+
+7. Tunnel Server → visitor:
+
+- Kirim response ke browser
+
+**Selesai. Tunnel berfungsi.**
+
+---
+
+# 🔮 Roadmap (Next Features)
+
+### **Server**
+
+- Redis registry
+- API lookup for hostname → user
+- Static hosting fallback
+- Custom domain mapping
+- Auth token
+- Rate limiting
+- Request logs & analytics
+
+### **CLI**
+
+- Full WS client logic
+- OAuth login
+- File watcher (auto-deploy)
+- domain management commands
+- deploy static site
+
+### **Dashboard**
+
+- Manage tunnels
+- Domain binding
+- Logs & traffic graph
+- Deployments panel
+
+---
+
+# 🧠 Motivasi Project
+
+IDLabs Cloud ingin menjadi:
+
+> **Platform cloud sederhana, cepat, dan terjangkau khusus untuk developers Indonesia.**
+
+Dengan fitur:
+
+- Free tunnel
+- Easy static deploy
+- Custom domain
+- Logs
+- Dashboard interaktif
+- CLI mudah digunakan
+
+Reverse tunnel adalah fondasi dari semuanya.
+
+---
+
+# 🏁 Kesimpulan
+
+IDLabs Cloud Tunnel adalah sistem reverse tunnel modern yang dibangun dengan Go dan CLI modular.  
+Struktur clean, scalable, dan siap untuk menjadi core IDLabs Cloud ke depannya.
+
+Tunnel-server + CLI = pondasi platform seperti Ngrok / Cloudflare Tunnel, tapi buatan lokal & open.
+
+---

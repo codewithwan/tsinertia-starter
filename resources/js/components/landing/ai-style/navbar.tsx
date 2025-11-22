@@ -57,7 +57,7 @@ export default function Navbar() {
     return (
         <>
             {/* AI-style Floating Navbar */}
-            <header className={`fixed z-50 w-full transition-all duration-500 ${
+            <header className={`fixed z-[100] w-full transition-all duration-500 ${
                 isScrolled
                     ? 'top-4'
                     : 'top-0'
@@ -179,7 +179,7 @@ export default function Navbar() {
 
             {/* Mobile Menu */}
             {isMobileMenuOpen && (
-                <div className="fixed inset-0 z-40 md:hidden">
+                <div className="fixed inset-0 z-[90] md:hidden">
                     {/* Backdrop */}
                     <div
                         className="absolute inset-0 bg-background/80 backdrop-blur-sm"
