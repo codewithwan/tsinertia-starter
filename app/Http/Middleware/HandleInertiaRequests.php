@@ -48,6 +48,7 @@ class HandleInertiaRequests extends Middleware
                     'name' => $request->user()->name,
                     'email' => $request->user()->email,
                     'email_verified_at' => $request->user()->email_verified_at,
+                    'avatar' => $request->user()->avatar,
                     'roles' => $request->user()->roles->map(fn($role) => [
                         'id' => $role->id,
                         'name' => $role->name,
