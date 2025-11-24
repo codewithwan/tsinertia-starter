@@ -1,7 +1,7 @@
-import AppLogoIcon from '@/components/app-logo-icon';
 import AppLogo from '@/components/app-logo';
 import { Link } from '@inertiajs/react';
 import { type PropsWithChildren } from 'react';
+import { Cpu, Globe, Shield, Terminal } from 'lucide-react';
 
 interface AuthLayoutProps {
     title?: string;
@@ -26,11 +26,11 @@ export default function AuthSplitLayout({ children, title, description }: PropsW
                 <div className="relative z-20 mt-auto space-y-8">
                     <div className="space-y-6">
                         <h2 className="text-4xl font-bold text-foreground">
-                            Build Your <span className="bg-gradient-to-r from-primary to-primary/80 bg-clip-text text-transparent">AI-Powered</span> SaaS
+                            Cloud Platform <span className="bg-gradient-to-r from-primary to-primary/80 bg-clip-text text-transparent">for Developers</span>
                         </h2>
                         <p className="text-lg text-muted-foreground leading-relaxed">
-                            Launch and scale your AI-powered software business with our complete template. 
-                            Ready to customize, deploy, and grow.
+                            Reverse Tunnel, Static Hosting, & Custom Domain with Automatic SSL. 
+                            Made simple for developers worldwide.
                         </p>
                     </div>
 
@@ -38,41 +38,41 @@ export default function AuthSplitLayout({ children, title, description }: PropsW
                     <div className="space-y-4">
                         <div className="flex items-start gap-3">
                             <div className="w-8 h-8 bg-primary/10 rounded-lg flex items-center justify-center flex-shrink-0 mt-1">
-                                <AppLogoIcon className="h-4 w-4 text-primary" />
+                                <Cpu className="h-4 w-4 text-primary" />
                             </div>
                             <div>
-                                <h3 className="font-semibold text-foreground">AI Integration Ready</h3>
-                                <p className="text-sm text-muted-foreground">Pre-configured AI model endpoints</p>
+                                <h3 className="font-semibold text-foreground">Reverse Tunnel</h3>
+                                <p className="text-sm text-muted-foreground">Expose local apps to the internet with ease</p>
                             </div>
                         </div>
                         
                         <div className="flex items-start gap-3">
                             <div className="w-8 h-8 bg-primary/10 rounded-lg flex items-center justify-center flex-shrink-0 mt-1">
-                                <AppLogoIcon className="h-4 w-4 text-primary" />
+                                <Globe className="h-4 w-4 text-primary" />
                             </div>
                             <div>
-                                <h3 className="font-semibold text-foreground">Complete User System</h3>
-                                <p className="text-sm text-muted-foreground">Authentication, registration, and management</p>
+                                <h3 className="font-semibold text-foreground">Static Hosting</h3>
+                                <p className="text-sm text-muted-foreground">Deploy static websites super fast</p>
                             </div>
                         </div>
                         
                         <div className="flex items-start gap-3">
                             <div className="w-8 h-8 bg-primary/10 rounded-lg flex items-center justify-center flex-shrink-0 mt-1">
-                                <AppLogoIcon className="h-4 w-4 text-primary" />
+                                <Shield className="h-4 w-4 text-primary" />
                             </div>
                             <div>
-                                <h3 className="font-semibold text-foreground">Payment Integration</h3>
-                                <p className="text-sm text-muted-foreground">Stripe integration for subscriptions</p>
+                                <h3 className="font-semibold text-foreground">Custom Domain</h3>
+                                <p className="text-sm text-muted-foreground">Custom domain with automatic SSL</p>
                             </div>
                         </div>
                         
                         <div className="flex items-start gap-3">
                             <div className="w-8 h-8 bg-primary/10 rounded-lg flex items-center justify-center flex-shrink-0 mt-1">
-                                <AppLogoIcon className="h-4 w-4 text-primary" />
+                                <Terminal className="h-4 w-4 text-primary" />
                             </div>
                             <div>
-                                <h3 className="font-semibold text-foreground">Admin Dashboard</h3>
-                                <p className="text-sm text-muted-foreground">Complete business management panel</p>
+                                <h3 className="font-semibold text-foreground">Simple CLI</h3>
+                                <p className="text-sm text-muted-foreground">Easy-to-use CLI with short commands</p>
                             </div>
                         </div>
                     </div>

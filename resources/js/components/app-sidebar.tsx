@@ -1,10 +1,10 @@
-import { NavFooter } from '@/components/nav-footer';
+// import { NavFooter } from '@/components/nav-footer';
 import { NavMain } from '@/components/nav-main';
 import { NavUser } from '@/components/nav-user';
 import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from '@/components/ui/sidebar';
 import { type NavItem, type PageProps } from '@/types';
 import { Link, usePage } from '@inertiajs/react';
-import { Github, LayoutGrid, Users, Shield, BarChart } from 'lucide-react';
+import { LayoutGrid, Users, Shield, BarChart } from 'lucide-react';
 import AppLogo from './app-logo';
 
 const mainNavItems: NavItem[] = [
@@ -38,13 +38,13 @@ const roleBasedNavItems: Record<string, NavItem[]> = {
     ]
 };
 
-const footerNavItems: NavItem[] = [
-    {
-        title: 'Github',
-        href: 'https://github.com/codewithwan/tsinertia-starter',
-        icon: Github,
-    }
-];
+// const footerNavItems: NavItem[] = [
+//     {
+//         title: 'Github',
+//         href: 'https://github.com/codewithwan/tsinertia-starter',
+//         icon: Github,
+//     }
+// ];
 
 export function AppSidebar() {
     const { auth } = usePage<PageProps>().props;
@@ -61,7 +61,7 @@ export function AppSidebar() {
             <SidebarHeader>
                 <SidebarMenu>
                     <SidebarMenuItem>
-                        <SidebarMenuButton size="lg" asChild>
+                        <SidebarMenuButton size="lg" asChild>   
                             <Link href="/" prefetch>
                                 <AppLogo />
                             </Link>
@@ -75,7 +75,7 @@ export function AppSidebar() {
             </SidebarContent>
 
             <SidebarFooter>
-                <NavFooter items={footerNavItems} className="mt-auto" />
+                {/* <NavFooter items={footerNavItems} className="mt-auto" /> */}
                 <NavUser />
             </SidebarFooter>
         </Sidebar>

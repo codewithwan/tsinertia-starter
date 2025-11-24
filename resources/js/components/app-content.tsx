@@ -9,19 +9,19 @@ interface AppContentProps extends React.ComponentProps<'main'> {
 export function AppContent({ variant = 'header', children, className, ...props }: AppContentProps) {
     if (variant === 'sidebar') {
         return (
-            <SidebarInset className={cn('bg-neutral-50/50 dark:bg-neutral-900/50', className)} {...props}>
+            <SidebarInset className={cn('bg-neutral-50 dark:bg-background', className)} {...props}>
                 {children}
             </SidebarInset>
         );
     }
 
     return (
-        <main 
+        <main
             className={cn(
                 "mx-auto flex h-full w-full max-w-7xl flex-1 flex-col gap-4 p-4",
-                "bg-neutral-50/50 dark:bg-neutral-900/50 backdrop-blur-sm",
+                "bg-neutral-50 dark:bg-background",
                 className
-            )} 
+            )}
             {...props}
         >
             {children}
