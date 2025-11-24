@@ -3,19 +3,16 @@ import { Link, usePage } from '@inertiajs/react';
 import AppLogo from '@/components/app-logo';
 import { useState, useEffect } from 'react';
 import { Menu, X, Moon, Sun } from 'lucide-react';
+import { useAppearance } from '@/hooks/use-appearance';
 
 export default function Navbar() {
     const { auth } = usePage<SharedData>().props;
     const [isScrolled, setIsScrolled] = useState(false);
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-    const [isDarkMode, setIsDarkMode] = useState(false);
+    const { appearance, updateAppearance } = useAppearance();
+    const isDarkMode = appearance === 'dark' || (appearance === 'system' && window.matchMedia('(prefers-color-scheme: dark)').matches);
 
     useEffect(() => {
-        // Check initial theme
-        const theme = localStorage.getItem('theme') || 'light';
-        setIsDarkMode(theme === 'dark');
-        document.documentElement.classList.toggle('dark', theme === 'dark');
-
         const handleScroll = () => {
             setIsScrolled(window.scrollY > 50);
         };
@@ -26,10 +23,14 @@ export default function Navbar() {
     }, []);
 
     const toggleDarkMode = () => {
-        const newMode = !isDarkMode;
-        setIsDarkMode(newMode);
-        localStorage.setItem('theme', newMode ? 'dark' : 'light');
-        document.documentElement.classList.toggle('dark', newMode);
+        // Cycle through: system -> light -> dark -> system
+        if (appearance === 'system') {
+            updateAppearance('light');
+        } else if (appearance === 'light') {
+            updateAppearance('dark');
+        } else {
+            updateAppearance('system');
+        }
     };
 
     const scrollToSection = (sectionId: string) => {

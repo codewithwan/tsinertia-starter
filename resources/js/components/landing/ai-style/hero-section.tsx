@@ -1,5 +1,5 @@
 import { motion, useScroll, useTransform, AnimatePresence } from 'framer-motion';
-import { Sparkles, Code2, Brain, Wifi, Battery, Search, Folder, Terminal, Code, Mail, MessageSquare, Music, Globe, Minus, FileText, Image as ImageIcon } from 'lucide-react';
+import { Sparkles, Code2, Brain, Wifi, Battery, Search, Folder, Terminal, Code, Mail, MessageSquare, Music, Globe, Minus, FileText, Image as ImageIcon, Users, CheckCircle2, Zap } from 'lucide-react';
 import { useState, useRef, useEffect } from 'react';
 
 interface HeroSectionProps {
@@ -22,6 +22,41 @@ const dockApps = [
     { icon: Music, color: 'text-foreground' },
 ];
 
+const mockNotifications = [
+    {
+        icon: Users,
+        avatar: 'JD',
+        name: 'John Doe',
+        message: 'Just deployed to production in 30 seconds! 🚀',
+        time: 'Just now',
+        color: 'bg-blue-500/20',
+    },
+    {
+        icon: CheckCircle2,
+        avatar: 'SK',
+        name: 'Sarah Kim',
+        message: 'Shared localhost with team via secure tunnel ⚡',
+        time: '2m ago',
+        color: 'bg-green-500/20',
+    },
+    {
+        icon: Zap,
+        avatar: 'MR',
+        name: 'Mike Ross',
+        message: 'Custom domain + SSL in 1 click! Love it 💜',
+        time: '5m ago',
+        color: 'bg-purple-500/20',
+    },
+    {
+        icon: MessageSquare,
+        avatar: 'AL',
+        name: 'Alice Lee',
+        message: 'No more ngrok! IDL is so much faster 🔥',
+        time: '8m ago',
+        color: 'bg-orange-500/20',
+    },
+];
+
 function DesktopMockup() {
     const [openWindow, setOpenWindow] = useState<number | null>(null);
     const [activeTab, setActiveTab] = useState<'html' | 'css' | 'js'>('html');
@@ -31,6 +66,8 @@ function DesktopMockup() {
     const [dockWindow, setDockWindow] = useState<string | null>(null);
     const [browserTab, setBrowserTab] = useState<'localhost' | 'tunnel' | 'fesnuk'>('localhost');
     const [currentTime, setCurrentTime] = useState('');
+    const [currentNotification, setCurrentNotification] = useState(0);
+    const [showNotification, setShowNotification] = useState(false);
 
     useEffect(() => {
         const updateTime = () => {
@@ -41,10 +78,35 @@ function DesktopMockup() {
             const minutes = String(now.getMinutes()).padStart(2, '0');
             setCurrentTime(`${day} ${hours}:${minutes}`);
         };
-        
+
         updateTime();
         const interval = setInterval(updateTime, 1000);
         return () => clearInterval(interval);
+    }, []);
+
+    // Notification rotation effect - only on desktop
+    useEffect(() => {
+        if (typeof window === 'undefined' || window.innerWidth < 768) return;
+
+        // Show first notification after 2 seconds
+        const initialTimeout = setTimeout(() => {
+            setShowNotification(true);
+        }, 2000);
+
+        // Rotate notifications every 6 seconds
+        const notificationInterval = setInterval(() => {
+            setShowNotification(false);
+
+            setTimeout(() => {
+                setCurrentNotification((prev) => (prev + 1) % mockNotifications.length);
+                setShowNotification(true);
+            }, 500);
+        }, 6000);
+
+        return () => {
+            clearTimeout(initialTimeout);
+            clearInterval(notificationInterval);
+        };
     }, []);
 
     return (
@@ -822,6 +884,61 @@ function DesktopMockup() {
                             </motion.div>
                         )}
                     </AnimatePresence>
+
+                    {/* Notification Toast - Top Right */}
+                    <AnimatePresence>
+                        {showNotification && (
+                            <motion.div
+                                initial={{ opacity: 0, x: 100, y: -20 }}
+                                animate={{ opacity: 1, x: 0, y: 0 }}
+                                exit={{ opacity: 0, x: 100, y: -20 }}
+                                transition={{ type: 'spring', stiffness: 200, damping: 20 }}
+                                className="hidden md:block absolute top-4 right-4 z-30"
+                            >
+                                <div className="w-64 bg-background/80 backdrop-blur-md border border-border/30 rounded-lg shadow-lg overflow-hidden">
+                                    <div className="p-3">
+                                        <div className="flex items-start gap-2.5">
+                                            <div className={`w-8 h-8 rounded-full ${mockNotifications[currentNotification].color} flex items-center justify-center flex-shrink-0`}>
+                                                <span className="text-xs font-semibold">{mockNotifications[currentNotification].avatar}</span>
+                                            </div>
+                                            <div className="flex-1 min-w-0">
+                                                <div className="flex items-center justify-between mb-0.5">
+                                                    <p className="text-xs font-semibold text-foreground text-left">{mockNotifications[currentNotification].name}</p>
+                                                    <span className="text-[10px] text-muted-foreground text-left">{mockNotifications[currentNotification].time}</span>
+                                                </div>
+                                                <p className="text-[10px] text-muted-foreground leading-relaxed text-left">{mockNotifications[currentNotification].message}</p>
+                                            </div>
+                                            {(() => {
+                                                const NotificationIcon = mockNotifications[currentNotification].icon;
+                                                return <NotificationIcon className="w-3.5 h-3.5 text-muted-foreground/60 flex-shrink-0 mt-0.5" />;
+                                            })()}
+                                        </div>
+                                    </div>
+                                    <div className="h-0.5 bg-muted/20">
+                                        <motion.div
+                                            className="h-full bg-primary/40"
+                                            initial={{ width: '0%' }}
+                                            animate={{ width: '100%' }}
+                                            transition={{ duration: 5.5, ease: 'linear' }}
+                                        />
+                                    </div>
+                                </div>
+                            </motion.div>
+                        )}
+                    </AnimatePresence>
+
+                    {/* Interactive Hint - Bottom Left */}
+                    <motion.div
+                        initial={{ opacity: 0, y: 0 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 1.5, duration: 0.5 }}
+                        className="hidden md:flex absolute bottom-24 left-4 items-center gap-2 px-3 py-2 bg-background/60 backdrop-blur-sm border border-border/20 rounded-lg shadow-sm z-30"
+                    >
+                        <div className="w-2 h-2 bg-primary rounded-full animate-pulse"></div>
+                        <p className="text-[10px] text-muted-foreground">
+                            <span className="text-foreground font-medium">Try it!</span> Click icons to interact with this desktop
+                        </p>
+                    </motion.div>
 
                     {/* Dock */}
                     <div className="absolute bottom-3 sm:bottom-8 left-1/2 -translate-x-1/2 z-10">

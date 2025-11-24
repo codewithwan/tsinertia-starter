@@ -11,107 +11,15 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { Separator } from '@/components/ui/separator';
 import { useInitials } from '@/hooks/use-initials';
 import AppLayout from '@/layouts/app-layout';
 import SettingsLayout from '@/layouts/settings/layout';
-import { route } from 'ziggy-js';
-
-function PasswordForm() {
-    const passwordInput = useRef<HTMLInputElement>(null);
-    const currentPasswordInput = useRef<HTMLInputElement>(null);
-
-    const { data, setData, errors, put, reset, processing, recentlySuccessful } = useForm({
-        current_password: '',
-        password: '',
-        password_confirmation: '',
-    });
-
-    const updatePassword: FormEventHandler = (e) => {
-        e.preventDefault();
-
-        put(route('password.update'), {
-            preserveScroll: true,
-            onSuccess: () => reset(),
-            onError: (errors) => {
-                if (errors.password) {
-                    reset('password', 'password_confirmation');
-                    passwordInput.current?.focus();
-                }
-
-                if (errors.current_password) {
-                    reset('current_password');
-                    currentPasswordInput.current?.focus();
-                }
-            },
-        });
-    };
-
-    return (
-        <form onSubmit={updatePassword} className="space-y-6">
-            <div className="grid gap-2">
-                <Label htmlFor="current_password">Current password</Label>
-                <Input
-                    id="current_password"
-                    ref={currentPasswordInput}
-                    value={data.current_password}
-                    onChange={(e) => setData('current_password', e.target.value)}
-                    type="password"
-                    className="mt-1 block w-full"
-                    autoComplete="current-password"
-                    placeholder="Current password"
-                />
-                <InputError message={errors.current_password} />
-            </div>
-
-            <div className="grid gap-2">
-                <Label htmlFor="password">New password</Label>
-                <Input
-                    id="password"
-                    ref={passwordInput}
-                    value={data.password}
-                    onChange={(e) => setData('password', e.target.value)}
-                    type="password"
-                    className="mt-1 block w-full"
-                    autoComplete="new-password"
-                    placeholder="New password"
-                />
-                <InputError message={errors.password} />
-            </div>
-
-            <div className="grid gap-2">
-                <Label htmlFor="password_confirmation">Confirm password</Label>
-                <Input
-                    id="password_confirmation"
-                    value={data.password_confirmation}
-                    onChange={(e) => setData('password_confirmation', e.target.value)}
-                    type="password"
-                    className="mt-1 block w-full"
-                    autoComplete="new-password"
-                    placeholder="Confirm password"
-                />
-                <InputError message={errors.password_confirmation} />
-            </div>
-
-            <div className="flex items-center gap-4">
-                <Button disabled={processing}>Save password</Button>
-                <Transition
-                    show={recentlySuccessful}
-                    enter="transition ease-in-out"
-                    enterFrom="opacity-0"
-                    leave="transition ease-in-out"
-                    leaveTo="opacity-0"
-                >
-                    <p className="text-sm text-neutral-600">Saved</p>
-                </Transition>
-            </div>
-        </form>
-    );
-}
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
-        title: 'Profile settings',
-        href: '/settings/profile',
+        title: 'Account settings',
+        href: '/settings/account',
     },
 ];
 
@@ -121,27 +29,43 @@ type ProfileForm = {
     avatar: File | null;
 };
 
-export default function Profile({ mustVerifyEmail, status }: { mustVerifyEmail: boolean; status?: string }) {
+type PasswordForm = {
+    current_password: string;
+    password: string;
+    password_confirmation: string;
+};
+
+export default function Account({ mustVerifyEmail, status }: { mustVerifyEmail: boolean; status?: string }) {
     const { auth } = usePage<SharedData>().props;
     const getInitials = useInitials();
     const fileInputRef = useRef<HTMLInputElement>(null);
+    const passwordInput = useRef<HTMLInputElement>(null);
+    const currentPasswordInput = useRef<HTMLInputElement>(null);
     const [avatarPreview, setAvatarPreview] = useState<string | null>(auth.user.avatar || null);
     const [showCropper, setShowCropper] = useState(false);
     const [imageToCrop, setImageToCrop] = useState<string | null>(null);
 
-    const { data, setData, patch, errors, processing, recentlySuccessful } = useForm<ProfileForm>({
+    // Profile form
+    const profileForm = useForm<ProfileForm>({
         name: auth.user.name,
         email: auth.user.email,
         avatar: null,
     });
 
+    // Password form
+    const passwordForm = useForm<PasswordForm>({
+        current_password: '',
+        password: '',
+        password_confirmation: '',
+    });
+
     useEffect(() => {
-        if (!data.avatar && auth.user.avatar) {
+        if (!profileForm.data.avatar && auth.user.avatar) {
             setAvatarPreview(auth.user.avatar);
-        } else if (!data.avatar && !auth.user.avatar) {
+        } else if (!profileForm.data.avatar && !auth.user.avatar) {
             setAvatarPreview(null);
         }
-    }, [auth.user.avatar, data.avatar]);
+    }, [auth.user.avatar, profileForm.data.avatar]);
 
     const handleAvatarChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files?.[0];
@@ -161,7 +85,7 @@ export default function Profile({ mustVerifyEmail, status }: { mustVerifyEmail: 
     };
 
     const handleCropComplete = (croppedFile: File) => {
-        setData('avatar', croppedFile);
+        profileForm.setData('avatar', croppedFile);
         const reader = new FileReader();
         reader.onloadend = () => {
             setAvatarPreview(reader.result as string);
@@ -179,11 +103,11 @@ export default function Profile({ mustVerifyEmail, status }: { mustVerifyEmail: 
         }
     };
 
-    const submit: FormEventHandler = (e) => {
+    const submitProfile: FormEventHandler = (e) => {
         e.preventDefault();
 
-        if (!data.avatar) {
-            patch(route('profile.update'), {
+        if (!profileForm.data.avatar) {
+            profileForm.patch(route('profile.update'), {
                 preserveScroll: true,
                 onSuccess: () => {
                     router.reload({ only: ['auth'] });
@@ -194,14 +118,14 @@ export default function Profile({ mustVerifyEmail, status }: { mustVerifyEmail: 
 
         router.post(route('profile.update'), {
             _method: 'PATCH',
-            name: data.name,
-            email: data.email,
-            avatar: data.avatar,
+            name: profileForm.data.name,
+            email: profileForm.data.email,
+            avatar: profileForm.data.avatar,
         }, {
             preserveScroll: true,
             forceFormData: true,
             onSuccess: () => {
-                setData('avatar', null);
+                profileForm.setData('avatar', null);
                 if (fileInputRef.current) {
                     fileInputRef.current.value = '';
                 }
@@ -215,25 +139,45 @@ export default function Profile({ mustVerifyEmail, status }: { mustVerifyEmail: 
         });
     };
 
+    const updatePassword: FormEventHandler = (e) => {
+        e.preventDefault();
+
+        passwordForm.put(route('password.update'), {
+            preserveScroll: true,
+            onSuccess: () => passwordForm.reset(),
+            onError: (errors) => {
+                if (errors.password) {
+                    passwordForm.reset('password', 'password_confirmation');
+                    passwordInput.current?.focus();
+                }
+
+                if (errors.current_password) {
+                    passwordForm.reset('current_password');
+                    currentPasswordInput.current?.focus();
+                }
+            },
+        });
+    };
+
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
-            <Head title="Profile settings" />
+            <Head title="Account settings" />
 
             <SettingsLayout>
-                <div className="grid grid-cols-1 gap-12 lg:grid-cols-2">
-                    {/* Left: Profile Information */}
+                <div className="space-y-8">
+                    {/* Profile Information Section */}
                     <div className="space-y-6">
-                        <HeadingSmall title="Profile information" description="Update your name and email address" />
+                        <HeadingSmall title="Profile information" description="Update your name, email address, and profile photo" />
 
-                        <form onSubmit={submit} className="space-y-6" encType="multipart/form-data">
+                        <form onSubmit={submitProfile} className="space-y-6" encType="multipart/form-data">
                             {/* Avatar Upload */}
                             <div className="grid gap-2">
                                 <Label>Profile Photo</Label>
                                 <div className="flex items-center gap-4">
                                     <Avatar className="h-20 w-20">
-                                        <AvatarImage 
-                                            src={avatarPreview || auth.user.avatar || undefined} 
-                                            alt={auth.user.name} 
+                                        <AvatarImage
+                                            src={avatarPreview || auth.user.avatar || undefined}
+                                            alt={auth.user.name}
                                         />
                                         <AvatarFallback className="bg-primary/10 text-primary text-lg">
                                             {getInitials(auth.user.name)}
@@ -252,15 +196,15 @@ export default function Profile({ mustVerifyEmail, status }: { mustVerifyEmail: 
                                             }}
                                         >
                                             <Camera className="mr-2 h-4 w-4" />
-                                            {data.avatar || auth.user.avatar ? 'Change Photo' : 'Upload Photo'}
+                                            {profileForm.data.avatar || auth.user.avatar ? 'Change Photo' : 'Upload Photo'}
                                         </Button>
-                                        {data.avatar && (
+                                        {profileForm.data.avatar && (
                                             <Button
                                                 type="button"
                                                 variant="ghost"
                                                 size="sm"
                                                 onClick={() => {
-                                                    setData('avatar', null);
+                                                    profileForm.setData('avatar', null);
                                                     setAvatarPreview(auth.user.avatar || null);
                                                     if (fileInputRef.current) {
                                                         fileInputRef.current.value = '';
@@ -282,38 +226,34 @@ export default function Profile({ mustVerifyEmail, status }: { mustVerifyEmail: 
                                         className="hidden"
                                     />
                                 </div>
-                                <InputError className="mt-2" message={errors.avatar} />
+                                <InputError className="mt-2" message={profileForm.errors.avatar} />
                             </div>
 
                             <div className="grid gap-2">
                                 <Label htmlFor="name">Name</Label>
-
                                 <Input
                                     id="name"
                                     className="mt-1 block w-full"
-                                    value={data.name}
-                                    onChange={(e) => setData('name', e.target.value)}
+                                    value={profileForm.data.name}
+                                    onChange={(e) => profileForm.setData('name', e.target.value)}
                                     autoComplete="name"
                                     placeholder="Full name"
                                 />
-
-                                <InputError className="mt-2" message={errors.name} />
+                                <InputError className="mt-2" message={profileForm.errors.name} />
                             </div>
 
                             <div className="grid gap-2">
                                 <Label htmlFor="email">Email address</Label>
-
                                 <Input
                                     id="email"
                                     type="email"
                                     className="mt-1 block w-full"
-                                    value={data.email}
-                                    onChange={(e) => setData('email', e.target.value)}
+                                    value={profileForm.data.email}
+                                    onChange={(e) => profileForm.setData('email', e.target.value)}
                                     autoComplete="username"
                                     placeholder="Email address"
                                 />
-
-                                <InputError className="mt-2" message={errors.email} />
+                                <InputError className="mt-2" message={profileForm.errors.email} />
                             </div>
 
                             {mustVerifyEmail && auth.user.email_verified_at === null && (
@@ -326,23 +266,23 @@ export default function Profile({ mustVerifyEmail, status }: { mustVerifyEmail: 
                                             as="button"
                                             className="text-foreground underline decoration-neutral-300 underline-offset-4 transition-colors duration-300 ease-out hover:decoration-current! dark:decoration-neutral-500"
                                         >
-                                            Click here to send verification code.
+                                            Click here to resend the verification email.
                                         </Link>
                                     </p>
 
-                                    {status === 'verification-otp-sent' && (
+                                    {status === 'verification-link-sent' && (
                                         <div className="mt-2 text-sm font-medium text-green-600">
-                                            A verification code has been sent to your email address.
+                                            A new verification link has been sent to your email address.
                                         </div>
                                     )}
                                 </div>
                             )}
 
                             <div className="flex items-center gap-4">
-                                <Button disabled={processing}>Save</Button>
+                                <Button disabled={profileForm.processing}>Save</Button>
 
                                 <Transition
-                                    show={recentlySuccessful}
+                                    show={profileForm.recentlySuccessful}
                                     enter="transition ease-in-out"
                                     enterFrom="opacity-0"
                                     leave="transition ease-in-out"
@@ -354,11 +294,71 @@ export default function Profile({ mustVerifyEmail, status }: { mustVerifyEmail: 
                         </form>
                     </div>
 
-                    {/* Right: Update Password */}
+                    <Separator />
+
+                    {/* Change Password Section */}
                     <div className="space-y-6">
-                        <HeadingSmall title="Update password" description="Ensure your account is using a long, random password to stay secure" />
-                        
-                        <PasswordForm />
+                        <HeadingSmall title="Change password" description="Ensure your account is using a long, random password to stay secure" />
+
+                        <form onSubmit={updatePassword} className="space-y-6">
+                            <div className="grid gap-2">
+                                <Label htmlFor="current_password">Current password</Label>
+                                <Input
+                                    id="current_password"
+                                    ref={currentPasswordInput}
+                                    value={passwordForm.data.current_password}
+                                    onChange={(e) => passwordForm.setData('current_password', e.target.value)}
+                                    type="password"
+                                    className="mt-1 block w-full"
+                                    autoComplete="current-password"
+                                    placeholder="Current password"
+                                />
+                                <InputError message={passwordForm.errors.current_password} />
+                            </div>
+
+                            <div className="grid gap-2">
+                                <Label htmlFor="password">New password</Label>
+                                <Input
+                                    id="password"
+                                    ref={passwordInput}
+                                    value={passwordForm.data.password}
+                                    onChange={(e) => passwordForm.setData('password', e.target.value)}
+                                    type="password"
+                                    className="mt-1 block w-full"
+                                    autoComplete="new-password"
+                                    placeholder="New password"
+                                />
+                                <InputError message={passwordForm.errors.password} />
+                            </div>
+
+                            <div className="grid gap-2">
+                                <Label htmlFor="password_confirmation">Confirm password</Label>
+                                <Input
+                                    id="password_confirmation"
+                                    value={passwordForm.data.password_confirmation}
+                                    onChange={(e) => passwordForm.setData('password_confirmation', e.target.value)}
+                                    type="password"
+                                    className="mt-1 block w-full"
+                                    autoComplete="new-password"
+                                    placeholder="Confirm password"
+                                />
+                                <InputError message={passwordForm.errors.password_confirmation} />
+                            </div>
+
+                            <div className="flex items-center gap-4">
+                                <Button disabled={passwordForm.processing}>Update password</Button>
+
+                                <Transition
+                                    show={passwordForm.recentlySuccessful}
+                                    enter="transition ease-in-out"
+                                    enterFrom="opacity-0"
+                                    leave="transition ease-in-out"
+                                    leaveTo="opacity-0"
+                                >
+                                    <p className="text-sm text-neutral-600">Saved</p>
+                                </Transition>
+                            </div>
+                        </form>
                     </div>
                 </div>
             </SettingsLayout>

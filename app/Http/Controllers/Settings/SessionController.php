@@ -3,40 +3,24 @@
 namespace App\Http\Controllers\Settings;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Settings\ProfileUpdateRequest;
-use Illuminate\Contracts\Auth\MustVerifyEmail;
-use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
 use Inertia\Response;
 
-class ProfileController extends Controller
+class SessionController extends Controller
 {
     /**
-     * Show the user's profile settings page.
+     * Show the user's active sessions.
      */
-    public function edit(Request $request): Response
-    {
-        return Inertia::render('settings/profile', [
-            'mustVerifyEmail' => $request->user() instanceof MustVerifyEmail,
-            'status' => $request->session()->get('status'),
-        ]);
-    }
-
-    /**
-     * Show the security settings page with sessions.
-     */
-    public function security(Request $request): Response
+    public function index(Request $request): Response
     {
         $user = $request->user();
         $currentSessionId = $request->session()->getId();
 
         // Get all sessions for the current user
         $sessions = DB::table('sessions')
-            ->where('user_id', $user->id)
+            ->where('user_id', operator: $user->id)
             ->orderBy('last_activity', 'desc')
             ->get()
             ->map(function ($session) use ($currentSessionId) {
@@ -52,11 +36,50 @@ class ProfileController extends Controller
                 ];
             });
 
-        return Inertia::render('settings/security', [
+        return Inertia::render('settings/sessions', [
             'sessions' => $sessions,
             'currentSessionId' => $currentSessionId,
             'status' => $request->session()->get('status'),
         ]);
+    }
+
+    /**
+     * Delete a specific session.
+     */
+    public function destroy(Request $request, string $sessionId)
+    {
+        $user = $request->user();
+        $currentSessionId = $request->session()->getId();
+
+        // Prevent deleting current session
+        if ($sessionId === $currentSessionId) {
+            return back()->withErrors(['session' => 'You cannot delete your current session.']);
+        }
+
+        // Delete the session
+        DB::table('sessions')
+            ->where('id', $sessionId)
+            ->where('user_id', $user->id)
+            ->delete();
+
+        return back()->with('status', 'Session deleted successfully.');
+    }
+
+    /**
+     * Delete all other sessions (keep current).
+     */
+    public function destroyAll(Request $request)
+    {
+        $user = $request->user();
+        $currentSessionId = $request->session()->getId();
+
+        // Delete all sessions except current
+        DB::table('sessions')
+            ->where('user_id', $user->id)
+            ->where('id', '!=', $currentSessionId)
+            ->delete();
+
+        return back()->with('status', 'All other sessions have been deleted.');
     }
 
     /**
@@ -116,68 +139,9 @@ class ProfileController extends Controller
             return 'Local';
         }
 
+        // For production, you might want to use a geolocation service
+        // For now, we'll just return the IP
         return $ipAddress;
     }
-
-    /**
-     * Update the user's profile settings.
-     */
-    public function update(ProfileUpdateRequest $request): RedirectResponse
-    {
-        $user = $request->user();
-        $validated = $request->validated();
-
-        if ($request->hasFile('avatar')) {
-            $oldAvatar = $user->avatar;
-            
-            $avatarPath = $request->file('avatar')->store('avatars', 'public');
-            $user->avatar = '/storage/' . $avatarPath;
-            
-            if ($oldAvatar && $oldAvatar !== $user->avatar) {
-                $oldAvatarPath = str_replace('/storage/', '', $oldAvatar);
-                if (Storage::disk('public')->exists($oldAvatarPath)) {
-                    Storage::disk('public')->delete($oldAvatarPath);
-                }
-            }
-        }
-
-        if (isset($validated['name']) && !empty(trim($validated['name']))) {
-            $user->name = trim($validated['name']);
-        }
-        
-        if (isset($validated['email']) && !empty(trim($validated['email']))) {
-            $oldEmail = $user->email;
-            $user->email = trim($validated['email']);
-
-            if ($oldEmail !== $user->email) {
-                $user->email_verified_at = null;
-            }
-        }
-
-        $user->save();
-        $user->refresh();
-
-        return to_route('profile.edit')->with('status', 'profile-updated');
-    }
-
-    /**
-     * Delete the user's account.
-     */
-    public function destroy(Request $request): RedirectResponse
-    {
-        $request->validate([
-            'password' => ['required', 'current_password'],
-        ]);
-
-        $user = $request->user();
-
-        Auth::logout();
-
-        $user->delete();
-
-        $request->session()->invalidate();
-        $request->session()->regenerateToken();
-
-        return redirect('/');
-    }
 }
+
