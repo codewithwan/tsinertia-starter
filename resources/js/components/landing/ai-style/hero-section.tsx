@@ -877,18 +877,22 @@ export default function HeroSection({ className = '' }: HeroSectionProps) {
         target: containerRef,
         offset: ["start start", "end start"]
     });
-    const opacity = useTransform(scrollYProgress, [0, 0.6, 1], [1, 0.7, 0], {
+
+    // Disable animations on mobile (< 768px)
+    const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
+
+    const opacity = useTransform(scrollYProgress, [0, 0.6, 1], isMobile ? [1, 1, 1] : [1, 0.7, 0], {
         clamp: false
     });
-    const scale = useTransform(scrollYProgress, [0, 0.6, 1], [1, 0.98, 0.96], {
+    const scale = useTransform(scrollYProgress, [0, 0.6, 1], isMobile ? [1, 1, 1] : [1, 0.98, 0.96], {
         clamp: false
     });
-    const yLines = useTransform(scrollYProgress, [0, 1], [0, -100]);
-    const yMockup = useTransform(scrollYProgress, [0, 1], [0, 50]);
-    
-    // Desktop mockup scale effect: grow then shrink
-    const mockupScale = useTransform(scrollYProgress, [0, 0.3, 0.7, 1], [0.95, 1.08, 1.05, 0.92]);
-    const mockupRotate = useTransform(scrollYProgress, [0, 0.5, 1], [0, -1, -2]);
+    const yLines = useTransform(scrollYProgress, [0, 1], isMobile ? [0, 0] : [0, -100]);
+    const yMockup = useTransform(scrollYProgress, [0, 1], isMobile ? [0, 0] : [0, 50]);
+
+    // Desktop mockup scale effect: grow then shrink (disabled on mobile)
+    const mockupScale = useTransform(scrollYProgress, [0, 0.3, 0.7, 1], isMobile ? [1, 1, 1, 1] : [0.95, 1.08, 1.05, 0.92]);
+    const mockupRotate = useTransform(scrollYProgress, [0, 0.5, 1], isMobile ? [0, 0, 0] : [0, -1, -2]);
 
     return (
         <main id="home" ref={containerRef} className={`relative flex flex-col items-center justify-start min-h-screen py-20 pb-32 overflow-visible ${className}`} style={{ zIndex: 1, paddingTop: '6rem' }}>

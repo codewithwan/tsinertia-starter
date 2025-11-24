@@ -121,9 +121,12 @@ export default function FeaturesSection({ className = '' }: FeaturesSectionProps
     target: sectionRef,
     offset: ["start end", "end start"]
   });
-  
-  const backgroundY = useTransform(scrollYProgress, [0, 1], [0, -100]);
-  const glowY = useTransform(scrollYProgress, [0, 1], [50, -50]);
+
+  // Disable parallax animations on mobile (< 768px)
+  const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
+
+  const backgroundY = useTransform(scrollYProgress, [0, 1], isMobile ? [0, 0] : [0, -100]);
+  const glowY = useTransform(scrollYProgress, [0, 1], isMobile ? [0, 0] : [50, -50]);
 
   const containerVariants = {
     hidden: {},

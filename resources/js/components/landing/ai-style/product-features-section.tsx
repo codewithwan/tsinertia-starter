@@ -13,11 +13,14 @@ export default function ProductFeaturesSection({ className = '' }: ProductFeatur
         offset: ["start end", "end start"]
     });
 
-    const yLeft = useTransform(scrollYProgress, [0, 1], [200, -200]);
-    const yRight = useTransform(scrollYProgress, [0, 1], [-150, 150]);
-    const backgroundY = useTransform(scrollYProgress, [0, 1], [0, -150]);
-    const opacity = useTransform(scrollYProgress, [0, 0.2, 0.8, 1], [0, 1, 1, 0]);
-    const scale = useTransform(scrollYProgress, [0, 0.3, 0.7, 1], [0.95, 1.02, 1, 0.98]);
+    // Disable parallax animations on mobile (< 768px)
+    const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
+
+    const yLeft = useTransform(scrollYProgress, [0, 1], isMobile ? [0, 0] : [200, -200]);
+    const yRight = useTransform(scrollYProgress, [0, 1], isMobile ? [0, 0] : [-150, 150]);
+    const backgroundY = useTransform(scrollYProgress, [0, 1], isMobile ? [0, 0] : [0, -150]);
+    const opacity = useTransform(scrollYProgress, [0, 0.2, 0.8, 1], isMobile ? [1, 1, 1, 1] : [0, 1, 1, 0]);
+    const scale = useTransform(scrollYProgress, [0, 0.3, 0.7, 1], isMobile ? [1, 1, 1, 1] : [0.95, 1.02, 1, 0.98]);
 
     return (
         <section ref={sectionRef} id="platform" className={`relative py-24 md:py-32 overflow-hidden ${className}`} style={{ zIndex: 1 }}>
