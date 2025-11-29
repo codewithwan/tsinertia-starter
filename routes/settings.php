@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ActivityLogController;
 use App\Http\Controllers\Settings\PasswordController;
 use App\Http\Controllers\Settings\ProfileController;
 use App\Http\Controllers\Settings\SessionController;
@@ -25,4 +26,6 @@ Route::middleware('auth')->group(function () {
     Route::get('settings/preferences', function () {
         return Inertia::render('settings/preferences');
     })->name('preferences');
+
+    Route::get('settings/activity', [ActivityLogController::class, 'index'])->name('activity.index');
 });

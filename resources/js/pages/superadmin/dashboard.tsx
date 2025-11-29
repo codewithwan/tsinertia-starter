@@ -1,7 +1,7 @@
 import AppLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem } from '@/types';
 import { Head } from '@inertiajs/react';
-import { Shield, Users, BarChart, Settings } from 'lucide-react';
+import { Shield, Users, Settings } from 'lucide-react';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -22,7 +22,7 @@ export default function SuperadminDashboard() {
                 </div>
 
                 {/* Quick Actions Grid */}
-                <div className="grid auto-rows-min gap-4 md:grid-cols-2 lg:grid-cols-4">
+                <div className="grid auto-rows-min gap-4 md:grid-cols-2 lg:grid-cols-3">
                     <div className="relative aspect-video overflow-hidden rounded-xl border border-sidebar-border/70 dark:border-sidebar-border bg-gradient-to-br from-blue-500 to-blue-600 text-white p-4">
                         <Users className="w-8 h-8 mb-2" />
                         <h3 className="font-semibold">User Management</h3>
@@ -32,11 +32,6 @@ export default function SuperadminDashboard() {
                         <Shield className="w-8 h-8 mb-2" />
                         <h3 className="font-semibold">Role Management</h3>
                         <p className="text-sm text-purple-100">Configure roles and permissions</p>
-                    </div>
-                    <div className="relative aspect-video overflow-hidden rounded-xl border border-sidebar-border/70 dark:border-sidebar-border bg-gradient-to-br from-green-500 to-green-600 text-white p-4">
-                        <BarChart className="w-8 h-8 mb-2" />
-                        <h3 className="font-semibold">System Reports</h3>
-                        <p className="text-sm text-green-100">View comprehensive system analytics</p>
                     </div>
                     <div className="relative aspect-video overflow-hidden rounded-xl border border-sidebar-border/70 dark:border-sidebar-border bg-gradient-to-br from-orange-500 to-orange-600 text-white p-4">
                         <Settings className="w-8 h-8 mb-2" />

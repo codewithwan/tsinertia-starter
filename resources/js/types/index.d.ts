@@ -42,6 +42,11 @@ export interface SharedData {
         read_at: string | null;
         created_at: string;
     }>;
+    flash?: {
+        success?: string;
+        error?: string;
+        redirect_url?: string;
+    };
     [key: string]: unknown;
 }
 

@@ -3,7 +3,7 @@ import { NavUser } from '@/components/nav-user';
 import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem, SidebarGroup, SidebarGroupLabel, SidebarGroupContent } from '@/components/ui/sidebar';
 import { type NavItem, type PageProps } from '@/types';
 import { Link, usePage } from '@inertiajs/react';
-import { LayoutGrid, Users, Shield, BarChart, Settings, Bell } from 'lucide-react';
+import { LayoutGrid, Users, Shield, Settings, Bell, Activity } from 'lucide-react';
 import AppLogo from './app-logo';
 
 const dashboardNavItem: NavItem = {
@@ -49,6 +49,12 @@ const roleBasedNavItems: Record<string, NavItem[]> = {
             href: '/admin/notifications/manage',
             icon: Bell,
             groupTitle: 'Administration',
+        },
+        {
+            title: 'Activity Log',
+            href: '/admin/activity',
+            icon: Activity,
+            groupTitle: 'Administration',
         }
     ],
     admin: [
@@ -59,15 +65,15 @@ const roleBasedNavItems: Record<string, NavItem[]> = {
             groupTitle: 'Administration',
         },
         {
-            title: 'Reports',
-            href: '/admin/reports',
-            icon: BarChart,
-            groupTitle: 'Administration',
-        },
-        {
             title: 'Send Notifications',
             href: '/admin/notifications/manage',
             icon: Bell,
+            groupTitle: 'Administration',
+        },
+        {
+            title: 'Activity Log',
+            href: '/admin/activity',
+            icon: Activity,
             groupTitle: 'Administration',
         }
     ]

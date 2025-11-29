@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Settings;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Settings\ProfileUpdateRequest;
+use App\Services\ActivityLogService;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -141,8 +142,14 @@ class ProfileController extends Controller
             }
         }
 
+        $changes = [];
+        
         if (isset($validated['name']) && !empty(trim($validated['name']))) {
+            $oldName = $user->name;
             $user->name = trim($validated['name']);
+            if ($oldName !== $user->name) {
+                $changes['name'] = ['old' => $oldName, 'new' => $user->name];
+            }
         }
         
         if (isset($validated['email']) && !empty(trim($validated['email']))) {
@@ -151,11 +158,29 @@ class ProfileController extends Controller
 
             if ($oldEmail !== $user->email) {
                 $user->email_verified_at = null;
+                $changes['email'] = ['old' => $oldEmail, 'new' => $user->email];
             }
         }
 
         $user->save();
         $user->refresh();
+
+        if (!empty($changes)) {
+            ActivityLogService::logFromRequest(
+                $request,
+                'profile_updated',
+                'User updated their profile',
+                ['changes' => $changes]
+            );
+        }
+
+        if ($request->hasFile('avatar')) {
+            ActivityLogService::logFromRequest(
+                $request,
+                'avatar_updated',
+                'User updated their profile picture'
+            );
+        }
 
         return to_route('profile.edit')->with('status', 'profile-updated');
     }

@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\Admin\ReportsController;
+use App\Http\Controllers\ActivityLogController;
 use App\Http\Controllers\Admin\RoleManagementController;
 use App\Http\Controllers\Admin\UserManagementController;
 use Illuminate\Support\Facades\Route;
@@ -24,7 +24,8 @@ Route::middleware(['auth', 'verified'])->prefix('admin')->group(function () {
         Route::delete('/{role}', [RoleManagementController::class, 'destroy'])->name('roles.destroy');
     });
 
-    Route::middleware('role:admin|superadmin')->prefix('reports')->group(function () {
-        Route::get('/', [ReportsController::class, 'index'])->name('reports.index');
+    Route::middleware('role:admin|superadmin')->prefix('activity')->group(function () {
+        Route::get('/', [ActivityLogController::class, 'index'])->name('activity.index');
+        Route::post('/delete-old', [ActivityLogController::class, 'deleteOldLogs'])->name('activity.delete-old')->middleware('role:superadmin');
     });
 }); 

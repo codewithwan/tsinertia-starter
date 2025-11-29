@@ -18,6 +18,11 @@ const sidebarNavItems: NavItem[] = [
         icon: null,
     },
     {
+        title: 'Activity Log',
+        href: '/settings/activity',
+        icon: null,
+    },
+    {
         title: 'Preferences',
         href: '/settings/preferences',
         icon: null,
