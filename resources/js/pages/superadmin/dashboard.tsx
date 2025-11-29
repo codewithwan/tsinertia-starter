@@ -14,7 +14,7 @@ export default function SuperadminDashboard() {
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Superadmin Dashboard" />
-            <div className="flex h-full flex-1 flex-col gap-4 rounded-xl p-4 overflow-x-auto">
+            <div className="flex h-full flex-1 flex-col gap-4 p-4 overflow-x-auto">
                 {/* Welcome Section */}
                 <div className="bg-gradient-to-r from-red-500 to-red-600 text-white rounded-xl p-6">
                     <h1 className="text-2xl font-bold mb-2">Superadmin Dashboard</h1>

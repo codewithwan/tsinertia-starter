@@ -3,6 +3,7 @@
 use App\Http\Controllers\DashboardController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
+use App\Http\Controllers\CliController;
 
 Route::get('/', function () {
     return Inertia::render('welcome');
@@ -20,11 +21,15 @@ Route::middleware(['auth', 'verified'])->group(function () {
 });
 
 // CLI routes
-Route::get('/cli/login', [\App\Http\Controllers\CliController::class, 'showLogin'])->name('cli.login');
-Route::post('/cli/login', [\App\Http\Controllers\CliController::class, 'handleLogin'])->name('cli.login.submit');
-Route::post('/cli/authorize', [\App\Http\Controllers\CliController::class, 'authorize'])->middleware('auth')->name('cli.authorize');
-Route::get('/cli/success', [\App\Http\Controllers\CliController::class, 'successPage'])->name('cli.success');
+Route::group(['prefix' => 'cli'], function () {
+    Route::get('/login', [CliController::class, 'showLogin'])->name('cli.login');
+    Route::post('/login', [CliController::class, 'handleLogin'])->name('cli.login.submit');
+    Route::post('/authorize', [CliController::class, 'authorize'])->middleware('auth')->name('cli.authorize');
+    Route::get('/success', [CliController::class, 'successPage'])->name('cli.success');
+});
 
 require __DIR__.'/settings.php';
 require __DIR__.'/auth.php';
+require __DIR__.'/notifications.php';
+require __DIR__.'/user.php';
 require __DIR__.'/admin.php';

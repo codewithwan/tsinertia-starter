@@ -29,6 +29,19 @@ export interface SharedData {
     auth: Auth;
     ziggy: Config & { location: string };
     sidebarOpen: boolean;
+    unreadNotificationCount?: number;
+    notifications?: Array<{
+        id: string;
+        data: {
+            title: string;
+            message: string;
+            type?: string;
+            action_url?: string;
+            action_text?: string;
+        };
+        read_at: string | null;
+        created_at: string;
+    }>;
     [key: string]: unknown;
 }
 

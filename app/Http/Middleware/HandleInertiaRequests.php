@@ -43,6 +43,8 @@ class HandleInertiaRequests extends Middleware
             'name' => config('app.name'),
             'quote' => ['message' => trim($message), 'author' => trim($author)],
             'flash' => [
+                'success' => $request->session()->get('success'),
+                'error' => $request->session()->get('error'),
                 'redirect_url' => $request->session()->get('redirect_url'),
             ],
             'auth' => [
@@ -58,6 +60,18 @@ class HandleInertiaRequests extends Middleware
                     ]),
                 ] : null,
             ],
+            'unreadNotificationCount' => $request->user() ? $request->user()->unreadNotifications->count() : 0,
+            'notifications' => $request->user() ? $request->user()
+                ->notifications()
+                ->latest()
+                ->take(10)
+                ->get()
+                ->map(fn($notification) => [
+                    'id' => $notification->id,
+                    'data' => $notification->data,
+                    'read_at' => $notification->read_at,
+                    'created_at' => $notification->created_at?->diffForHumans(),
+                ]) : [],
             'ziggy' => fn (): array => [
                 ...(new Ziggy)->toArray(),
                 'location' => $request->url(),

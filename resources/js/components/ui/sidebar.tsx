@@ -532,6 +532,12 @@ function SidebarMenuButton({
     }
   }
 
+  const tooltipClassName = typeof tooltip === "object" && "className" in tooltip ? tooltip.className : undefined;
+  const tooltipProps = typeof tooltip === "object" ? { ...tooltip } : {};
+  if (typeof tooltip === "object" && "className" in tooltip) {
+    delete tooltipProps.className;
+  }
+
   return (
     <Tooltip>
       <TooltipTrigger asChild>{button}</TooltipTrigger>
@@ -539,7 +545,8 @@ function SidebarMenuButton({
         side="right"
         align="center"
         hidden={state !== "collapsed" || isMobile}
-        {...tooltip}
+        className={cn("z-[110]", tooltipClassName)}
+        {...tooltipProps}
       />
     </Tooltip>
   )

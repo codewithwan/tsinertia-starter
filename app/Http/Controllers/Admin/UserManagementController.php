@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
+use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Password;
@@ -22,7 +23,6 @@ class UserManagementController extends Controller
             });
         }
         
-        // Search functionality
         if ($request->has('search') && $request->get('search')) {
             $search = $request->get('search');
             $query->where(function ($q) use ($search) {
@@ -85,7 +85,6 @@ class UserManagementController extends Controller
     {
         $currentUser = $request->user();
         
-        // Only superadmin can update roles
         if (!$currentUser->hasRole('superadmin')) {
             abort(403, 'Only superadmin can update user roles.');
         }
@@ -94,7 +93,6 @@ class UserManagementController extends Controller
             abort(403, 'You cannot edit your own account roles.');
         }
         
-        // Prevent editing superadmin users
         if ($user->hasRole('superadmin')) {
             abort(403, 'Cannot edit superadmin user roles.');
         }
@@ -103,7 +101,6 @@ class UserManagementController extends Controller
             'role_id' => ['required', 'integer', 'exists:roles,id'],
         ]);
 
-        // Only allow user and admin roles (not superadmin)
         $allowedRoleIds = Role::whereIn('name', ['user', 'admin'])->pluck('id')->toArray();
         
         if (!in_array($validated['role_id'], $allowedRoleIds)) {
@@ -119,12 +116,10 @@ class UserManagementController extends Controller
     {
         $currentUser = $request->user();
         
-        // Admin and superadmin can send reset password
         if (!$currentUser->hasRole('admin') && !$currentUser->hasRole('superadmin')) {
             abort(403, 'Unauthorized action.');
         }
         
-        // Admin cannot send reset password to other admins or superadmins
         if ($currentUser->hasRole('admin') && !$currentUser->hasRole('superadmin')) {
             if ($user->hasRole('admin') || $user->hasRole('superadmin')) {
                 abort(403, 'You cannot send reset password to admin or superadmin users.');
@@ -140,3 +135,4 @@ class UserManagementController extends Controller
         return back()->withErrors(['email' => __($status)]);
     }
 }
+

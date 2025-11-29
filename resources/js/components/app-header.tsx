@@ -42,7 +42,7 @@ interface AppHeaderProps {
     breadcrumbs?: BreadcrumbItem[];
 }
 
-export function AppHeader({ breadcrumbs = [] }: AppHeaderProps) {
+export function AppHeader({ breadcrumbs = [] }: AppHeaderProps) { 
     const page = usePage<SharedData>();
     const { auth } = page.props;
     const getInitials = useInitials();

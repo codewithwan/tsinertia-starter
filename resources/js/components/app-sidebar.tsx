@@ -3,7 +3,7 @@ import { NavUser } from '@/components/nav-user';
 import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem, SidebarGroup, SidebarGroupLabel, SidebarGroupContent } from '@/components/ui/sidebar';
 import { type NavItem, type PageProps } from '@/types';
 import { Link, usePage } from '@inertiajs/react';
-import { LayoutGrid, Users, Shield, BarChart, Settings } from 'lucide-react';
+import { LayoutGrid, Users, Shield, BarChart, Settings, Bell } from 'lucide-react';
 import AppLogo from './app-logo';
 
 const dashboardNavItem: NavItem = {
@@ -11,6 +11,15 @@ const dashboardNavItem: NavItem = {
     href: '/dashboard',
     icon: LayoutGrid,
 };
+
+const commonNavItems: NavItem[] = [
+    {
+        title: 'Notifications',
+        href: '/notifications',
+        icon: Bell,
+        groupTitle: null,
+    },
+];
 
 const settingsNavItems: NavItem[] = [
     {
@@ -34,6 +43,12 @@ const roleBasedNavItems: Record<string, NavItem[]> = {
             href: '/admin/roles',
             icon: Shield,
             groupTitle: 'Administration',
+        },
+        {
+            title: 'Send Notifications',
+            href: '/admin/notifications/manage',
+            icon: Bell,
+            groupTitle: 'Administration',
         }
     ],
     admin: [
@@ -47,6 +62,12 @@ const roleBasedNavItems: Record<string, NavItem[]> = {
             title: 'Reports',
             href: '/admin/reports',
             icon: BarChart,
+            groupTitle: 'Administration',
+        },
+        {
+            title: 'Send Notifications',
+            href: '/admin/notifications/manage',
+            icon: Bell,
             groupTitle: 'Administration',
         }
     ]
@@ -67,6 +88,7 @@ export function AppSidebar() {
     
     const allNavItems = [
         dashboardNavItem,
+        ...commonNavItems,
         ...(roleBasedNavItems[userRole] || []),
         ...settingsNavItems,
     ];
@@ -91,7 +113,7 @@ export function AppSidebar() {
     ));
 
     return (
-        <Sidebar collapsible="icon" variant="inset">
+        <Sidebar collapsible="icon" variant="sidebar">
             <SidebarHeader className="pb-2">
                 <SidebarMenu>
                     <SidebarMenuItem>

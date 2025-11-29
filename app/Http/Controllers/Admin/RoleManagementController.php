@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Spatie\Permission\Models\Permission;
@@ -60,3 +61,4 @@ class RoleManagementController extends Controller
         return back()->with('success', 'Role deleted successfully.');
     }
 }
+

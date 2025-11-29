@@ -5,12 +5,13 @@ import { FormEventHandler, useRef, useState, useEffect } from 'react';
 import { Camera } from 'lucide-react';
 
 import { AvatarCropper } from '@/components/avatar-cropper';
-import HeadingSmall from '@/components/heading-small';
 import InputError from '@/components/input-error';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { Separator } from '@/components/ui/separator';
 import { useInitials } from '@/hooks/use-initials';
 import AppLayout from '@/layouts/app-layout';
 import SettingsLayout from '@/layouts/settings/layout';
@@ -215,22 +216,71 @@ export default function Profile({ mustVerifyEmail, status }: { mustVerifyEmail: 
         });
     };
 
+    const nameForm = useForm({ name: auth.user.name });
+    const emailForm = useForm({ email: auth.user.email });
+
+    const submitName: FormEventHandler = (e) => {
+        e.preventDefault();
+        nameForm.patch(route('profile.update'), {
+            preserveScroll: true,
+            onSuccess: () => {
+                router.reload({ only: ['auth'] });
+            },
+        });
+    };
+
+    const submitEmail: FormEventHandler = (e) => {
+        e.preventDefault();
+        emailForm.patch(route('profile.update'), {
+            preserveScroll: true,
+            onSuccess: () => {
+                router.reload({ only: ['auth'] });
+            },
+        });
+    };
+
+    const submitAvatar: FormEventHandler = (e) => {
+        e.preventDefault();
+        if (!data.avatar) return;
+        
+        router.post(route('profile.update'), {
+            _method: 'PATCH',
+            name: auth.user.name,
+            email: auth.user.email,
+            avatar: data.avatar,
+        }, {
+            preserveScroll: true,
+            forceFormData: true,
+            onSuccess: () => {
+                setData('avatar', null);
+                if (fileInputRef.current) {
+                    fileInputRef.current.value = '';
+                }
+                router.reload({ only: ['auth'] });
+            },
+        });
+    };
+
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Profile settings" />
 
             <SettingsLayout>
-                <div className="grid grid-cols-1 gap-12 lg:grid-cols-2">
-                    {/* Left: Profile Information */}
-                    <div className="space-y-6">
-                        <HeadingSmall title="Profile information" description="Update your name and email address" />
-
-                        <form onSubmit={submit} className="space-y-6" encType="multipart/form-data">
-                            {/* Avatar Upload */}
-                            <div className="grid gap-2">
-                                <Label>Profile Photo</Label>
+                <div className="space-y-6">
+                    {/* Profile Photo Card */}
+                    <Card>
+                        <CardHeader>
+                            <div className="flex items-center justify-between">
+                                <div>
+                                    <CardTitle>Profile Photo</CardTitle>
+                                    <CardDescription>Update your profile picture</CardDescription>
+                                </div>
+                            </div>
+                        </CardHeader>
+                        <CardContent>
+                            <div className="flex items-center justify-between gap-4">
                                 <div className="flex items-center gap-4">
-                                    <Avatar className="h-20 w-20">
+                                    <Avatar className="h-16 w-16">
                                         <AvatarImage 
                                             src={avatarPreview || auth.user.avatar || undefined} 
                                             alt={auth.user.name} 
@@ -239,41 +289,44 @@ export default function Profile({ mustVerifyEmail, status }: { mustVerifyEmail: 
                                             {getInitials(auth.user.name)}
                                         </AvatarFallback>
                                     </Avatar>
-                                    <div className="flex flex-col gap-2">
-                                        <Button
-                                            type="button"
-                                            variant="outline"
-                                            size="sm"
-                                            onClick={() => {
-                                                if (fileInputRef.current) {
-                                                    fileInputRef.current.value = '';
-                                                    fileInputRef.current.click();
-                                                }
-                                            }}
-                                        >
-                                            <Camera className="mr-2 h-4 w-4" />
-                                            {data.avatar || auth.user.avatar ? 'Change Photo' : 'Upload Photo'}
-                                        </Button>
-                                        {data.avatar && (
-                                            <Button
-                                                type="button"
-                                                variant="ghost"
-                                                size="sm"
-                                                onClick={() => {
-                                                    setData('avatar', null);
-                                                    setAvatarPreview(auth.user.avatar || null);
-                                                    if (fileInputRef.current) {
-                                                        fileInputRef.current.value = '';
-                                                    }
-                                                }}
-                                            >
-                                                Remove
-                                            </Button>
-                                        )}
+                                    <div className="flex flex-col gap-1">
+                                        <p className="text-sm font-medium">Profile Picture</p>
                                         <p className="text-xs text-muted-foreground">
                                             JPG, PNG or GIF. Max size of 2MB.
                                         </p>
                                     </div>
+                                </div>
+                                <div className="flex items-center gap-2">
+                                    <Button
+                                        type="button"
+                                        variant="outline"
+                                        size="sm"
+                                        onClick={() => {
+                                            if (fileInputRef.current) {
+                                                fileInputRef.current.value = '';
+                                                fileInputRef.current.click();
+                                            }
+                                        }}
+                                    >
+                                        <Camera className="mr-2 h-4 w-4" />
+                                        {data.avatar || auth.user.avatar ? 'Change' : 'Upload'}
+                                    </Button>
+                                    {data.avatar && (
+                                        <Button
+                                            type="button"
+                                            variant="ghost"
+                                            size="sm"
+                                            onClick={() => {
+                                                setData('avatar', null);
+                                                setAvatarPreview(auth.user.avatar || null);
+                                                if (fileInputRef.current) {
+                                                    fileInputRef.current.value = '';
+                                                }
+                                            }}
+                                        >
+                                            Remove
+                                        </Button>
+                                    )}
                                     <input
                                         ref={fileInputRef}
                                         type="file"
@@ -282,84 +335,104 @@ export default function Profile({ mustVerifyEmail, status }: { mustVerifyEmail: 
                                         className="hidden"
                                     />
                                 </div>
-                                <InputError className="mt-2" message={errors.avatar} />
                             </div>
+                            <InputError className="mt-2" message={errors.avatar} />
+                        </CardContent>
+                    </Card>
 
-                            <div className="grid gap-2">
-                                <Label htmlFor="name">Name</Label>
-
-                                <Input
-                                    id="name"
-                                    className="mt-1 block w-full"
-                                    value={data.name}
-                                    onChange={(e) => setData('name', e.target.value)}
-                                    autoComplete="name"
-                                    placeholder="Full name"
-                                />
-
-                                <InputError className="mt-2" message={errors.name} />
-                            </div>
-
-                            <div className="grid gap-2">
-                                <Label htmlFor="email">Email address</Label>
-
-                                <Input
-                                    id="email"
-                                    type="email"
-                                    className="mt-1 block w-full"
-                                    value={data.email}
-                                    onChange={(e) => setData('email', e.target.value)}
-                                    autoComplete="username"
-                                    placeholder="Email address"
-                                />
-
-                                <InputError className="mt-2" message={errors.email} />
-                            </div>
-
-                            {mustVerifyEmail && auth.user.email_verified_at === null && (
+                    {/* Name Card */}
+                    <Card>
+                        <CardHeader>
+                            <div className="flex items-center justify-between">
                                 <div>
-                                    <p className="-mt-4 text-sm text-muted-foreground">
-                                        Your email address is unverified.{' '}
-                                        <Link
-                                            href={route('verification.send')}
-                                            method="post"
-                                            as="button"
-                                            className="text-foreground underline decoration-neutral-300 underline-offset-4 transition-colors duration-300 ease-out hover:decoration-current! dark:decoration-neutral-500"
-                                        >
-                                            Click here to send verification code.
-                                        </Link>
-                                    </p>
+                                    <CardTitle>Name</CardTitle>
+                                    <CardDescription>Update your display name</CardDescription>
+                                </div>
+                            </div>
+                        </CardHeader>
+                        <CardContent>
+                            <form onSubmit={submitName} className="flex items-center justify-between gap-4">
+                                <div className="flex-1">
+                                    <Input
+                                        id="name"
+                                        value={nameForm.data.name}
+                                        onChange={(e) => nameForm.setData('name', e.target.value)}
+                                        autoComplete="name"
+                                        placeholder="Full name"
+                                        className="w-full"
+                                    />
+                                    <InputError className="mt-2" message={nameForm.errors.name} />
+                                </div>
+                                <Button type="submit" disabled={nameForm.processing || nameForm.data.name === auth.user.name}>
+                                    Save
+                                </Button>
+                            </form>
+                        </CardContent>
+                    </Card>
 
+                    {/* Email Card */}
+                    <Card>
+                        <CardHeader>
+                            <div className="flex items-center justify-between">
+                                <div>
+                                    <CardTitle>Email Address</CardTitle>
+                                    <CardDescription>Update your email address</CardDescription>
+                                </div>
+                            </div>
+                        </CardHeader>
+                        <CardContent>
+                            <form onSubmit={submitEmail} className="flex items-center justify-between gap-4">
+                                <div className="flex-1">
+                                    <Input
+                                        id="email"
+                                        type="email"
+                                        value={emailForm.data.email}
+                                        onChange={(e) => emailForm.setData('email', e.target.value)}
+                                        autoComplete="username"
+                                        placeholder="Email address"
+                                        className="w-full"
+                                    />
+                                    <InputError className="mt-2" message={emailForm.errors.email} />
+                                    {mustVerifyEmail && auth.user.email_verified_at === null && (
+                                        <p className="mt-2 text-xs text-muted-foreground">
+                                            Your email address is unverified.{' '}
+                                            <Link
+                                                href={route('verification.send')}
+                                                method="post"
+                                                as="button"
+                                                className="text-foreground underline decoration-neutral-300 underline-offset-4 transition-colors duration-300 ease-out hover:decoration-current! dark:decoration-neutral-500"
+                                            >
+                                                Click here to send verification code.
+                                            </Link>
+                                        </p>
+                                    )}
                                     {status === 'verification-otp-sent' && (
-                                        <div className="mt-2 text-sm font-medium text-green-600">
+                                        <div className="mt-2 text-xs font-medium text-green-600">
                                             A verification code has been sent to your email address.
                                         </div>
                                     )}
                                 </div>
-                            )}
+                                <Button type="submit" disabled={emailForm.processing || emailForm.data.email === auth.user.email}>
+                                    Save
+                                </Button>
+                            </form>
+                        </CardContent>
+                    </Card>
 
-                            <div className="flex items-center gap-4">
-                                <Button disabled={processing}>Save</Button>
-
-                                <Transition
-                                    show={recentlySuccessful}
-                                    enter="transition ease-in-out"
-                                    enterFrom="opacity-0"
-                                    leave="transition ease-in-out"
-                                    leaveTo="opacity-0"
-                                >
-                                    <p className="text-sm text-neutral-600">Saved</p>
-                                </Transition>
+                    {/* Password Card */}
+                    <Card>
+                        <CardHeader>
+                            <div className="flex items-center justify-between">
+                                <div>
+                                    <CardTitle>Update Password</CardTitle>
+                                    <CardDescription>Ensure your account is using a long, random password to stay secure</CardDescription>
+                                </div>
                             </div>
-                        </form>
-                    </div>
-
-                    {/* Right: Update Password */}
-                    <div className="space-y-6">
-                        <HeadingSmall title="Update password" description="Ensure your account is using a long, random password to stay secure" />
-                        
-                        <PasswordForm />
-                    </div>
+                        </CardHeader>
+                        <CardContent>
+                            <PasswordForm />
+                        </CardContent>
+                    </Card>
                 </div>
             </SettingsLayout>
 
