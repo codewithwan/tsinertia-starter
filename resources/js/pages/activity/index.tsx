@@ -14,6 +14,17 @@ import SettingsLayout from '@/layouts/settings/layout';
 import { route } from 'ziggy-js';
 import { usePage } from '@inertiajs/react';
 import { toast } from 'sonner';
+import {
+    AlertDialog,
+    AlertDialogAction,
+    AlertDialogCancel,
+    AlertDialogContent,
+    AlertDialogDescription,
+    AlertDialogFooter,
+    AlertDialogHeader,
+    AlertDialogTitle,
+    AlertDialogTrigger,
+} from '@/components/ui/alert-dialog';
 
 interface ActivityLog {
     id: number;
@@ -159,14 +170,12 @@ export default function ActivityIndex({ activityLogs = { data: [], links: [], me
     };
 
     const handleDeleteOldLogs = () => {
-        if (confirm('Are you sure you want to delete logs older than 90 days? This action cannot be undone.')) {
-            router.post(route('admin.activity.delete-old'), {}, {
-                preserveScroll: true,
-                onSuccess: () => {
-                    router.reload();
-                },
-            });
-        }
+        router.post(route('admin.activity.delete-old'), {}, {
+            preserveScroll: true,
+            onSuccess: () => {
+                router.reload();
+            },
+        });
     };
 
     const hasActiveFilters = searchQuery || selectedUserId || selectedAction || dateFrom || dateTo;
@@ -362,10 +371,31 @@ export default function ActivityIndex({ activityLogs = { data: [], links: [], me
                                                     <Download className="h-4 w-4 mr-2" />
                                                     Export JSON
                                                 </Button>
-                                                <Button variant="destructive" size="sm" onClick={handleDeleteOldLogs}>
-                                                    <Trash2 className="h-4 w-4 mr-2" />
-                                                    Delete Old Logs
-                                                </Button>
+                                                <AlertDialog>
+                                                    <AlertDialogTrigger asChild>
+                                                        <Button variant="destructive" size="sm">
+                                                            <Trash2 className="h-4 w-4 mr-2" />
+                                                            Delete Old Logs
+                                                        </Button>
+                                                    </AlertDialogTrigger>
+                                                    <AlertDialogContent>
+                                                        <AlertDialogHeader>
+                                                            <AlertDialogTitle>Delete Old Activity Logs</AlertDialogTitle>
+                                                            <AlertDialogDescription>
+                                                                Are you sure you want to delete activity logs older than 90 days? This action cannot be undone and will permanently remove all logs older than 90 days.
+                                                            </AlertDialogDescription>
+                                                        </AlertDialogHeader>
+                                                        <AlertDialogFooter>
+                                                            <AlertDialogCancel>Cancel</AlertDialogCancel>
+                                                            <AlertDialogAction
+                                                                onClick={handleDeleteOldLogs}
+                                                                className="bg-red-500 hover:bg-red-600"
+                                                            >
+                                                                Delete Old Logs
+                                                            </AlertDialogAction>
+                                                        </AlertDialogFooter>
+                                                    </AlertDialogContent>
+                                                </AlertDialog>
                                             </>
                                         )}
                                     </div>

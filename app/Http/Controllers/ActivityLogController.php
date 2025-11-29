@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\ActivityLog;
 use App\Models\User;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response as HttpResponse;
 use Illuminate\Support\Facades\DB;
@@ -170,32 +171,34 @@ class ActivityLogController extends Controller
 
     private function exportJson($logs, string $filename): StreamedResponse
     {
-        $data = $logs->map(function ($log) {
-            return [
-                'id' => $log->id,
-                'user' => $log->user ? [
-                    'id' => $log->user->id,
-                    'name' => $log->user->name,
-                    'email' => $log->user->email,
-                ] : null,
-                'action' => $log->action,
-                'description' => $log->description,
-                'ip_address' => $log->ip_address,
-                'user_agent' => $log->user_agent,
-                'metadata' => $log->metadata,
-                'created_at' => $log->created_at?->toIso8601String(),
-            ];
-        });
-
         $headers = [
             'Content-Type' => 'application/json',
             'Content-Disposition' => "attachment; filename=\"{$filename}\"",
         ];
 
-        return response()->json($data, 200, $headers);
+        return response()->stream(function () use ($logs) {
+            $data = $logs->map(function ($log) {
+                return [
+                    'id' => $log->id,
+                    'user' => $log->user ? [
+                        'id' => $log->user->id,
+                        'name' => $log->user->name,
+                        'email' => $log->user->email,
+                    ] : null,
+                    'action' => $log->action,
+                    'description' => $log->description,
+                    'ip_address' => $log->ip_address,
+                    'user_agent' => $log->user_agent,
+                    'metadata' => $log->metadata,
+                    'created_at' => $log->created_at?->toIso8601String(),
+                ];
+            });
+
+            echo json_encode($data, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
+        }, 200, $headers);
     }
 
-    public function deleteOldLogs(Request $request): HttpResponse
+    public function deleteOldLogs(Request $request): RedirectResponse
     {
         if (!$request->user()->hasRole('superadmin')) {
             abort(403);

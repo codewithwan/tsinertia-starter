@@ -25,7 +25,7 @@ Route::middleware(['auth', 'verified'])->prefix('admin')->group(function () {
     });
 
     Route::middleware('role:admin|superadmin')->prefix('activity')->group(function () {
-        Route::get('/', [ActivityLogController::class, 'index'])->name('activity.index');
-        Route::post('/delete-old', [ActivityLogController::class, 'deleteOldLogs'])->name('activity.delete-old')->middleware('role:superadmin');
+        Route::get('/', [ActivityLogController::class, 'index'])->name('admin.activity.index');
+        Route::post('/delete-old', [ActivityLogController::class, 'deleteOldLogs'])->name('admin.activity.delete-old')->middleware('role:superadmin');
     });
 }); 
