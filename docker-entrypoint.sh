@@ -26,18 +26,47 @@ update_env() {
 # Update common environment variables
 update_env "APP_NAME" "$APP_NAME"
 update_env "APP_ENV" "$APP_ENV"
-update_env "APP_URL" "$APP_URL"
+
+# Normalize APP_URL
+NORMALIZED_APP_URL="$APP_URL"
+
+# Untuk production, convert HTTP ke HTTPS jika domain idcloudlabs.com
+if [[ "$APP_ENV" != "local" ]] && [[ "$APP_ENV" != "development" ]] && [[ "$APP_URL" == http://idcloudlabs.com* ]]; then
+    echo "Production: converting HTTP to HTTPS for idcloudlabs.com..."
+    NORMALIZED_APP_URL=$(echo "$APP_URL" | sed 's|^http://|https://|')
+fi
+
+# Remove port dari HTTPS (nginx tidak perlu port)
+if [[ "$NORMALIZED_APP_URL" == https://* ]]; then
+    # Remove port dari HTTPS URL (e.g., https://domain.com:8080 -> https://domain.com)
+    NORMALIZED_APP_URL=$(echo "$NORMALIZED_APP_URL" | sed -E 's|:([0-9]+)||')
+    # Remove duplicate port jika ada
+    NORMALIZED_APP_URL=$(echo "$NORMALIZED_APP_URL" | sed -E 's|(:[0-9]+):[0-9]+|\1|g')
+fi
+
+# Untuk development, convert HTTPS ke HTTP jika perlu
+if [[ "$NORMALIZED_APP_URL" == https://* ]] && ([ "$APP_ENV" = "local" ] || [ "$APP_ENV" = "development" ]); then
+    echo "Development: converting HTTPS to HTTP..."
+    NORMALIZED_APP_URL=$(echo "$NORMALIZED_APP_URL" | sed 's|^https://|http://|')
+fi
+
+update_env "APP_URL" "$NORMALIZED_APP_URL"
+
 update_env "DB_HOST" "$DB_HOST"
 update_env "DB_PORT" "$DB_PORT"
 update_env "DB_DATABASE" "$DB_DATABASE"
 update_env "DB_USERNAME" "$DB_USERNAME"
 update_env "DB_PASSWORD" "$DB_PASSWORD"
 
-# Handle HTTPS configuration
-if [[ "$APP_URL" == https://* ]]; then
-    echo "HTTPS detected, configuring secure settings..."
+# Set maintenance mode
+if [ ! -z "$MAINTENANCE" ]; then
+    update_env "MAINTENANCE" "$MAINTENANCE"
+fi
+
+# Set ASSET_URL untuk HTTPS (wajib untuk mixed content)
+if [[ "$NORMALIZED_APP_URL" == https://* ]]; then
     update_env "FORCE_HTTPS" "true"
-    update_env "ASSET_URL" "$APP_URL"
+    update_env "ASSET_URL" "$NORMALIZED_APP_URL"
 fi
 
 # Generate application key if not set

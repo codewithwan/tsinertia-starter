@@ -16,7 +16,7 @@ services:
     depends_on:
       - init
     ports:
-      - "${DB_PORT:-3309}:3306"
+      - "127.0.0.1:${DB_PORT:-3309}:3306"
     environment:
       MYSQL_DATABASE: ${DB_DATABASE}
       MYSQL_USER: ${DB_USERNAME}
@@ -40,7 +40,7 @@ services:
       APP_NAME: ${APP_NAME}
       APP_ENV: ${APP_ENV}
       APP_DEBUG: ${APP_DEBUG}
-      APP_URL: ${APP_URL}:8080
+      APP_URL: ${APP_URL}
 
       # Database Configuration
       DB_CONNECTION: ${DB_CONNECTION}
@@ -56,3 +56,6 @@ services:
 
       # Queue
       QUEUE_CONNECTION: ${QUEUE_CONNECTION}
+
+      # Maintenance
+      MAINTENANCE: ${MAINTENANCE:-true}
