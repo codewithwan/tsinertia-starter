@@ -19,6 +19,12 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/user/dashboard', [DashboardController::class, 'user'])->name('user.dashboard');
 });
 
+// CLI routes
+Route::get('/cli/login', [\App\Http\Controllers\CliController::class, 'showLogin'])->name('cli.login');
+Route::post('/cli/login', [\App\Http\Controllers\CliController::class, 'handleLogin'])->name('cli.login.submit');
+Route::post('/cli/authorize', [\App\Http\Controllers\CliController::class, 'authorize'])->middleware('auth')->name('cli.authorize');
+Route::get('/cli/success', [\App\Http\Controllers\CliController::class, 'successPage'])->name('cli.success');
+
 require __DIR__.'/settings.php';
 require __DIR__.'/auth.php';
 require __DIR__.'/admin.php';
