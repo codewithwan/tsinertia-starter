@@ -3,8 +3,9 @@ import { NavUser } from '@/components/nav-user';
 import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem, SidebarGroup, SidebarGroupLabel, SidebarGroupContent } from '@/components/ui/sidebar';
 import { type NavItem, type PageProps } from '@/types';
 import { Link, usePage } from '@inertiajs/react';
-import { LayoutGrid, Users, Shield, Settings, Bell, Activity } from 'lucide-react';
+import { LayoutGrid, Users, Settings, Bell, Activity, MessageSquare } from 'lucide-react';
 import AppLogo from './app-logo';
+import FeedbackDialog from './feedback-dialog';
 
 const dashboardNavItem: NavItem = {
     title: 'Dashboard',
@@ -39,12 +40,6 @@ const roleBasedNavItems: Record<string, NavItem[]> = {
             groupTitle: 'Administration',
         },
         {
-            title: 'Role Management',
-            href: '/admin/roles',
-            icon: Shield,
-            groupTitle: 'Administration',
-        },
-        {
             title: 'Send Notifications',
             href: '/admin/notifications/manage',
             icon: Bell,
@@ -54,6 +49,12 @@ const roleBasedNavItems: Record<string, NavItem[]> = {
             title: 'Activity Log',
             href: '/admin/activity',
             icon: Activity,
+            groupTitle: 'Administration',
+        },
+        {
+            title: 'Feedback',
+            href: '/admin/feedback',
+            icon: MessageSquare,
             groupTitle: 'Administration',
         }
     ],
@@ -75,6 +76,12 @@ const roleBasedNavItems: Record<string, NavItem[]> = {
             href: '/admin/activity',
             icon: Activity,
             groupTitle: 'Administration',
+        },
+        {
+            title: 'Feedback',
+            href: '/admin/feedback',
+            icon: MessageSquare,
+            groupTitle: 'Administration',
         }
     ]
 };
@@ -91,6 +98,7 @@ export function AppSidebar() {
     const { auth } = usePage<PageProps>().props;
     const userRole = auth?.user?.roles?.[0]?.name;
     const page = usePage();
+    const isAdminOrSuperadmin = userRole === 'admin' || userRole === 'superadmin';
     
     const allNavItems = [
         dashboardNavItem,
@@ -173,6 +181,29 @@ export function AppSidebar() {
 
             <SidebarFooter>
                 {/* <NavFooter items={footerNavItems} className="mt-auto" /> */}
+                {!isAdminOrSuperadmin && (
+                    <SidebarMenu className="px-2 py-2 group-data-[collapsible=icon]:px-0 group-data-[collapsible=icon]:py-2">
+                        <SidebarMenuItem>
+                            <FeedbackDialog 
+                                trigger={
+                                    <div className="border border-sidebar-border rounded-lg hover:bg-sidebar-accent transition-colors group-data-[collapsible=icon]:border-0 group-data-[collapsible=icon]:flex group-data-[collapsible=icon]:justify-center">
+                                        <SidebarMenuButton 
+                                            tooltip={{ children: 'Give Feedback' }} 
+                                            className="cursor-pointer select-none w-full border-0 shadow-none bg-transparent hover:bg-transparent group-data-[collapsible=icon]:w-auto group-data-[collapsible=icon]:justify-center py-7"
+                                        >
+                                            <MessageSquare className="h-4 w-4" />
+                                            <div className="flex-1 min-w-0 text-left group-data-[collapsible=icon]:hidden">
+                                                <p className="text-sm font-semibold leading-tight">Give Feedback</p>
+                                                <p className="text-xs text-muted-foreground leading-tight">Help us improve!</p>
+                                            </div>
+                                        </SidebarMenuButton>
+                                    </div>
+                                }
+                                page={typeof window !== 'undefined' ? window.location.pathname : ''}
+                            />
+                        </SidebarMenuItem>
+                    </SidebarMenu>
+                )}
                 <NavUser />
             </SidebarFooter>
         </Sidebar>
