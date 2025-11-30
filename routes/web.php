@@ -14,6 +14,10 @@ Route::get('/maintenance', function () {
     return Inertia::render('public/maintenance');
 })->name('maintenance');
 
+Route::get('/changelog', function () {
+    return Inertia::render('public/changelog');
+})->name('changelog');
+
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
     Route::get('/superadmin/dashboard', [DashboardController::class, 'superadmin'])->name('superadmin.dashboard')->middleware('role:superadmin');
