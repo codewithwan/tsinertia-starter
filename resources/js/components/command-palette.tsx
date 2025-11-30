@@ -15,6 +15,7 @@ import { type SharedData } from '@/types';
 import { searchCommandPaletteItems, type CommandPaletteItem } from '@/lib/command-palette-config';
 import { route } from 'ziggy-js';
 import { useMobileNavigation } from '@/hooks/use-mobile-navigation';
+import { useIsMobile } from '@/hooks/use-mobile';
 
 interface CommandPaletteProps {
     open?: boolean;
@@ -27,6 +28,7 @@ export function CommandPalette({ open, onOpenChange }: CommandPaletteProps) {
     const [searchQuery, setSearchQuery] = useState('');
     const cleanupMobileNavigation = useMobileNavigation();
     const [isOpen, setIsOpen] = useState(open ?? false);
+    const isMobile = useIsMobile();
 
     const handleLogout = () => {
         cleanupMobileNavigation();
@@ -151,15 +153,17 @@ export function CommandPalette({ open, onOpenChange }: CommandPaletteProps) {
                     </CommandGroup>
                 ))}
             </CommandList>
-            <div className="border-t px-4 py-2 text-xs text-muted-foreground">
-                <div className="flex items-center justify-between">
-                    <span>Press <kbd className="px-1.5 py-0.5 rounded border bg-muted font-mono text-[10px]">⌘K</kbd> to open, <kbd className="px-1.5 py-0.5 rounded border bg-muted font-mono text-[10px]">Esc</kbd> to close</span>
-                    <div className="flex items-center gap-4">
-                        <span><kbd className="px-1.5 py-0.5 rounded border bg-muted font-mono text-[10px]">↑↓</kbd> Navigate</span>
-                        <span><kbd className="px-1.5 py-0.5 rounded border bg-muted font-mono text-[10px]">Enter</kbd> Select</span>
+            {!isMobile && (
+                <div className="border-t px-4 py-2 text-xs text-muted-foreground">
+                    <div className="flex items-center justify-between">
+                        <span>Press <kbd className="px-1.5 py-0.5 rounded border bg-muted font-mono text-[10px]">⌘K</kbd> to open, <kbd className="px-1.5 py-0.5 rounded border bg-muted font-mono text-[10px]">Esc</kbd> to close</span>
+                        <div className="flex items-center gap-4">
+                            <span><kbd className="px-1.5 py-0.5 rounded border bg-muted font-mono text-[10px]">↑↓</kbd> Navigate</span>
+                            <span><kbd className="px-1.5 py-0.5 rounded border bg-muted font-mono text-[10px]">Enter</kbd> Select</span>
+                        </div>
                     </div>
                 </div>
-            </div>
+            )}
         </CommandDialog>
     );
 }

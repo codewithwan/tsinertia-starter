@@ -7,10 +7,12 @@ import { Search } from 'lucide-react';
 import { useState } from 'react';
 import { CommandPalette } from '@/components/command-palette';
 import { cn } from '@/lib/utils';
+import { useIsMobile } from '@/hooks/use-mobile';
 
 export function AppSidebarHeader({ breadcrumbs = [] }: { breadcrumbs?: BreadcrumbItemType[] }) {
     const { auth } = usePage<SharedData>().props;
     const [commandPaletteOpen, setCommandPaletteOpen] = useState(false);
+    const isMobile = useIsMobile();
 
     return (
         <>
@@ -21,31 +23,41 @@ export function AppSidebarHeader({ breadcrumbs = [] }: { breadcrumbs?: Breadcrum
                 </div>
                 {auth.user && (
                     <div className="flex items-center gap-2">
-                        <div
-                            className={cn(
-                                "relative flex h-9 w-[200px] items-center rounded-md border border-input bg-background px-3 py-1 text-sm transition-colors",
-                                "hover:bg-accent hover:text-accent-foreground",
-                                "cursor-pointer",
-                                "focus-within:ring-1 focus-within:ring-ring"
-                            )}
-                            onClick={() => setCommandPaletteOpen(true)}
-                            onKeyDown={(e) => {
-                                if (e.key === 'Enter' || e.key === ' ') {
-                                    e.preventDefault();
-                                    setCommandPaletteOpen(true);
-                                }
-                            }}
-                            role="button"
-                            tabIndex={0}
-                        >
-                            <Search className="mr-2 h-4 w-4 shrink-0 text-muted-foreground" />
-                            <span className="flex-1 text-left text-muted-foreground">
-                                Search...
-                            </span>
-                            <kbd className="pointer-events-none hidden h-5 select-none items-center gap-1 rounded border bg-muted px-1.5 font-mono text-[10px] font-medium text-muted-foreground opacity-100 sm:inline-flex">
-                                <span className="text-xs">⌘</span>K
-                            </kbd>
-                        </div>
+                        {isMobile ? (
+                            <button
+                                onClick={() => setCommandPaletteOpen(true)}
+                                className="flex h-9 w-9 items-center justify-center rounded-md transition-colors hover:bg-accent hover:text-accent-foreground"
+                                aria-label="Search"
+                            >
+                                <Search className="h-4 w-4 text-muted-foreground" />
+                            </button>
+                        ) : (
+                            <div
+                                className={cn(
+                                    "relative flex h-9 w-[200px] items-center rounded-md border border-input bg-background px-3 py-1 text-sm transition-colors",
+                                    "hover:bg-accent hover:text-accent-foreground",
+                                    "cursor-pointer",
+                                    "focus-within:ring-1 focus-within:ring-ring"
+                                )}
+                                onClick={() => setCommandPaletteOpen(true)}
+                                onKeyDown={(e) => {
+                                    if (e.key === 'Enter' || e.key === ' ') {
+                                        e.preventDefault();
+                                        setCommandPaletteOpen(true);
+                                    }
+                                }}
+                                role="button"
+                                tabIndex={0}
+                            >
+                                <Search className="mr-2 h-4 w-4 shrink-0 text-muted-foreground" />
+                                <span className="flex-1 text-left text-muted-foreground">
+                                    Search...
+                                </span>
+                                <kbd className="pointer-events-none hidden h-5 select-none items-center gap-1 rounded border bg-muted px-1.5 font-mono text-[10px] font-medium text-muted-foreground opacity-100 sm:inline-flex">
+                                    <span className="text-xs">⌘</span>K
+                                </kbd>
+                            </div>
+                        )}
                         <NotificationBell />
                     </div>
                 )}
