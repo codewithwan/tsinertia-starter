@@ -57,7 +57,7 @@ test('user can delete their account', function () {
 
     $response = $this
         ->actingAs($user)
-        ->delete('/settings/profile', [
+        ->delete('/settings/security', [
             'password' => 'password',
         ]);
 
@@ -75,7 +75,7 @@ test('correct password must be provided to delete account', function () {
     $response = $this
         ->actingAs($user)
         ->from('/settings/profile')
-        ->delete('/settings/profile', [
+        ->delete('/settings/security', [
             'password' => 'wrong-password',
         ]);
 
