@@ -36,7 +36,7 @@ class SessionController extends Controller
                 ];
             });
 
-        return Inertia::render('settings/sessions', [
+        return Inertia::render('settings/security', [
             'sessions' => $sessions,
             'currentSessionId' => $currentSessionId,
             'status' => $request->session()->get('status'),

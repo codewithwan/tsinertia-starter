@@ -11,7 +11,6 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Separator } from '@/components/ui/separator';
 import { useInitials } from '@/hooks/use-initials';
 import AppLayout from '@/layouts/app-layout';
 import SettingsLayout from '@/layouts/settings/layout';
@@ -130,7 +129,7 @@ export default function Profile({ mustVerifyEmail, status }: { mustVerifyEmail: 
     const [showCropper, setShowCropper] = useState(false);
     const [imageToCrop, setImageToCrop] = useState<string | null>(null);
 
-    const { data, setData, patch, errors, processing, recentlySuccessful } = useForm<ProfileForm>({
+    const { data, setData, errors } = useForm<ProfileForm>({
         name: auth.user.name,
         email: auth.user.email,
         avatar: null,
@@ -180,41 +179,6 @@ export default function Profile({ mustVerifyEmail, status }: { mustVerifyEmail: 
         }
     };
 
-    const submit: FormEventHandler = (e) => {
-        e.preventDefault();
-
-        if (!data.avatar) {
-            patch(route('profile.update'), {
-                preserveScroll: true,
-                onSuccess: () => {
-                    router.reload({ only: ['auth'] });
-                },
-            });
-            return;
-        }
-
-        router.post(route('profile.update'), {
-            _method: 'PATCH',
-            name: data.name,
-            email: data.email,
-            avatar: data.avatar,
-        }, {
-            preserveScroll: true,
-            forceFormData: true,
-            onSuccess: () => {
-                setData('avatar', null);
-                if (fileInputRef.current) {
-                    fileInputRef.current.value = '';
-                }
-                router.reload({
-                    only: ['auth']
-                });
-            },
-            onError: (errors) => {
-                console.error('Validation errors:', errors);
-            },
-        });
-    };
 
     const nameForm = useForm({ name: auth.user.name });
     const emailForm = useForm({ email: auth.user.email });
@@ -239,27 +203,6 @@ export default function Profile({ mustVerifyEmail, status }: { mustVerifyEmail: 
         });
     };
 
-    const submitAvatar: FormEventHandler = (e) => {
-        e.preventDefault();
-        if (!data.avatar) return;
-        
-        router.post(route('profile.update'), {
-            _method: 'PATCH',
-            name: auth.user.name,
-            email: auth.user.email,
-            avatar: data.avatar,
-        }, {
-            preserveScroll: true,
-            forceFormData: true,
-            onSuccess: () => {
-                setData('avatar', null);
-                if (fileInputRef.current) {
-                    fileInputRef.current.value = '';
-                }
-                router.reload({ only: ['auth'] });
-            },
-        });
-    };
 
     return (
         <AppLayout breadcrumbs={breadcrumbs}>

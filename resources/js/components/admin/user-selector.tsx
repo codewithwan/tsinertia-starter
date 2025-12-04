@@ -98,7 +98,7 @@ export function UserSelector({
                                         className="ml-1 ring-offset-background rounded-full outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
                                         onKeyDown={(e) => {
                                             if (e.key === 'Enter') {
-                                                handleRemove(String(user.id), e as any);
+                                                handleRemove(String(user.id), e as unknown as React.MouseEvent);
                                             }
                                         }}
                                         onMouseDown={(e) => {

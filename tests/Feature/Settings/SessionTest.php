@@ -30,28 +30,6 @@ test('user can view security settings with sessions', function () {
     );
 });
 
-test('user can view sessions page', function () {
-    $user = User::factory()->create();
-
-    $sessionId = 'test-session-id';
-    DB::table('sessions')->insert([
-        'id' => $sessionId,
-        'user_id' => $user->id,
-        'ip_address' => '127.0.0.1',
-        'user_agent' => 'Mozilla/5.0',
-        'payload' => base64_encode('test'),
-        'last_activity' => now()->timestamp,
-    ]);
-
-    $response = $this->actingAs($user)->get('/settings/sessions');
-
-    $response->assertOk();
-    $response->assertOk();
-    $response->assertInertia(fn ($page) => 
-        $page->has('sessions')
-            ->has('currentSessionId')
-    );
-});
 
 test('user can see their active sessions', function () {
     $user = User::factory()->create();

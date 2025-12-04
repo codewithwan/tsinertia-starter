@@ -47,7 +47,7 @@ export default function Manage({ users, isSuperadmin }: Props) {
             return urlParams.get('tab') || 'send';
         }
         return 'send';
-    }, [page.url]);
+    }, []);
     
     useEffect(() => {
         if (typeof window !== 'undefined') {
@@ -75,7 +75,7 @@ export default function Manage({ users, isSuperadmin }: Props) {
     });
 
     useEffect(() => {
-        const flash = (page.props as any).flash || {};
+        const flash = (page.props as PageProps & { flash?: { success?: string; error?: string } }).flash || {};
         if (flash.success) {
             toast.success(flash.success);
         }

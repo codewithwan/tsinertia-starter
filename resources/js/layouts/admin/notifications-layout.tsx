@@ -1,8 +1,7 @@
 import Heading from '@/components/heading';
 import { Button } from '@/components/ui/button';
-import { Separator } from '@/components/ui/separator';
 import { cn } from '@/lib/utils';
-import { Link, usePage } from '@inertiajs/react';
+import { Link } from '@inertiajs/react';
 import { type PropsWithChildren, useMemo } from 'react';
 import { Send, Radio } from 'lucide-react';
 
@@ -26,15 +25,13 @@ interface NotificationsLayoutProps extends PropsWithChildren {
 }
 
 export default function NotificationsLayout({ children, isSuperadmin = false }: NotificationsLayoutProps) {
-    const page = usePage();
-    
     const currentQuery = useMemo(() => {
         if (typeof window !== 'undefined') {
             const urlParams = new URLSearchParams(window.location.search);
             return urlParams.get('tab') || 'send';
         }
         return 'send';
-    }, [page.url]);
+    }, []);
 
     const visibleNavItems = sidebarNavItems.filter((item) => {
         if (item.query === 'broadcast' && !isSuperadmin) {
@@ -71,8 +68,6 @@ export default function NotificationsLayout({ children, isSuperadmin = false }: 
                         })}
                     </nav>
                 </aside>
-
-                <Separator className="my-6 lg:hidden" />
 
                 <div className="min-w-0 w-full">
                     <section className="w-full space-y-6">{children}</section>
