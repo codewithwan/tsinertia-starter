@@ -66,8 +66,8 @@ export default function FAQSection({ className = '' }: FAQSectionProps) {
 
     const leftFaqs = [
         {
-            question: "What is idcloudlabs?",
-            answer: "idcloudlabs is a cloud platform for developers providing reverse tunnel, static hosting, and custom domain with automatic SSL. Similar to Ngrok and Vercel but more affordable."
+            question: "What is TSInertia Starter?",
+            answer: "TSInertia Starter is a modern, production-ready starter kit for building full-stack web applications using TypeScript, Laravel, Inertia.js, and React. It's completely free and open source."
         },
         {
             question: "What features are available?",
@@ -86,7 +86,7 @@ export default function FAQSection({ className = '' }: FAQSectionProps) {
     const rightFaqs = [
         {
             question: "How do I use reverse tunnel?",
-            answer: "After platform launch, install the idcloudlabs CLI and run commands to expose your local app. You'll get a public URL like `subdomain.idlabs.cloud`"
+            answer: "Clone the repository, install dependencies with `composer install` and `npm install`, setup your `.env` file, run migrations with `php artisan migrate --seed`, then start with `composer dev`"
         },
         {
             question: "Can I deploy static websites?",
@@ -106,12 +106,12 @@ export default function FAQSection({ className = '' }: FAQSectionProps) {
         <section ref={sectionRef} id="faq" className={`relative py-24 overflow-hidden ${className}`} style={{ zIndex: 1, marginTop: '-3rem' }}>
             {/* Background */}
             <div className="absolute inset-0 bg-background"></div>
-            
+
             {/* Enhanced depth shadow */}
             <div className="absolute inset-0 bg-gradient-to-b from-background/80 via-transparent to-background pointer-events-none"></div>
 
             {/* Circuit board pattern */}
-            <motion.div 
+            <motion.div
                 style={{ y: backgroundY }}
                 className="absolute inset-0 opacity-[0.01]"
             >
@@ -143,7 +143,7 @@ export default function FAQSection({ className = '' }: FAQSectionProps) {
                         Common Questions
                     </h2>
                     <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-                        Everything you need to know about idcloudlabs
+                        Everything you need to know about TSInertia Starter
                     </p>
                 </motion.div>
 
@@ -206,7 +206,7 @@ export default function FAQSection({ className = '' }: FAQSectionProps) {
                             </p>
                             <div className="flex items-center gap-3">
                                 <div className="h-px flex-1 bg-foreground/10"></div>
-                                <span className="text-sm font-mono font-bold text-foreground">#idcloudlabs</span>
+                                <span className="text-sm font-mono font-bold text-foreground">#tsinertia</span>
                                 <div className="h-px flex-1 bg-foreground/10"></div>
                             </div>
                         </motion.div>

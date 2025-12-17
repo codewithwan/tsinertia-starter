@@ -21,7 +21,7 @@ export default function QuoteSection({ className = '' }: QuoteSectionProps) {
         <section ref={sectionRef} className={`relative py-24 overflow-hidden ${className}`} style={{ zIndex: 10, marginTop: '-4rem' }}>
             {/* Modern background */}
             <div className="absolute inset-0 bg-background"></div>
-            
+
             {/* Enhanced depth shadow */}
             <div className="absolute inset-0 bg-gradient-to-b from-background/70 via-transparent to-background/95 pointer-events-none"></div>
 
@@ -69,9 +69,9 @@ export default function QuoteSection({ className = '' }: QuoteSectionProps) {
 
                     {/* Main quote */}
                     <blockquote className="relative z-10 text-3xl sm:text-4xl md:text-5xl font-light text-foreground mb-8 leading-tight px-4">
-                        Expose local apps, <span className="font-semibold">deploy static</span>, and{' '}
-                        <span className="font-semibold">custom domain</span> with{' '}
-                        <span className="font-semibold">ease</span>
+                        Build apps with <span className="font-semibold">TypeScript</span>,{' '}
+                        <span className="font-semibold">Inertia.js</span>, and{' '}
+                        <span className="font-semibold">elegance</span>
                     </blockquote>
 
                     {/* Attribution */}
@@ -84,7 +84,7 @@ export default function QuoteSection({ className = '' }: QuoteSectionProps) {
                     >
                         <div className="h-px w-12 bg-gradient-to-r from-transparent to-foreground/30"></div>
                         <cite className="text-sm text-muted-foreground font-mono not-italic uppercase tracking-wider">
-                            <span className="text-foreground">idcloudlabs</span> / Cloud Platform
+                            <span className="text-foreground">tsinertia</span> / Starter Kit
                         </cite>
                         <div className="h-px w-12 bg-gradient-to-l from-transparent to-foreground/30"></div>
                     </motion.div>
@@ -97,8 +97,8 @@ export default function QuoteSection({ className = '' }: QuoteSectionProps) {
                         viewport={{ once: true }}
                         className="text-base sm:text-lg text-muted-foreground max-w-2xl mx-auto"
                     >
-                        Simple, fast, and affordable cloud platform built for{' '}
-                        <span className="text-foreground font-medium">developers</span>
+                        Simple, fast, and production-ready stack for{' '}
+                        <span className="text-foreground font-medium">full-stack developers</span>
                     </motion.div>
                 </motion.div>
             </div>

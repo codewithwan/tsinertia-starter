@@ -1,4 +1,7 @@
 {
+    "name": "tsinertia-starter",
+    "version": "1.0.0",
+    "description": "A modern, production-ready starter kit for building full-stack web applications using TypeScript, Laravel, Inertia.js, and React",
     "private": true,
     "type": "module",
     "scripts": {

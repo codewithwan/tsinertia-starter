@@ -18,7 +18,7 @@ export default function CTASection({ className = '' }: CTASectionProps) {
         target: sectionRef,
         offset: ["start end", "end start"]
     });
-    
+
     const backgroundY = useTransform(scrollYProgress, [0, 1], [0, -50]);
     const orb1Y = useTransform(scrollYProgress, [0, 1], [0, -100]);
     const orb2Y = useTransform(scrollYProgress, [0, 1], [0, 50]);
@@ -27,20 +27,20 @@ export default function CTASection({ className = '' }: CTASectionProps) {
         <section ref={sectionRef} className={`relative py-32 overflow-hidden ${className}`} style={{ zIndex: 1, marginTop: '-2rem' }}>
             {/* Background */}
             <div className="absolute inset-0 bg-background"></div>
-            
+
             {/* Enhanced depth shadow */}
             <div className="absolute inset-0 bg-gradient-to-b from-background/90 via-transparent to-background pointer-events-none"></div>
 
             {/* Subtle grid pattern */}
-            <motion.div 
+            <motion.div
                 style={{ y: backgroundY }}
-                className="absolute inset-0 opacity-[0.01]" 
+                className="absolute inset-0 opacity-[0.01]"
             >
                 <div style={{
-                backgroundImage: 'linear-gradient(to right, currentColor 1px, transparent 1px), linear-gradient(to bottom, currentColor 1px, transparent 1px)',
-                backgroundSize: '60px 60px',
-                height: '150%'
-            }}></div>
+                    backgroundImage: 'linear-gradient(to right, currentColor 1px, transparent 1px), linear-gradient(to bottom, currentColor 1px, transparent 1px)',
+                    backgroundSize: '60px 60px',
+                    height: '150%'
+                }}></div>
             </motion.div>
 
             {/* Subtle floating orbs */}
@@ -62,7 +62,7 @@ export default function CTASection({ className = '' }: CTASectionProps) {
 
                         {/* Card content */}
                         <div className="relative bg-background border border-foreground/10 rounded-3xl p-12 sm:p-16 text-center">
-                            
+
                             {/* Clean Badge */}
                             <motion.div
                                 initial={{ opacity: 0, y: 10 }}
@@ -72,7 +72,7 @@ export default function CTASection({ className = '' }: CTASectionProps) {
                                 className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-foreground/5 border border-foreground/10 mb-8"
                             >
                                 <div className="w-1.5 h-1.5 rounded-full bg-foreground/60"></div>
-                                <span className="text-xs font-medium uppercase tracking-wider text-foreground/70">Coming Soon</span>
+                                <span className="text-xs font-medium uppercase tracking-wider text-foreground/70">Get Started Today</span>
                             </motion.div>
 
                             {/* Heading - Clean & Bold */}
@@ -94,9 +94,9 @@ export default function CTASection({ className = '' }: CTASectionProps) {
                                 viewport={{ once: true }}
                                 className="text-lg sm:text-xl text-muted-foreground mb-10 max-w-2xl mx-auto leading-relaxed"
                             >
-                                Join the waitlist and be the first to experience our cloud platform.
+                                Start building modern full-stack applications today.
                                 <br className="hidden sm:block" />
-                                Simple, fast, and built for developers.
+                                Free, open source, and production-ready.
                             </motion.p>
 
                             {/* CTA Buttons - Clean Design */}
@@ -117,14 +117,14 @@ export default function CTASection({ className = '' }: CTASectionProps) {
                                 ) : (
                                     <>
                                         <Button size="lg" className="group relative px-10 py-6 text-base font-semibold" asChild>
-                                            <Link href={'#'}>
-                                                Join Waitlist
+                                            <Link href={'/register'}>
+                                                Get Started Free
                                                 <ArrowRight className="h-5 w-5 ml-2 group-hover:translate-x-1 transition-transform" />
                                             </Link>
                                         </Button>
                                         <Button size="lg" variant="outline" className="px-10 py-6 text-base font-semibold border-foreground/20 hover:bg-foreground/5" asChild>
                                             <Link href={'#features'}>
-                                                Learn More
+                                                View Features
                                             </Link>
                                         </Button>
                                     </>
@@ -148,15 +148,15 @@ export default function CTASection({ className = '' }: CTASectionProps) {
                             >
                                 <div className="flex items-center gap-2">
                                     <div className="w-1.5 h-1.5 rounded-full bg-foreground/40"></div>
-                                    <span>Free to Start</span>
+                                    <span>100% Free</span>
                                 </div>
                                 <div className="flex items-center gap-2">
                                     <div className="w-1.5 h-1.5 rounded-full bg-foreground/40"></div>
-                                    <span>No Credit Card</span>
+                                    <span>Open Source</span>
                                 </div>
                                 <div className="flex items-center gap-2">
                                     <div className="w-1.5 h-1.5 rounded-full bg-foreground/40"></div>
-                                    <span>Cancel Anytime</span>
+                                    <span>MIT Licensed</span>
                                 </div>
                             </motion.div>
                         </div>

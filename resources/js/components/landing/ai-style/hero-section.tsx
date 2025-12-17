@@ -27,7 +27,7 @@ const mockNotifications = [
         icon: Users,
         avatar: 'JD',
         name: 'John Doe',
-        message: 'Just deployed to production in 30 seconds! 🚀',
+        message: 'Built my SaaS in a weekend with TSInertia! 🚀',
         time: 'Just now',
         color: 'bg-blue-500/20',
     },
@@ -35,7 +35,7 @@ const mockNotifications = [
         icon: CheckCircle2,
         avatar: 'SK',
         name: 'Sarah Kim',
-        message: 'Shared localhost with team via secure tunnel ⚡',
+        message: 'Auth system + admin panel ready in minutes! ⚡',
         time: '2m ago',
         color: 'bg-green-500/20',
     },
@@ -43,7 +43,7 @@ const mockNotifications = [
         icon: Zap,
         avatar: 'MR',
         name: 'Mike Ross',
-        message: 'Custom domain + SSL in 1 click! Love it 💜',
+        message: 'TypeScript + React + Laravel = Perfect stack 💜',
         time: '5m ago',
         color: 'bg-purple-500/20',
     },
@@ -51,7 +51,7 @@ const mockNotifications = [
         icon: MessageSquare,
         avatar: 'AL',
         name: 'Alice Lee',
-        message: 'No more ngrok! IDL is so much faster 🔥',
+        message: 'Best starter kit ever! Clean code 🔥',
         time: '8m ago',
         color: 'bg-orange-500/20',
     },
@@ -355,17 +355,17 @@ function DesktopMockup() {
                                     {deskopIcons[openWindow].type === 'terminal' && (
                                         <div className="p-2 sm:p-4 h-full font-mono text-[8px] sm:text-xs bg-black dark:bg-black overflow-hidden">
                                             <div className="space-y-0.5 sm:space-y-1 text-white dark:text-white text-left">
-                                                <div>$ idl http 3000</div>
-                                                <div className="mt-1 sm:mt-2">Starting IDCloudlabs HTTP tunnel...</div>
-                                                <div className="mt-0.5 sm:mt-1">✓ Tunnel established</div>
-                                                <div>✓ Public URL: https://abc123.idl.dev</div>
-                                                <div className="mt-1 sm:mt-2">Listening on port 3000...</div>
+                                                <div>$ composer dev</div>
+                                                <div className="mt-1 sm:mt-2">Starting Laravel development server...</div>
+                                                <div className="mt-0.5 sm:mt-1">✓ Server started: http://localhost:8000</div>
+                                                <div>✓ Vite dev server: http://localhost:5173</div>
+                                                <div className="mt-1 sm:mt-2">TSInertia Starter ready! 🚀</div>
                                                 <div className="opacity-50 mt-1.5 sm:mt-3">─────────────────────────────</div>
-                                                <div className="mt-1 sm:mt-2">[12:34:15] GET / - 200 OK (12ms)</div>
-                                                <div>[12:34:18] GET /api/users - 200 OK (45ms)</div>
-                                                <div>[12:34:22] POST /api/login - 201 Created (89ms)</div>
-                                                <div>[12:34:25] GET /assets/style.css - 200 OK (5ms)</div>
-                                                <div>[12:34:28] GET /api/data - 200 OK (23ms)</div>
+                                                <div className="mt-1 sm:mt-2">[INFO] Inertia SSR server started</div>
+                                                <div>[INFO] Vite 6.0 build tool running</div>
+                                                <div>[INFO] Laravel 12 framework loaded</div>
+                                                <div>[INFO] React 19 with TypeScript ready</div>
+                                                <div className="text-green-400">[SUCCESS] All systems operational ✓</div>
                                                 <div className="mt-1 sm:mt-2 flex items-center gap-1">
                                                     <span>$</span>
                                                     <span className="animate-pulse">_</span>
@@ -537,7 +537,7 @@ function DesktopMockup() {
                                                         <>
                                                             <div className="flex gap-3">
                                                                 <span className="text-muted-foreground/40 select-none w-6 text-right">1</span>
-                                                                <div><span className="text-blue-400">console</span><span className="text-foreground/60">.</span><span className="text-yellow-400">log</span><span className="text-foreground/60">(</span><span className="text-green-400">'Hello IDL!'</span><span className="text-foreground/60">);</span></div>
+                                                                <div><span className="text-blue-400">console</span><span className="text-foreground/60">.</span><span className="text-yellow-400">log</span><span className="text-foreground/60">(</span><span className="text-green-400">'TSInertia Starter!'</span><span className="text-foreground/60">);</span></div>
                                                             </div>
                                                             <div className="flex gap-3">
                                                                 <span className="text-muted-foreground/40 select-none w-6 text-right">2</span>
@@ -604,7 +604,7 @@ function DesktopMockup() {
                                             <p className="mt-2">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
                                             <p>Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
                                             <p className="mt-2">TODO:</p>
-                                            <p>- Deploy website to IDL</p>
+                                            <p>- Build full-stack app</p>
                                             <p>- Fix API endpoints</p>
                                             <p>- Update documentation</p>
                                         </div>
@@ -616,7 +616,7 @@ function DesktopMockup() {
                                             <p className="mt-2">## Installation</p>
                                             <p>npm install</p>
                                             <p className="mt-2">## Usage</p>
-                                            <p>Run `idl http 3000` to start development server.</p>
+                                            <p>Run `composer dev` to start development server.</p>
                                             <p className="mt-2">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
                                         </div>
                                     )}
@@ -627,7 +627,7 @@ function DesktopMockup() {
                                             <p className="pl-4">"version": "1.0.0",</p>
                                             <p className="pl-4">"description": "A simple web application",</p>
                                             <p className="pl-4">"scripts": {`{`}</p>
-                                            <p className="pl-8">"dev": "idl http 3000",</p>
+                                            <p className="pl-8">"dev": "composer dev",</p>
                                             <p className="pl-8">"build": "vite build"</p>
                                             <p className="pl-4">{`}`},</p>
                                             <p className="pl-4">"dependencies": {`{`}</p>
@@ -653,8 +653,8 @@ function DesktopMockup() {
                                             </div>
                                             <p className="mt-4 text-center text-foreground/70">
                                                 {notepadFile === 'logo.svg' ? 'SVG Vector - Scalable' :
-                                                 notepadFile === 'banner.png' ? 'PNG Image - 1920 x 400 px' :
-                                                 'PNG Image - 800 x 600 px'}
+                                                    notepadFile === 'banner.png' ? 'PNG Image - 1920 x 400 px' :
+                                                        'PNG Image - 800 x 600 px'}
                                             </p>
                                         </div>
                                     )}
@@ -708,7 +708,7 @@ function DesktopMockup() {
                                                     onClick={() => setBrowserTab('tunnel')}
                                                 >
                                                     <Globe className="h-3 w-3 text-foreground/60" />
-                                                    <span>abc123.idl.dev</span>
+                                                    <span>tsinertia.local</span>
                                                 </div>
                                                 <div
                                                     className={`flex items-center gap-2 px-3 py-1 text-[10px] cursor-pointer rounded-t ${browserTab === 'fesnuk' ? 'bg-background/50' : 'hover:bg-muted/30'}`}
@@ -725,7 +725,7 @@ function DesktopMockup() {
                                                     <div className="h-full flex items-center justify-center">
                                                         <div className="text-center">
                                                             <h1 className="text-2xl font-bold text-foreground mb-2">Welcome!</h1>
-                                                            <p className="text-muted-foreground">Your app is running on {browserTab === 'localhost' ? 'localhost:3000' : 'https://abc123.idl.dev'}</p>
+                                                            <p className="text-muted-foreground">Your app is running on {browserTab === 'localhost' ? 'localhost:3000' : 'https://tsinertia.local'}</p>
                                                         </div>
                                                     </div>
                                                 )}
@@ -744,7 +744,7 @@ function DesktopMockup() {
                                                                     <div className="w-8 h-8 rounded-full bg-purple-500/20"></div>
                                                                     <div className="text-xs font-semibold">codewithwan</div>
                                                                 </div>
-                                                                <div className="text-xs">It works on my machine... oh wait, it works everywhere with IDL!</div>
+                                                                <div className="text-xs">Built my SaaS in a weekend with TSInertia! Amazing starter kit!</div>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -771,11 +771,11 @@ function DesktopMockup() {
                                                 <div className="divide-y divide-border/30">
                                                     <div className="p-3 hover:bg-muted/20 cursor-pointer text-left">
                                                         <div className="flex items-center justify-between mb-1">
-                                                            <div className="text-xs font-semibold text-left">IDCloudlabs Team</div>
+                                                            <div className="text-xs font-semibold text-left">TSInertia Team</div>
                                                             <div className="text-[10px] text-muted-foreground text-left">10:30 AM</div>
                                                         </div>
-                                                        <div className="text-xs text-muted-foreground mb-1 text-left">Welcome to IDL!</div>
-                                                        <div className="text-[10px] text-muted-foreground text-left">Get started with your first tunnel...</div>
+                                                        <div className="text-xs text-muted-foreground mb-1 text-left">Welcome to TSInertia!</div>
+                                                        <div className="text-[10px] text-muted-foreground text-left">Get started with your first project...</div>
                                                     </div>
                                                     <div className="p-3 hover:bg-muted/20 cursor-pointer text-left">
                                                         <div className="flex items-center justify-between mb-1">
@@ -829,12 +829,12 @@ function DesktopMockup() {
                                                 <div className="flex-1 p-3 space-y-2 overflow-auto">
                                                     <div className="flex justify-start">
                                                         <div className="bg-muted/50 rounded-lg px-3 py-2 max-w-[70%]">
-                                                            <div className="text-xs text-left">Hey! Did you try IDL yet?</div>
+                                                            <div className="text-xs text-left">Hey! Are you using TSInertia?</div>
                                                         </div>
                                                     </div>
                                                     <div className="flex justify-end">
                                                         <div className="bg-primary/20 rounded-lg px-3 py-2 max-w-[70%]">
-                                                            <div className="text-xs text-left">Yes! It's amazing for tunneling!</div>
+                                                            <div className="text-xs text-left">Yes! Perfect for full-stack apps!</div>
                                                         </div>
                                                     </div>
                                                     <div className="flex justify-start">
@@ -867,13 +867,13 @@ function DesktopMockup() {
                                                     </div>
                                                     <div className="flex items-center justify-center gap-4">
                                                         <button className="text-muted-foreground hover:text-foreground">
-                                                            <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M6 6h2v12H6zm3.5 6l8.5 6V6z"/></svg>
+                                                            <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M6 6h2v12H6zm3.5 6l8.5 6V6z" /></svg>
                                                         </button>
                                                         <button className="w-12 h-12 rounded-full bg-foreground hover:bg-foreground/80 flex items-center justify-center">
-                                                            <svg className="w-6 h-6 text-background" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                                                            <svg className="w-6 h-6 text-background" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z" /></svg>
                                                         </button>
                                                         <button className="text-muted-foreground hover:text-foreground">
-                                                            <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M16 18h2V6h-2zm-3.5-6L4 6v12z"/></svg>
+                                                            <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M16 18h2V6h-2zm-3.5-6L4 6v12z" /></svg>
                                                         </button>
                                                     </div>
                                                 </div>
@@ -1119,7 +1119,7 @@ export default function HeroSection({ className = '' }: HeroSectionProps) {
                         <div className="absolute inset-0 bg-primary/20 blur-xl"></div>
                         <div className="relative px-4 py-1.5 border border-primary/30 rounded-full bg-background/50 backdrop-blur-sm flex items-center gap-2">
                             <Sparkles className="h-3.5 w-3.5 text-primary" />
-                            <span className="text-xs font-medium uppercase tracking-wider">Coming Soon</span>
+                            <span className="text-xs font-medium uppercase tracking-wider">Production Ready</span>
                             <div className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse"></div>
                         </div>
                     </div>
@@ -1133,10 +1133,10 @@ export default function HeroSection({ className = '' }: HeroSectionProps) {
                     className="mb-8 space-y-2 sm:space-y-3"
                 >
                     <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight">
-                        <span className="text-foreground">Cloud Platform </span>
+                        <span className="text-foreground">Build Modern </span>
                         <div className="relative inline-block">
                             <span className="bg-gradient-to-r from-primary to-primary/60 bg-clip-text text-transparent">
-                                for Developers
+                                Full-Stack Apps
                             </span>
                             <motion.div
                                 className="absolute -inset-2 bg-primary/5 blur-2xl -z-10"
@@ -1146,7 +1146,7 @@ export default function HeroSection({ className = '' }: HeroSectionProps) {
                         </div>
                     </h1>
                     <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight">
-                        <span className="block text-foreground">Made Simple</span>
+                        <span className="block text-foreground">Faster & Smarter</span>
                     </h1>
                 </motion.div>
 
@@ -1164,9 +1164,9 @@ export default function HeroSection({ className = '' }: HeroSectionProps) {
                     </div>
 
                     <p className="text-base sm:text-lg md:text-xl max-w-3xl mx-auto text-muted-foreground leading-relaxed">
-                        Reverse Tunnel, <span className="text-foreground font-medium">Static Hosting</span>, & Custom Domain
+                        TypeScript + React + Inertia.js + <span className="text-foreground font-medium">Laravel Stack</span>
                         <br className="hidden sm:block" />
-                        With Automatic SSL. <span className="text-primary font-medium">Coming Soon</span>
+                        Pre-configured auth, admin panel, and <span className="text-primary font-medium">beautiful UI components</span>
                     </p>
 
                     <div className="flex items-center justify-center gap-2 mt-4">
@@ -1178,7 +1178,7 @@ export default function HeroSection({ className = '' }: HeroSectionProps) {
 
                 {/* Desktop Mockup */}
                 <motion.div
-                    style={{ 
+                    style={{
                         y: yMockup,
                         scale: mockupScale,
                         rotateX: mockupRotate

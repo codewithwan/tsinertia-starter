@@ -1,11 +1,15 @@
 {
     "$schema": "https://getcomposer.org/schema.json",
-    "name": "laravel/react-starter-kit",
+    "name": "codewithwan/tsinertia-starter",
     "type": "project",
-    "description": "The skeleton application for the Laravel framework.",
+    "description": "A modern, production-ready starter kit for building full-stack web applications using TypeScript, Laravel, Inertia.js, and React.",
     "keywords": [
         "laravel",
-        "framework"
+        "inertia",
+        "react",
+        "typescript",
+        "starter-kit",
+        "full-stack"
     ],
     "license": "MIT",
     "require": {

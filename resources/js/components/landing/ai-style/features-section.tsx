@@ -75,41 +75,41 @@ interface FeaturesSectionProps {
 
 const items = [
   {
-    title: 'Reverse Tunnel',
+    title: 'TypeScript First',
     description:
-      'Expose local applications to the internet with ease. Similar to Ngrok but faster and more affordable. Simple CLI commands.',
+      'Full TypeScript support with strict type checking. Auto-completion, type safety, and better developer experience out of the box.',
     icon: <Cpu className="size-6" />,
     size: 'large' as const,
   },
   {
-    title: 'Static Hosting',
+    title: 'Modern Stack',
     description:
-      'Deploy static websites super fast like Vercel/Netlify. No server setup required, instant live.',
+      'Laravel 12 + React 19 + Inertia.js 2.0 + Tailwind CSS 4. The perfect combination for building modern web apps.',
     icon: <Globe className="size-6" />,
     size: 'small' as const,
   },
   {
-    title: 'Custom Domain',
-    description: 'Custom domain with automatic SSL. No complex DNS configuration needed, instant activation.',
+    title: 'Authentication Ready',
+    description: 'Complete auth system with login, register, password reset, email verification, and social authentication.',
     icon: <Shield className="size-6" />,
     size: 'medium' as const,
   },
   {
-    title: 'Modern Dashboard',
-    description: "Interactive dashboard to manage tunnels, deployments, domains, and analytics.",
+    title: 'Admin Dashboard',
+    description: "Pre-built admin panel with user management, role & permission system using Spatie Laravel Permission.",
     icon: <BarChart3 className="size-6" />,
     size: 'medium' as const,
   },
   {
-    title: 'Simple CLI',
-    description: 'Easy-to-use CLI with short commands. Expose local apps and deploy static sites with simple commands.',
+    title: 'UI Components',
+    description: '50+ accessible UI components built with Radix UI and styled with Tailwind CSS. Dark mode included.',
     icon: <HardDrive className="size-6" />,
     size: 'small' as const,
   },
   {
-    title: 'Asia Pacific Server',
+    title: 'Developer Experience',
     description:
-      'Servers in Asia Pacific region for low latency. Affordable pricing for developers worldwide.',
+      'ESLint, Prettier, Laravel Pint configured. Hot reload, TypeScript types, and excellent DX for maximum productivity.',
     icon: <Zap className="size-6" />,
     size: 'large' as const,
   },
@@ -128,34 +128,42 @@ export default function FeaturesSection({ className = '' }: FeaturesSectionProps
   const backgroundY = useTransform(scrollYProgress, [0, 1], isMobile ? [0, 0] : [0, -100]);
   const glowY = useTransform(scrollYProgress, [0, 1], isMobile ? [0, 0] : [50, -50]);
 
+
   const containerVariants = {
-    hidden: {},
+    hidden: { opacity: 0, y: 40 },
     visible: {
+      opacity: 1,
+      y: 0,
       transition: {
-        staggerChildren: 0.12,
-        delayChildren: 0.1,
-      },
+        duration: 0.6,
+        ease: [0.42, 0, 0.58, 1]
+      }
     },
+  };
+
+  const itemVariants = {
+    hidden: { opacity: 0 },
+    visible: { opacity: 1 }
   };
 
   return (
     <section ref={sectionRef} id="features" className={`relative py-24 overflow-hidden ${className}`} style={{ zIndex: 20, marginTop: '-8rem' }}>
       {/* Background */}
       <div className="absolute inset-0 bg-background"></div>
-      
+
       {/* Enhanced depth shadow */}
       <div className="absolute inset-0 bg-gradient-to-b from-background/50 via-transparent to-background/80 pointer-events-none"></div>
 
       {/* Neon grid overlay */}
-      <motion.div 
+      <motion.div
         style={{ y: backgroundY }}
         className="absolute inset-0 opacity-[0.02]"
       >
         <div style={{
-        backgroundImage: 'linear-gradient(to right, currentColor 1px, transparent 1px), linear-gradient(to bottom, currentColor 1px, transparent 1px)',
-        backgroundSize: '80px 80px',
-        height: '150%'
-      }}></div>
+          backgroundImage: 'linear-gradient(to right, currentColor 1px, transparent 1px), linear-gradient(to bottom, currentColor 1px, transparent 1px)',
+          backgroundSize: '80px 80px',
+          height: '150%'
+        }}></div>
       </motion.div>
 
       {/* Decorative glow elements */}
@@ -174,18 +182,18 @@ export default function FeaturesSection({ className = '' }: FeaturesSectionProps
             <span className="text-sm font-medium uppercase tracking-wider">Features</span>
           </div>
           <h2 className="text-4xl sm:text-5xl font-bold text-foreground mb-4">
-            Features Coming Soon
+            Everything You Need to Build
           </h2>
           <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-            Cloud platform for developers. Reverse tunnel, static hosting, and custom domain made easy.
+            Production-ready starter kit with all the modern tools and best practices configured for you.
           </p>
         </motion.div>
 
         <motion.div
           className="grid grid-cols-1 gap-px sm:grid-cols-2 md:grid-cols-6 max-w-6xl mx-auto bg-foreground/10 border border-foreground/10 rounded-2xl overflow-hidden"
-          variants={containerVariants}
-          initial="hidden"
-          whileInView="visible"
+          initial={{ opacity: 0, y: 40 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
           viewport={{ once: true }}
         >
           {items.map((item, i) => (

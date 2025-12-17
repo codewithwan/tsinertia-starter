@@ -27,7 +27,7 @@ export default function PricingSection({ className = '' }: PricingSectionProps) 
         <section ref={sectionRef} id="pricing" className={`relative py-24 md:py-32 overflow-hidden ${className}`} style={{ zIndex: 1 }}>
             {/* Background */}
             <div className="absolute inset-0 bg-background"></div>
-            
+
             {/* Enhanced depth shadow */}
             <div className="absolute inset-0 bg-gradient-to-b from-background/60 via-transparent to-background/90 pointer-events-none"></div>
 
@@ -63,10 +63,10 @@ export default function PricingSection({ className = '' }: PricingSectionProps) 
                         <div className="h-px w-8 bg-foreground/20"></div>
                     </div>
                     <h2 className="text-4xl sm:text-5xl font-bold text-foreground mb-4">
-                        Affordable Pricing
+                        Free & Open Source
                     </h2>
                     <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-                        Affordable plans for developers. Free reverse tunnel, premium plans for business needs.
+                        TSInertia Starter is completely free and open source. Start building today!
                     </p>
                 </motion.div>
 
@@ -94,8 +94,8 @@ export default function PricingSection({ className = '' }: PricingSectionProps) 
 
                                 <div className="flex items-center justify-between pr-16">
                                     <div>
-                                        <CardTitle className="text-2xl mb-2">Free Tier</CardTitle>
-                                        <CardDescription>Perfect for getting started</CardDescription>
+                                        <CardTitle className="text-2xl mb-2">Open Source</CardTitle>
+                                        <CardDescription>Everything included</CardDescription>
                                     </div>
                                     <div className="text-right">
                                         <div className="text-3xl font-bold text-foreground">Free</div>
@@ -121,11 +121,11 @@ export default function PricingSection({ className = '' }: PricingSectionProps) 
                                     <h4 className="font-semibold text-foreground">Features</h4>
                                     <ul className="space-y-2">
                                         {[
-                                            'Free reverse tunnel',
-                                            'Limited static hosting',
-                                            'Subdomain .idlabs.cloud',
-                                            'Basic dashboard',
-                                            'Automatic SSL'
+                                            'All features included',
+                                            'TypeScript + React + Laravel',
+                                            'Authentication system',
+                                            'Admin dashboard',
+                                            'UI component library'
                                         ].map((feature, index) => (
                                             <li key={index} className="flex items-center gap-2 text-sm">
                                                 <Check className="h-4 w-4 text-foreground/60 flex-shrink-0" />
@@ -140,9 +140,9 @@ export default function PricingSection({ className = '' }: PricingSectionProps) 
                                     <h4 className="font-semibold text-foreground">What's Included</h4>
                                     <div className="space-y-2">
                                         {[
-                                            { item: 'Free Hosting', price: '✓' },
-                                            { item: 'Auto Scaling', price: '✓' },
-                                            { item: 'API Access', price: '✓' }
+                                            { item: 'Complete Source Code', price: '✓' },
+                                            { item: 'MIT Licensed', price: '✓' },
+                                            { item: 'Free Updates', price: '✓' }
                                         ].map((option, index) => (
                                             <div key={index} className="flex justify-between items-center py-2 px-3 bg-foreground/5 rounded border border-foreground/10">
                                                 <span className="text-sm text-foreground">{option.item}</span>
@@ -152,9 +152,9 @@ export default function PricingSection({ className = '' }: PricingSectionProps) 
                                     </div>
                                 </div>
 
-                                <Button className="w-full mt-auto" variant="outline" asChild>
-                                    <Link href={'#'}>
-                                        Notify Me
+                                <Button className="w-full mt-auto" asChild>
+                                    <Link href={'/register'}>
+                                        Get Started Free
                                         <ArrowRight className="h-4 w-4 ml-2" />
                                     </Link>
                                 </Button>
@@ -186,12 +186,12 @@ export default function PricingSection({ className = '' }: PricingSectionProps) 
 
                                 <div className="flex items-center justify-between pr-20">
                                     <div>
-                                        <CardTitle className="text-2xl mb-2">Premium</CardTitle>
-                                        <CardDescription>For business & production needs</CardDescription>
+                                        <CardTitle className="text-2xl mb-2">Pro Support</CardTitle>
+                                        <CardDescription>Custom development & consulting</CardDescription>
                                     </div>
                                     <div className="text-right">
-                                        <div className="text-3xl font-bold text-foreground">Coming</div>
-                                        <div className="text-sm text-muted-foreground">Soon</div>
+                                        <div className="text-3xl font-bold text-foreground">Custom</div>
+                                        <div className="text-sm text-muted-foreground">Contact us</div>
                                     </div>
                                 </div>
                             </CardHeader>
@@ -213,12 +213,12 @@ export default function PricingSection({ className = '' }: PricingSectionProps) 
                                     <h4 className="font-semibold text-foreground">What's Included:</h4>
                                     <ul className="space-y-2">
                                         {[
-                                            'Unlimited tunnel & deploy',
-                                            'Custom domain unlimited',
-                                            'Priority support',
-                                            'Analytics & logs',
-                                            'Team collaboration',
-                                            'Asia Pacific Server'
+                                            'Priority email support',
+                                            'Custom feature development',
+                                            'Code review & consulting',
+                                            'Training sessions',
+                                            'Dedicated Slack channel',
+                                            'SLA guarantee'
                                         ].map((feature, index) => (
                                             <li key={index} className="flex items-center gap-2 text-sm">
                                                 <Check className="h-4 w-4 text-foreground/80 flex-shrink-0" />
@@ -233,9 +233,9 @@ export default function PricingSection({ className = '' }: PricingSectionProps) 
                                     <h4 className="font-semibold text-foreground">What's Included</h4>
                                     <div className="space-y-2">
                                         {[
-                                            { item: 'Affordable Pricing', price: '✓' },
-                                            { item: 'Asia Pacific Server', price: '✓' },
-                                            { item: 'Local Support', price: '✓' }
+                                            { item: 'Custom Development', price: '✓' },
+                                            { item: 'Consulting', price: '✓' },
+                                            { item: 'Training', price: '✓' }
                                         ].map((option, index) => (
                                             <div key={index} className="flex justify-between items-center py-2 px-3 bg-foreground/10 rounded border border-foreground/20">
                                                 <span className="text-sm text-foreground">{option.item}</span>
@@ -245,9 +245,9 @@ export default function PricingSection({ className = '' }: PricingSectionProps) 
                                     </div>
                                 </div>
 
-                                <Button className="w-full mt-auto" asChild>
-                                    <Link href={'#'}>
-                                        Notify Me
+                                <Button className="w-full mt-auto" variant="outline" asChild>
+                                    <Link href={'mailto:support@tsinertia.com'}>
+                                        Contact Us
                                         <ArrowRight className="h-4 w-4 ml-2" />
                                     </Link>
                                 </Button>
