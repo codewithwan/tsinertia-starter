@@ -56,6 +56,19 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Demo Mode
+    |--------------------------------------------------------------------------
+    |
+    | When demo mode is enabled, certain features will be disabled such as
+    | registration, profile editing, and other write operations. This is
+    | useful for public demos where you want to showcase functionality.
+    |
+    */
+
+    'demo' => env('APP_DEMO', false),
+
+    /*
+    |--------------------------------------------------------------------------
     | Application Timezone
     |--------------------------------------------------------------------------
     |

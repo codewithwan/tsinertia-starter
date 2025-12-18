@@ -10,12 +10,13 @@ import HeadingSmall from '@/components/heading-small';
 
 import { Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 
-export default function DeleteUser() {
+export default function DeleteUser({ isDemo = false }: { isDemo?: boolean }) {
     const passwordInput = useRef<HTMLInputElement>(null);
     const { data, setData, delete: destroy, processing, reset, errors, clearErrors } = useForm<Required<{ password: string }>>({ password: '' });
 
     const deleteUser: FormEventHandler = (e) => {
         e.preventDefault();
+        if (isDemo) return;
 
         destroy(route('profile.destroy'), {
             preserveScroll: true,
@@ -41,7 +42,7 @@ export default function DeleteUser() {
 
                 <Dialog>
                     <DialogTrigger asChild>
-                        <Button variant="destructive">Delete account</Button>
+                        <Button variant="destructive" disabled={isDemo}>Delete account</Button>
                     </DialogTrigger>
                     <DialogContent>
                         <DialogTitle>Are you sure you want to delete your account?</DialogTitle>
@@ -64,6 +65,7 @@ export default function DeleteUser() {
                                     onChange={(e) => setData('password', e.target.value)}
                                     placeholder="Password"
                                     autoComplete="current-password"
+                                    disabled={isDemo}
                                 />
 
                                 <InputError message={errors.password} />
@@ -76,7 +78,7 @@ export default function DeleteUser() {
                                     </Button>
                                 </DialogClose>
 
-                                <Button variant="destructive" disabled={processing} asChild>
+                                <Button variant="destructive" disabled={processing || isDemo} asChild>
                                     <button type="submit">Delete account</button>
                                 </Button>
                             </DialogFooter>

@@ -12,7 +12,7 @@ interface CTASectionProps {
 }
 
 export default function CTASection({ className = '' }: CTASectionProps) {
-    const { auth } = usePage<SharedData>().props;
+    const { auth, isDemo } = usePage<SharedData>().props;
     const sectionRef = useRef<HTMLElement>(null);
     const { scrollYProgress } = useScroll({
         target: sectionRef,

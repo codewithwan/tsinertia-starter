@@ -1,7 +1,7 @@
 import AppLogo from '@/components/app-logo';
 import { Link } from '@inertiajs/react';
 import { type PropsWithChildren } from 'react';
-import { Cpu, Globe, Shield, Terminal } from 'lucide-react';
+import { Code2, Layers, Shield, Zap } from 'lucide-react';
 
 interface AuthLayoutProps {
     title?: string;
@@ -16,7 +16,7 @@ export default function AuthSplitLayout({ children, title, description }: PropsW
             <div className="relative hidden h-full flex-col bg-background p-10 text-foreground lg:flex">
                 {/* Grid Pattern Background */}
                 <div className="absolute inset-0 bg-[linear-gradient(rgba(0,0,0,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(0,0,0,0.02)_1px,transparent_1px)] dark:bg-[linear-gradient(rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:24px_24px] pointer-events-none"></div>
-                
+
                 {/* Logo */}
                 <Link href={route('home')} className="relative z-20 flex items-center text-lg font-medium">
                     <AppLogo />
@@ -26,11 +26,10 @@ export default function AuthSplitLayout({ children, title, description }: PropsW
                 <div className="relative z-20 mt-auto space-y-8">
                     <div className="space-y-6">
                         <h2 className="text-4xl font-bold text-foreground">
-                            Cloud Platform <span className="bg-gradient-to-r from-primary to-primary/80 bg-clip-text text-transparent">for Developers</span>
+                            Modern Full-Stack <span className="bg-gradient-to-r from-primary to-primary/80 bg-clip-text text-transparent">Starter Kit</span>
                         </h2>
                         <p className="text-lg text-muted-foreground leading-relaxed">
-                            Reverse Tunnel, Static Hosting, & Custom Domain with Automatic SSL. 
-                            Made simple for developers worldwide.
+                            TypeScript, Laravel, React, and Inertia.js pre-configured with authentication, admin panel, and beautiful UI components.
                         </p>
                     </div>
 
@@ -38,41 +37,41 @@ export default function AuthSplitLayout({ children, title, description }: PropsW
                     <div className="space-y-4">
                         <div className="flex items-start gap-3">
                             <div className="w-8 h-8 bg-primary/10 rounded-lg flex items-center justify-center flex-shrink-0 mt-1">
-                                <Cpu className="h-4 w-4 text-primary" />
+                                <Code2 className="h-4 w-4 text-primary" />
                             </div>
                             <div>
-                                <h3 className="font-semibold text-foreground">Reverse Tunnel</h3>
-                                <p className="text-sm text-muted-foreground">Expose local apps to the internet with ease</p>
+                                <h3 className="font-semibold text-foreground">TypeScript First</h3>
+                                <p className="text-sm text-muted-foreground">Full type safety across the stack</p>
                             </div>
                         </div>
-                        
+
                         <div className="flex items-start gap-3">
                             <div className="w-8 h-8 bg-primary/10 rounded-lg flex items-center justify-center flex-shrink-0 mt-1">
-                                <Globe className="h-4 w-4 text-primary" />
+                                <Layers className="h-4 w-4 text-primary" />
                             </div>
                             <div>
-                                <h3 className="font-semibold text-foreground">Static Hosting</h3>
-                                <p className="text-sm text-muted-foreground">Deploy static websites super fast</p>
+                                <h3 className="font-semibold text-foreground">Modern Stack</h3>
+                                <p className="text-sm text-muted-foreground">Laravel 12, React 19, Inertia.js 2.0</p>
                             </div>
                         </div>
-                        
+
                         <div className="flex items-start gap-3">
                             <div className="w-8 h-8 bg-primary/10 rounded-lg flex items-center justify-center flex-shrink-0 mt-1">
                                 <Shield className="h-4 w-4 text-primary" />
                             </div>
                             <div>
-                                <h3 className="font-semibold text-foreground">Custom Domain</h3>
-                                <p className="text-sm text-muted-foreground">Custom domain with automatic SSL</p>
+                                <h3 className="font-semibold text-foreground">Complete Auth</h3>
+                                <p className="text-sm text-muted-foreground">Login, register, and OAuth ready</p>
                             </div>
                         </div>
-                        
+
                         <div className="flex items-start gap-3">
                             <div className="w-8 h-8 bg-primary/10 rounded-lg flex items-center justify-center flex-shrink-0 mt-1">
-                                <Terminal className="h-4 w-4 text-primary" />
+                                <Zap className="h-4 w-4 text-primary" />
                             </div>
                             <div>
-                                <h3 className="font-semibold text-foreground">Simple CLI</h3>
-                                <p className="text-sm text-muted-foreground">Easy-to-use CLI with short commands</p>
+                                <h3 className="font-semibold text-foreground">UI Components</h3>
+                                <p className="text-sm text-muted-foreground">50+ components with dark mode</p>
                             </div>
                         </div>
                     </div>
@@ -86,7 +85,7 @@ export default function AuthSplitLayout({ children, title, description }: PropsW
                     <Link href={route('home')} className="relative z-20 flex items-center justify-center lg:hidden">
                         <AppLogo />
                     </Link>
-                    
+
                     {/* Auth Card */}
                     <div className="rounded-xl border bg-card p-8 shadow-lg transition-all duration-200 hover:shadow-xl dark:border-zinc-800 dark:bg-zinc-900/30">
                         <div className="flex flex-col items-start gap-3 text-left sm:items-center sm:text-center">

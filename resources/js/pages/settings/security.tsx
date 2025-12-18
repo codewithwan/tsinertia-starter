@@ -1,6 +1,6 @@
-import { type BreadcrumbItem } from '@/types';
-import { Head, router } from '@inertiajs/react';
-import { Monitor, MapPin, Clock, Trash2, LogOut } from 'lucide-react';
+import { type BreadcrumbItem, type SharedData } from '@/types';
+import { Head, router, usePage } from '@inertiajs/react';
+import { Monitor, MapPin, Clock, Trash2, LogOut, AlertCircle } from 'lucide-react';
 import { useState } from 'react';
 import { route } from 'ziggy-js';
 
@@ -49,10 +49,11 @@ const breadcrumbs: BreadcrumbItem[] = [
 ];
 
 export default function Security({ sessions, currentSessionId, status }: SecurityProps) {
+    const { isDemo } = usePage<SharedData>().props;
     const [deletingSessionId, setDeletingSessionId] = useState<string | null>(null);
 
     const deleteSession = (sessionId: string) => {
-        if (sessionId === currentSessionId) {
+        if (sessionId === currentSessionId || isDemo) {
             return;
         }
 
@@ -64,6 +65,7 @@ export default function Security({ sessions, currentSessionId, status }: Securit
     };
 
     const deleteAllSessions = () => {
+        if (isDemo) return;
         router.delete(route('sessions.destroyAll'), {
             preserveScroll: true,
         });
@@ -80,9 +82,17 @@ export default function Security({ sessions, currentSessionId, status }: Securit
                 <div className="grid grid-cols-1 gap-12 lg:grid-cols-[2fr_1fr] xl:grid-cols-[3fr_1fr]">
                     {/* Left: Active Sessions - Full Width */}
                     <div>
-                        <HeadingSmall 
-                            title="Active Sessions" 
-                            description="Manage and monitor your active sessions across different devices and browsers" 
+                        {isDemo && (
+                            <Alert className="mb-6 border-amber-500/50 bg-amber-500/10">
+                                <AlertCircle className="h-4 w-4 text-amber-500" />
+                                <AlertDescription className="text-amber-600 dark:text-amber-400">
+                                    Session management and account deletion are disabled in demo mode.
+                                </AlertDescription>
+                            </Alert>
+                        )}
+                        <HeadingSmall
+                            title="Active Sessions"
+                            description="Manage and monitor your active sessions across different devices and browsers"
                         />
 
                         {status && (
@@ -145,7 +155,7 @@ export default function Security({ sessions, currentSessionId, status }: Securit
                                                     <Button
                                                         variant="ghost"
                                                         size="sm"
-                                                        disabled={deletingSessionId === session.id}
+                                                        disabled={deletingSessionId === session.id || isDemo}
                                                     >
                                                         {deletingSessionId === session.id ? (
                                                             'Deleting...'
@@ -216,7 +226,7 @@ export default function Security({ sessions, currentSessionId, status }: Securit
                             <div className="mt-6">
                                 <AlertDialog>
                                     <AlertDialogTrigger asChild>
-                                        <Button variant="destructive" className="w-full">
+                                        <Button variant="destructive" className="w-full" disabled={isDemo}>
                                             <LogOut className="mr-2 h-4 w-4" />
                                             Revoke All Other Sessions
                                         </Button>
@@ -245,7 +255,7 @@ export default function Security({ sessions, currentSessionId, status }: Securit
 
                     {/* Right: Delete Account */}
                     <div className="lg:sticky lg:top-6 lg:h-fit">
-                        <DeleteUser />
+                        <DeleteUser isDemo={isDemo} />
                     </div>
                 </div>
             </SettingsLayout>

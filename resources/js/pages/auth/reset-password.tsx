@@ -1,5 +1,5 @@
-import { Head, useForm } from '@inertiajs/react';
-import { LoaderCircle } from 'lucide-react';
+import { Head, useForm, usePage } from '@inertiajs/react';
+import { LoaderCircle, AlertCircle } from 'lucide-react';
 import { FormEventHandler } from 'react';
 
 import InputError from '@/components/input-error';
@@ -8,6 +8,8 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { PasswordInput } from '@/components/ui/password-input';
 import AuthLayout from '@/layouts/auth-layout';
+import { Alert, AlertDescription } from '@/components/ui/alert';
+import { type SharedData } from '@/types';
 
 interface ResetPasswordProps {
     token: string;
@@ -15,6 +17,7 @@ interface ResetPasswordProps {
 }
 
 export default function ResetPassword({ token, email }: ResetPasswordProps) {
+    const { isDemo } = usePage<SharedData>().props;
     const { data, setData, post, processing, errors } = useForm({
         token,
         email,
@@ -24,6 +27,7 @@ export default function ResetPassword({ token, email }: ResetPasswordProps) {
 
     const submit: FormEventHandler = (e) => {
         e.preventDefault();
+        if (isDemo) return;
         post(route('password.store'));
     };
 
@@ -32,6 +36,14 @@ export default function ResetPassword({ token, email }: ResetPasswordProps) {
             <Head title="Reset password" />
 
             <div className="space-y-6">
+                {isDemo && (
+                    <Alert className="border-amber-500/50 bg-amber-500/10">
+                        <AlertCircle className="h-4 w-4 text-amber-500" />
+                        <AlertDescription className="text-amber-600 dark:text-amber-400">
+                            Password reset is disabled in demo mode.
+                        </AlertDescription>
+                    </Alert>
+                )}
                 <form onSubmit={submit} className="animate-in fade-in-0 slide-in-from-bottom-1">
                     <div className="grid gap-4">
                         <div className="space-y-2">
@@ -64,6 +76,7 @@ export default function ResetPassword({ token, email }: ResetPasswordProps) {
                                 onChange={(e) => setData('password', e.target.value)}
                                 placeholder="Create a new password"
                                 className="h-11 transition-colors focus-visible:ring-2"
+                                disabled={isDemo}
                             />
                             <InputError message={errors.password} className="animate-in fade-in-0 zoom-in-95" />
                         </div>
@@ -80,13 +93,14 @@ export default function ResetPassword({ token, email }: ResetPasswordProps) {
                                 onChange={(e) => setData('password_confirmation', e.target.value)}
                                 placeholder="Confirm your new password"
                                 className="h-11 transition-colors focus-visible:ring-2"
+                                disabled={isDemo}
                             />
                             <InputError message={errors.password_confirmation} className="animate-in fade-in-0 zoom-in-95" />
                         </div>
 
-                        <Button 
-                            className="h-11 w-full transition-all duration-200 hover:shadow-md disabled:opacity-50" 
-                            disabled={processing}
+                        <Button
+                            className="h-11 w-full transition-all duration-200 hover:shadow-md disabled:opacity-50"
+                            disabled={processing || isDemo}
                         >
                             {processing && <LoaderCircle className="mr-2 h-4 w-4 animate-spin" />}
                             Reset password

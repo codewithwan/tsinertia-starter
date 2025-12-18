@@ -2,7 +2,7 @@ import { type BreadcrumbItem, type SharedData } from '@/types';
 import { Transition } from '@headlessui/react';
 import { Head, Link, useForm, usePage, router } from '@inertiajs/react';
 import { FormEventHandler, useRef, useState, useEffect } from 'react';
-import { Camera } from 'lucide-react';
+import { Camera, AlertCircle } from 'lucide-react';
 
 import { AvatarCropper } from '@/components/avatar-cropper';
 import InputError from '@/components/input-error';
@@ -15,8 +15,9 @@ import { useInitials } from '@/hooks/use-initials';
 import AppLayout from '@/layouts/app-layout';
 import SettingsLayout from '@/layouts/settings/layout';
 import { route } from 'ziggy-js';
+import { Alert, AlertDescription } from '@/components/ui/alert';
 
-function PasswordForm() {
+function PasswordForm({ isDemo }: { isDemo: boolean }) {
     const passwordInput = useRef<HTMLInputElement>(null);
     const currentPasswordInput = useRef<HTMLInputElement>(null);
 
@@ -28,6 +29,7 @@ function PasswordForm() {
 
     const updatePassword: FormEventHandler = (e) => {
         e.preventDefault();
+        if (isDemo) return;
 
         put(route('password.update'), {
             preserveScroll: true,
@@ -59,6 +61,7 @@ function PasswordForm() {
                     className="mt-1 block w-full"
                     autoComplete="current-password"
                     placeholder="Current password"
+                    disabled={isDemo}
                 />
                 <InputError message={errors.current_password} />
             </div>
@@ -74,6 +77,7 @@ function PasswordForm() {
                     className="mt-1 block w-full"
                     autoComplete="new-password"
                     placeholder="New password"
+                    disabled={isDemo}
                 />
                 <InputError message={errors.password} />
             </div>
@@ -88,12 +92,13 @@ function PasswordForm() {
                     className="mt-1 block w-full"
                     autoComplete="new-password"
                     placeholder="Confirm password"
+                    disabled={isDemo}
                 />
                 <InputError message={errors.password_confirmation} />
             </div>
 
             <div className="flex items-center gap-4">
-                <Button disabled={processing}>Save password</Button>
+                <Button disabled={processing || isDemo}>Save password</Button>
                 <Transition
                     show={recentlySuccessful}
                     enter="transition ease-in-out"
@@ -122,7 +127,7 @@ type ProfileForm = {
 };
 
 export default function Profile({ mustVerifyEmail, status }: { mustVerifyEmail: boolean; status?: string }) {
-    const { auth } = usePage<SharedData>().props;
+    const { auth, isDemo } = usePage<SharedData>().props;
     const getInitials = useInitials();
     const fileInputRef = useRef<HTMLInputElement>(null);
     const [avatarPreview, setAvatarPreview] = useState<string | null>(auth.user.avatar || null);
@@ -185,6 +190,7 @@ export default function Profile({ mustVerifyEmail, status }: { mustVerifyEmail: 
 
     const submitName: FormEventHandler = (e) => {
         e.preventDefault();
+        if (isDemo) return;
         nameForm.patch(route('profile.update'), {
             preserveScroll: true,
             onSuccess: () => {
@@ -195,6 +201,7 @@ export default function Profile({ mustVerifyEmail, status }: { mustVerifyEmail: 
 
     const submitEmail: FormEventHandler = (e) => {
         e.preventDefault();
+        if (isDemo) return;
         emailForm.patch(route('profile.update'), {
             preserveScroll: true,
             onSuccess: () => {
@@ -210,6 +217,14 @@ export default function Profile({ mustVerifyEmail, status }: { mustVerifyEmail: 
 
             <SettingsLayout>
                 <div className="space-y-6">
+                    {isDemo && (
+                        <Alert className="border-amber-500/50 bg-amber-500/10">
+                            <AlertCircle className="h-4 w-4 text-amber-500" />
+                            <AlertDescription className="text-amber-600 dark:text-amber-400">
+                                Profile editing is disabled in demo mode. Changes cannot be saved.
+                            </AlertDescription>
+                        </Alert>
+                    )}
                     {/* Profile Photo Card */}
                     <Card>
                         <CardHeader>
@@ -224,9 +239,9 @@ export default function Profile({ mustVerifyEmail, status }: { mustVerifyEmail: 
                             <div className="flex items-center justify-between gap-4">
                                 <div className="flex items-center gap-4">
                                     <Avatar className="h-16 w-16">
-                                        <AvatarImage 
-                                            src={avatarPreview || auth.user.avatar || undefined} 
-                                            alt={auth.user.name} 
+                                        <AvatarImage
+                                            src={avatarPreview || auth.user.avatar || undefined}
+                                            alt={auth.user.name}
                                         />
                                         <AvatarFallback className="bg-primary/10 text-primary text-lg">
                                             {getInitials(auth.user.name)}
@@ -244,6 +259,7 @@ export default function Profile({ mustVerifyEmail, status }: { mustVerifyEmail: 
                                         type="button"
                                         variant="outline"
                                         size="sm"
+                                        disabled={isDemo}
                                         onClick={() => {
                                             if (fileInputRef.current) {
                                                 fileInputRef.current.value = '';
@@ -303,10 +319,11 @@ export default function Profile({ mustVerifyEmail, status }: { mustVerifyEmail: 
                                         autoComplete="name"
                                         placeholder="Full name"
                                         className="w-full"
+                                        disabled={isDemo}
                                     />
                                     <InputError className="mt-2" message={nameForm.errors.name} />
                                 </div>
-                                <Button type="submit" disabled={nameForm.processing || nameForm.data.name === auth.user.name}>
+                                <Button type="submit" disabled={nameForm.processing || nameForm.data.name === auth.user.name || isDemo}>
                                     Save
                                 </Button>
                             </form>
@@ -334,6 +351,7 @@ export default function Profile({ mustVerifyEmail, status }: { mustVerifyEmail: 
                                         autoComplete="username"
                                         placeholder="Email address"
                                         className="w-full"
+                                        disabled={isDemo}
                                     />
                                     <InputError className="mt-2" message={emailForm.errors.email} />
                                     {mustVerifyEmail && auth.user.email_verified_at === null && (
@@ -355,7 +373,7 @@ export default function Profile({ mustVerifyEmail, status }: { mustVerifyEmail: 
                                         </div>
                                     )}
                                 </div>
-                                <Button type="submit" disabled={emailForm.processing || emailForm.data.email === auth.user.email}>
+                                <Button type="submit" disabled={emailForm.processing || emailForm.data.email === auth.user.email || isDemo}>
                                     Save
                                 </Button>
                             </form>
@@ -373,7 +391,7 @@ export default function Profile({ mustVerifyEmail, status }: { mustVerifyEmail: 
                             </div>
                         </CardHeader>
                         <CardContent>
-                            <PasswordForm />
+                            <PasswordForm isDemo={isDemo} />
                         </CardContent>
                     </Card>
                 </div>

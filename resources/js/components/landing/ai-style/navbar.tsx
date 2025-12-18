@@ -6,7 +6,7 @@ import { Menu, X, Moon, Sun, ChevronDown } from 'lucide-react';
 import { useAppearance } from '@/hooks/use-appearance';
 
 export default function Navbar() {
-    const { auth } = usePage<SharedData>().props;
+    const { auth, isDemo } = usePage<SharedData>().props;
     const page = usePage();
     const [isScrolled, setIsScrolled] = useState(false);
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -14,7 +14,7 @@ export default function Navbar() {
     const resourcesDropdownRef = useRef<HTMLDivElement>(null);
     const { appearance, updateAppearance } = useAppearance();
     const isDarkMode = appearance === 'dark' || (appearance === 'system' && window.matchMedia('(prefers-color-scheme: dark)').matches);
-    
+
     const nonLandingPaths = ['/changelog', '/docs', '/dashboard', '/login', '/register'];
     const isChangelogPage = page.url.startsWith('/changelog');
     const isLandingPage = page.url === '/' || !nonLandingPaths.some(path => page.url.startsWith(path));
@@ -77,24 +77,20 @@ export default function Navbar() {
 
     return (
         <>
-            <header className={`fixed z-[100] w-full transition-all duration-500 ${
-                isScrolled
-                    ? 'top-4'
-                    : 'top-0'
-            }`}>
-                <nav className={`mx-auto transition-all duration-500 ${
-                    isScrolled
-                        ? 'max-w-4xl px-4 sm:px-6'
-                        : 'container px-4 sm:px-6'
+            <header className={`fixed z-[100] w-full transition-all duration-500 ${isScrolled
+                ? 'top-4'
+                : 'top-0'
                 }`}>
-                    <div className={`transition-all duration-500 ${
-                        isScrolled
-                            ? 'bg-background/80 backdrop-blur-2xl border border-border/40 shadow-2xl shadow-primary/10 rounded-2xl'
-                            : 'bg-background/80 backdrop-blur-md border-b border-border/20'
+                <nav className={`mx-auto transition-all duration-500 ${isScrolled
+                    ? 'max-w-4xl px-4 sm:px-6'
+                    : 'container px-4 sm:px-6'
                     }`}>
-                        <div className={`flex items-center justify-between transition-all duration-500 px-4 sm:px-6 ${
-                            isScrolled ? 'h-14' : 'h-16 sm:h-20'
+                    <div className={`transition-all duration-500 ${isScrolled
+                        ? 'bg-background/80 backdrop-blur-2xl border border-border/40 shadow-2xl shadow-primary/10 rounded-2xl'
+                        : 'bg-background/80 backdrop-blur-md border-b border-border/20'
                         }`}>
+                        <div className={`flex items-center justify-between transition-all duration-500 px-4 sm:px-6 ${isScrolled ? 'h-14' : 'h-16 sm:h-20'
+                            }`}>
                             <Link href="/" className="flex items-center gap-2 cursor-pointer group">
                                 <AppLogo />
                             </Link>
@@ -105,33 +101,29 @@ export default function Navbar() {
                                     <button
                                         key={section}
                                         onClick={() => scrollToSection(section)}
-                                        className={`relative font-semibold text-sm tracking-wide text-muted-foreground hover:text-foreground transition-all capitalize ${
-                                            isScrolled ? 'px-3 py-1.5' : 'px-4 py-2'
-                                        }`}
+                                        className={`relative font-semibold text-sm tracking-wide text-muted-foreground hover:text-foreground transition-all capitalize ${isScrolled ? 'px-3 py-1.5' : 'px-4 py-2'
+                                            }`}
                                     >
                                         {section}
                                     </button>
                                 ))}
-                                
+
                                 {isLandingPage ? (
                                     <div className="relative" ref={resourcesDropdownRef}>
                                         <button
                                             onClick={() => setIsResourcesDropdownOpen(!isResourcesDropdownOpen)}
-                                            className={`relative font-semibold text-sm tracking-wide text-muted-foreground hover:text-foreground transition-all flex items-center gap-1 ${
-                                                isScrolled ? 'px-3 py-1.5' : 'px-4 py-2'
-                                            } ${isResourcesDropdownOpen ? 'text-foreground' : ''}`}
+                                            className={`relative font-semibold text-sm tracking-wide text-muted-foreground hover:text-foreground transition-all flex items-center gap-1 ${isScrolled ? 'px-3 py-1.5' : 'px-4 py-2'
+                                                } ${isResourcesDropdownOpen ? 'text-foreground' : ''}`}
                                         >
                                             Resources
-                                            <ChevronDown className={`h-3.5 w-3.5 transition-transform duration-200 ${
-                                                isResourcesDropdownOpen ? 'rotate-180' : ''
-                                            }`} />
+                                            <ChevronDown className={`h-3.5 w-3.5 transition-transform duration-200 ${isResourcesDropdownOpen ? 'rotate-180' : ''
+                                                }`} />
                                         </button>
-                                        
-                                        <div className={`absolute top-full left-0 mt-2 w-48 bg-background/95 backdrop-blur-xl border border-border/40 shadow-2xl rounded-lg overflow-hidden transition-all duration-300 ease-out ${
-                                            isResourcesDropdownOpen 
-                                                ? 'opacity-100 translate-y-0 pointer-events-auto scale-100' 
-                                                : 'opacity-0 -translate-y-2 pointer-events-none scale-95'
-                                        }`}>
+
+                                        <div className={`absolute top-full left-0 mt-2 w-48 bg-background/95 backdrop-blur-xl border border-border/40 shadow-2xl rounded-lg overflow-hidden transition-all duration-300 ease-out ${isResourcesDropdownOpen
+                                            ? 'opacity-100 translate-y-0 pointer-events-auto scale-100'
+                                            : 'opacity-0 -translate-y-2 pointer-events-none scale-95'
+                                            }`}>
                                             <div className="py-1">
                                                 {resourcesMenuItems.map((item) => (
                                                     <Link
@@ -151,9 +143,8 @@ export default function Navbar() {
                                         <Link
                                             key={item.href}
                                             href={item.href}
-                                            className={`relative font-semibold text-sm tracking-wide text-muted-foreground hover:text-foreground transition-all ${
-                                                isScrolled ? 'px-3 py-1.5' : 'px-4 py-2'
-                                            } ${page.url.startsWith(item.href) ? 'text-foreground' : ''}`}
+                                            className={`relative font-semibold text-sm tracking-wide text-muted-foreground hover:text-foreground transition-all ${isScrolled ? 'px-3 py-1.5' : 'px-4 py-2'
+                                                } ${page.url.startsWith(item.href) ? 'text-foreground' : ''}`}
                                         >
                                             {item.label}
                                         </Link>
@@ -161,14 +152,12 @@ export default function Navbar() {
                                 )}
                             </div>
 
-                            <div className={`hidden md:flex items-center transition-all duration-300 ${
-                                isScrolled ? 'gap-2' : 'gap-3'
-                            }`}>
+                            <div className={`hidden md:flex items-center transition-all duration-300 ${isScrolled ? 'gap-2' : 'gap-3'
+                                }`}>
                                 <button
                                     onClick={toggleDarkMode}
-                                    className={`rounded-lg bg-foreground/5 hover:bg-foreground/10 transition-all ${
-                                        isScrolled ? 'p-2' : 'p-2.5'
-                                    }`}
+                                    className={`rounded-lg bg-foreground/5 hover:bg-foreground/10 transition-all ${isScrolled ? 'p-2' : 'p-2.5'
+                                        }`}
                                     aria-label="Toggle dark mode"
                                 >
                                     {isDarkMode ? (
@@ -180,25 +169,22 @@ export default function Navbar() {
 
                                 {auth.user ? (
                                     <Link href={'/dashboard'}>
-                                        <div className={`bg-primary text-primary-foreground font-semibold text-sm rounded-lg hover:bg-primary/90 transition-all shadow-lg shadow-primary/25 ${
-                                            isScrolled ? 'px-4 py-1.5' : 'px-6 py-2.5'
-                                        }`}>
+                                        <div className={`bg-primary text-primary-foreground font-semibold text-sm rounded-lg hover:bg-primary/90 transition-all shadow-lg shadow-primary/25 ${isScrolled ? 'px-4 py-1.5' : 'px-6 py-2.5'
+                                            }`}>
                                             Dashboard
                                         </div>
                                     </Link>
                                 ) : (
                                     <>
                                         <Link href={'/login'}>
-                                            <div className={`font-semibold text-sm text-muted-foreground hover:text-foreground transition-all ${
-                                                isScrolled ? 'px-3 py-1.5' : 'px-6 py-2.5'
-                                            }`}>
+                                            <div className={`font-semibold text-sm text-muted-foreground hover:text-foreground transition-all ${isScrolled ? 'px-3 py-1.5' : 'px-6 py-2.5'
+                                                }`}>
                                                 Login
                                             </div>
                                         </Link>
                                         <Link href={'/register'}>
-                                            <div className={`bg-primary text-primary-foreground font-semibold text-sm rounded-lg hover:bg-primary/90 transition-all shadow-lg shadow-primary/25 ${
-                                                isScrolled ? 'px-4 py-1.5' : 'px-6 py-2.5'
-                                            }`}>
+                                            <div className={`bg-primary text-primary-foreground font-semibold text-sm rounded-lg hover:bg-primary/90 transition-all shadow-lg shadow-primary/25 ${isScrolled ? 'px-4 py-1.5' : 'px-6 py-2.5'
+                                                }`}>
                                                 Get Started
                                             </div>
                                         </Link>
@@ -242,9 +228,8 @@ export default function Navbar() {
                         onClick={() => setIsMobileMenuOpen(false)}
                     ></div>
 
-                    <div className={`absolute right-4 left-4 bg-background/95 backdrop-blur-xl border border-border/40 shadow-2xl rounded-2xl overflow-hidden transition-all duration-500 ${
-                        isScrolled ? 'top-20' : 'top-20'
-                    }`}>
+                    <div className={`absolute right-4 left-4 bg-background/95 backdrop-blur-xl border border-border/40 shadow-2xl rounded-2xl overflow-hidden transition-all duration-500 ${isScrolled ? 'top-20' : 'top-20'
+                        }`}>
                         <div className="relative px-4 py-6 space-y-3">
                             {!isChangelogPage && ['features', 'pricing', 'faq'].map((section) => (
                                 <button
@@ -255,7 +240,7 @@ export default function Navbar() {
                                     {section}
                                 </button>
                             ))}
-                            
+
                             {resourcesMenuItems.map((item) => (
                                 <Link
                                     key={item.href}
