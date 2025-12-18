@@ -6,7 +6,7 @@ import { Menu, X, Moon, Sun, ChevronDown } from 'lucide-react';
 import { useAppearance } from '@/hooks/use-appearance';
 
 export default function Navbar() {
-    const { auth, isDemo } = usePage<SharedData>().props;
+    const { auth } = usePage<SharedData>().props;
     const page = usePage();
     const [isScrolled, setIsScrolled] = useState(false);
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);

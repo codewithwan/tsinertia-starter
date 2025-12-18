@@ -128,24 +128,6 @@ export default function FeaturesSection({ className = '' }: FeaturesSectionProps
   const backgroundY = useTransform(scrollYProgress, [0, 1], isMobile ? [0, 0] : [0, -100]);
   const glowY = useTransform(scrollYProgress, [0, 1], isMobile ? [0, 0] : [50, -50]);
 
-
-  const containerVariants = {
-    hidden: { opacity: 0, y: 40 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: {
-        duration: 0.6,
-        ease: [0.42, 0, 0.58, 1]
-      }
-    },
-  };
-
-  const itemVariants = {
-    hidden: { opacity: 0 },
-    visible: { opacity: 1 }
-  };
-
   return (
     <section ref={sectionRef} id="features" className={`relative py-24 overflow-hidden ${className}`} style={{ zIndex: 20, marginTop: '-8rem' }}>
       {/* Background */}
