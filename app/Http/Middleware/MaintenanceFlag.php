@@ -13,7 +13,7 @@ class MaintenanceFlag
      */
     public function handle(Request $request, Closure $next): Response
     {
-        $enabled = filter_var(env('MAINTENANCE', false), FILTER_VALIDATE_BOOLEAN);
+        $enabled = filter_var(env('APP_MAINTENANCE', false), FILTER_VALIDATE_BOOLEAN);
 
         if ($enabled) {
             $path = trim($request->path(), '/');
