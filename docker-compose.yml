@@ -58,4 +58,4 @@ services:
       QUEUE_CONNECTION: ${QUEUE_CONNECTION}
 
       # Maintenance
-      MAINTENANCE: ${MAINTENANCE:-true}
+      APP_MAINTENANCE: ${APP_MAINTENANCE:-true}

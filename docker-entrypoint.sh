@@ -1,73 +1,99 @@
 #!/bin/sh
 set -e
 
-# Copy .env.example to .env if .env doesn't exist
+# ============================================================================
+# Helper Functions
+# ============================================================================
+
+update_env() {
+    local key=$1
+    local value=$2
+    
+    if [ -z "$value" ]; then
+        return
+    fi
+    
+    if grep -q "^$key=" .env 2>/dev/null; then
+        sed -i "s|^$key=.*|$key=$value|" .env
+    else
+        echo "$key=$value" >> .env
+    fi
+}
+
+normalize_app_url() {
+    local url="$1"
+    local env="$2"
+    
+    # Convert HTTP to HTTPS for production
+    if [ "$env" != "local" ] && [ "$env" != "development" ]; then
+        if echo "$url" | grep -q "^http://"; then
+            url=$(echo "$url" | sed 's|^http://|https://|')
+        fi
+    fi
+    
+    # Remove port from HTTPS URLs
+    if echo "$url" | grep -q "^https://"; then
+        url=$(echo "$url" | sed -E 's|:([0-9]+)||')
+    fi
+    
+    # Convert HTTPS to HTTP for development
+    if [ "$env" = "local" ] || [ "$env" = "development" ]; then
+        if echo "$url" | grep -q "^https://"; then
+            url=$(echo "$url" | sed 's|^https://|http://|')
+        fi
+    fi
+    
+    echo "$url"
+}
+
+wait_for_database() {
+    local max_tries=30
+    local count=0
+    
+    echo "Waiting for database to be ready..."
+    
+    while [ $count -lt $max_tries ]; do
+        if php artisan db:monitor > /dev/null 2>&1; then
+            echo "✓ Database connection successful!"
+            return 0
+        fi
+        
+        count=$((count + 1))
+        echo "  Attempt $count/$max_tries..."
+        sleep 2
+    done
+    
+    echo "⚠ Could not connect to database after $max_tries attempts."
+    echo "  Continuing with startup anyway..."
+    return 1
+}
+
+# ============================================================================
+# Environment Setup
+# ============================================================================
+
 if [ ! -f .env ]; then
     echo "Creating .env file from .env.example..."
     cp .env.example .env
 fi
 
-# Update environment variables in .env
-update_env() {
-    KEY=$1
-    VALUE=$2
-    if [ ! -z "$VALUE" ]; then
-        echo "Setting $KEY to $VALUE..."
-        # If key exists, update it
-        if grep -q "^$KEY=" .env; then
-            sed -i "s|^$KEY=.*|$KEY=$VALUE|" .env
-        else
-            # If key doesn't exist, add it
-            echo "$KEY=$VALUE" >> .env
-        fi
+# Only update APP_URL if provided (important for HTTPS normalization)
+# Other values should be set directly in .env file
+if [ -n "$APP_URL" ]; then
+    APP_ENV_VALUE=$(grep "^APP_ENV=" .env 2>/dev/null | cut -d '=' -f2 || echo "production")
+    NORMALIZED_URL=$(normalize_app_url "$APP_URL" "$APP_ENV_VALUE")
+    update_env "APP_URL" "$NORMALIZED_URL"
+    
+    # Set HTTPS-related configs if using HTTPS
+    if echo "$NORMALIZED_URL" | grep -q "^https://"; then
+        update_env "FORCE_HTTPS" "true"
+        update_env "ASSET_URL" "$NORMALIZED_URL"
     fi
-}
-
-# Update common environment variables
-update_env "APP_NAME" "$APP_NAME"
-update_env "APP_ENV" "$APP_ENV"
-
-# Normalize APP_URL
-NORMALIZED_APP_URL="$APP_URL"
-
-# Untuk production, convert HTTP ke HTTPS jika domain idcloudlabs.com
-if [[ "$APP_ENV" != "local" ]] && [[ "$APP_ENV" != "development" ]] && [[ "$APP_URL" == http://idcloudlabs.com* ]]; then
-    echo "Production: converting HTTP to HTTPS for idcloudlabs.com..."
-    NORMALIZED_APP_URL=$(echo "$APP_URL" | sed 's|^http://|https://|')
 fi
 
-# Remove port dari HTTPS (nginx tidak perlu port)
-if [[ "$NORMALIZED_APP_URL" == https://* ]]; then
-    # Remove port dari HTTPS URL (e.g., https://domain.com:8080 -> https://domain.com)
-    NORMALIZED_APP_URL=$(echo "$NORMALIZED_APP_URL" | sed -E 's|:([0-9]+)||')
-    # Remove duplicate port jika ada
-    NORMALIZED_APP_URL=$(echo "$NORMALIZED_APP_URL" | sed -E 's|(:[0-9]+):[0-9]+|\1|g')
-fi
-
-# Untuk development, convert HTTPS ke HTTP jika perlu
-if [[ "$NORMALIZED_APP_URL" == https://* ]] && ([ "$APP_ENV" = "local" ] || [ "$APP_ENV" = "development" ]); then
-    echo "Development: converting HTTPS to HTTP..."
-    NORMALIZED_APP_URL=$(echo "$NORMALIZED_APP_URL" | sed 's|^https://|http://|')
-fi
-
-update_env "APP_URL" "$NORMALIZED_APP_URL"
-
-update_env "DB_HOST" "$DB_HOST"
-update_env "DB_PORT" "$DB_PORT"
-update_env "DB_DATABASE" "$DB_DATABASE"
-update_env "DB_USERNAME" "$DB_USERNAME"
-update_env "DB_PASSWORD" "$DB_PASSWORD"
-
-# Set maintenance mode
-if [ ! -z "$MAINTENANCE" ]; then
-    update_env "MAINTENANCE" "$MAINTENANCE"
-fi
-
-# Set ASSET_URL untuk HTTPS (wajib untuk mixed content)
-if [[ "$NORMALIZED_APP_URL" == https://* ]]; then
-    update_env "FORCE_HTTPS" "true"
-    update_env "ASSET_URL" "$NORMALIZED_APP_URL"
-fi
+# ============================================================================
+# Laravel Setup
+# ============================================================================
 
 # Generate application key if not set
 if ! grep -q "^APP_KEY=..*" .env; then
@@ -81,37 +107,31 @@ if [ ! -L public/storage ]; then
     php artisan storage:link --force
 fi
 
-# Wait for database connection
-echo "Waiting for database to be ready..."
-max_tries=30
-count=0
-while [ $count -lt $max_tries ]; do
-    if php artisan db:monitor > /dev/null 2>&1; then
-        echo "Database connection successful!"
-        break
-    fi
-    count=$((count + 1))
-    echo "Waiting for database (attempt $count/$max_tries)..."
-    sleep 3
-done
+# ============================================================================
+# Database Setup
+# ============================================================================
 
-if [ $count -eq $max_tries ]; then
-    echo "Could not connect to database after $max_tries attempts."
-    echo "Continuing with startup anyway..."
-fi
+wait_for_database
 
-# Run migrations
 echo "Running database migrations..."
 php artisan migrate --no-interaction --force
 
-# Run seeders if in local environment
+# Run seeders only in local environment
 if [ "$APP_ENV" = "local" ]; then
     echo "Running database seeders..."
     php artisan db:seed --no-interaction --force
 fi
 
-# Clear cache to apply new environment settings
+# ============================================================================
+# Cache Optimization
+# ============================================================================
+
+echo "Clearing application cache..."
 php artisan optimize:clear
 
-# Start FrankenPHP
-exec frankenphp run --config /etc/caddy/Caddyfile 
+# ============================================================================
+# Start Application
+# ============================================================================
+
+echo "Starting FrankenPHP..."
+exec frankenphp run --config /etc/caddy/Caddyfile
