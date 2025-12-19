@@ -16,6 +16,16 @@ import { searchCommandPaletteItems, type CommandPaletteItem } from '@/lib/comman
 import { route } from 'ziggy-js';
 import { useMobileNavigation } from '@/hooks/use-mobile-navigation';
 import { useIsMobile } from '@/hooks/use-mobile';
+import {
+    AlertDialog,
+    AlertDialogAction,
+    AlertDialogCancel,
+    AlertDialogContent,
+    AlertDialogDescription,
+    AlertDialogFooter,
+    AlertDialogHeader,
+    AlertDialogTitle,
+} from '@/components/ui/alert-dialog';
 
 interface CommandPaletteProps {
     open?: boolean;
@@ -29,10 +39,21 @@ export function CommandPalette({ open, onOpenChange }: CommandPaletteProps) {
     const cleanupMobileNavigation = useMobileNavigation();
     const [isOpen, setIsOpen] = useState(open ?? false);
     const isMobile = useIsMobile();
+    const [showLogoutDialog, setShowLogoutDialog] = useState(false);
 
     const handleLogout = () => {
         cleanupMobileNavigation();
         router.post(route('logout'));
+    };
+
+    const handleLogoutClick = () => {
+        setShowLogoutDialog(true);
+        handleOpenChange(false);
+    };
+
+    const confirmLogout = () => {
+        setShowLogoutDialog(false);
+        handleLogout();
     };
 
     useEffect(() => {
@@ -84,7 +105,7 @@ export function CommandPalette({ open, onOpenChange }: CommandPaletteProps) {
         return () => document.removeEventListener('keydown', down, { capture: true });
     }, [isOpen, onOpenChange]);
 
-    const filteredItems = searchCommandPaletteItems(searchQuery, userRole, handleLogout);
+    const filteredItems = searchCommandPaletteItems(searchQuery, userRole, handleLogoutClick);
     const groupedItems = filteredItems.reduce((acc, item) => {
         if (!acc[item.category]) {
             acc[item.category] = [];
@@ -111,6 +132,7 @@ export function CommandPalette({ open, onOpenChange }: CommandPaletteProps) {
     };
 
     return (
+        <>
         <CommandDialog
             open={isOpen}
             onOpenChange={handleOpenChange}
@@ -165,6 +187,26 @@ export function CommandPalette({ open, onOpenChange }: CommandPaletteProps) {
                 </div>
             )}
         </CommandDialog>
+        <AlertDialog open={showLogoutDialog} onOpenChange={setShowLogoutDialog}>
+            <AlertDialogContent>
+                <AlertDialogHeader>
+                    <AlertDialogTitle>Log out</AlertDialogTitle>
+                    <AlertDialogDescription>
+                        Are you sure you want to log out? You will need to log in again to access your account.
+                    </AlertDialogDescription>
+                </AlertDialogHeader>
+                <AlertDialogFooter>
+                    <AlertDialogCancel>Cancel</AlertDialogCancel>
+                    <AlertDialogAction
+                        onClick={confirmLogout}
+                        className="bg-red-500 hover:bg-red-600"
+                    >
+                        Log out
+                    </AlertDialogAction>
+                </AlertDialogFooter>
+            </AlertDialogContent>
+        </AlertDialog>
+        </>
     );
 }
 

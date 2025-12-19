@@ -7,6 +7,18 @@ import { type User } from '@/types';
 import { Link, router } from '@inertiajs/react';
 import { LogOut, User as UserIcon, Sun, Moon, Monitor } from 'lucide-react';
 import { route } from 'ziggy-js';
+import { useState } from 'react';
+import {
+    AlertDialog,
+    AlertDialogAction,
+    AlertDialogCancel,
+    AlertDialogContent,
+    AlertDialogDescription,
+    AlertDialogFooter,
+    AlertDialogHeader,
+    AlertDialogTitle,
+    AlertDialogTrigger,
+} from '@/components/ui/alert-dialog';
 
 interface UserMenuContentProps {
     user: User;
@@ -15,10 +27,11 @@ interface UserMenuContentProps {
 export function UserMenuContent({ user }: UserMenuContentProps) {
     const cleanup = useMobileNavigation();
     const { appearance, updateAppearance } = useAppearance();
+    const [showLogoutDialog, setShowLogoutDialog] = useState(false);
 
     const handleLogout = () => {
         cleanup();
-        router.flushAll();
+        router.post(route('logout'));
     };
 
     return (
@@ -80,12 +93,37 @@ export function UserMenuContent({ user }: UserMenuContentProps) {
                 </div>
             </div>
             <DropdownMenuSeparator />
-            <DropdownMenuItem asChild>
-                <Link className="block w-full hover:text-foreground" method="post" href={route('logout')} as="button" onClick={handleLogout}>
-                    <LogOut className="mr-2 h-4 w-4 text-red-500 dark:text-red-400" />
-                    Log out
-                </Link>
-            </DropdownMenuItem>
+            <AlertDialog open={showLogoutDialog} onOpenChange={setShowLogoutDialog}>
+                <AlertDialogTrigger asChild>
+                    <DropdownMenuItem
+                        className="cursor-pointer hover:text-foreground"
+                        onSelect={(e) => {
+                            e.preventDefault();
+                            setShowLogoutDialog(true);
+                        }}
+                    >
+                        <LogOut className="mr-2 h-4 w-4 text-red-500 dark:text-red-400" />
+                        Log out
+                    </DropdownMenuItem>
+                </AlertDialogTrigger>
+                <AlertDialogContent>
+                    <AlertDialogHeader>
+                        <AlertDialogTitle>Log out</AlertDialogTitle>
+                        <AlertDialogDescription>
+                            Are you sure you want to log out? You will need to log in again to access your account.
+                        </AlertDialogDescription>
+                    </AlertDialogHeader>
+                    <AlertDialogFooter>
+                        <AlertDialogCancel>Cancel</AlertDialogCancel>
+                        <AlertDialogAction
+                            onClick={handleLogout}
+                            className="bg-red-500 hover:bg-red-600"
+                        >
+                            Log out
+                        </AlertDialogAction>
+                    </AlertDialogFooter>
+                </AlertDialogContent>
+            </AlertDialog>
         </>
     );
 }
