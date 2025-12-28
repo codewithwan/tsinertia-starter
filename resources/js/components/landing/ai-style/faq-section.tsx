@@ -71,34 +71,34 @@ export default function FAQSection({ className = '' }: FAQSectionProps) {
         },
         {
             question: "What features are available?",
-            answer: "Main features: HTTP/HTTPS reverse tunnel to expose local apps, static site hosting for website deployment, custom domain with automatic SSL, and modern dashboard for management."
+            answer: "Main features include a full Authentication system, an Admin Dashboard, 50+ UI Components, Role & Permission management, and full TypeScript support out of the box."
         },
         {
-            question: "When will the platform launch?",
-            answer: "We're currently in development. Sign up to get notified when we launch. Launch target coming soon."
+            question: "Is it suitable for production?",
+            answer: "Yes! It's built with security and performance in mind, using the latest stable versions of Laravel and React with production-ready configurations."
         },
         {
-            question: "What are the pricing plans?",
-            answer: "We offer affordable plans for developers. Free reverse tunnel with limits, and premium plans for business needs. Pricing will be announced at launch."
+            question: "How do I get started?",
+            answer: "Simply clone the repository, run `composer install` and `npm install`, setup your environment variables, and you're ready to build your next big idea."
         }
     ];
 
     const rightFaqs = [
         {
-            question: "How do I use reverse tunnel?",
-            answer: "Clone the repository, install dependencies with `composer install` and `npm install`, setup your `.env` file, run migrations with `php artisan migrate --seed`, then start with `composer dev`"
+            question: "Can I use it for commercial projects?",
+            answer: "Absolutely! TSInertia Starter is released under the MIT license, meaning you can use it for both personal and commercial projects without any restrictions."
         },
         {
-            question: "Can I deploy static websites?",
-            answer: "Yes! Deploy static websites super fast with simple CLI commands. Supports Next.js, React, Vue, and other static frameworks. Auto-build and deploy with CI/CD."
+            question: "Which UI library is used?",
+            answer: "We use Tailwind CSS 4 for styling and Shadcn/UI for accessible, high-quality components. It's fully customizable and supports both Light and Dark modes."
         },
         {
-            question: "What about custom domains?",
-            answer: "You can map custom domains to tunnels or static sites. SSL automatically installed via Let's Encrypt. Simple DNS configuration through our dashboard."
+            question: "Does it support Social Authentication?",
+            answer: "Yes, Socialite is pre-configured to easily add Google, GitHub, and other social login providers with just a few environment variables."
         },
         {
-            question: "Where are servers located?",
-            answer: "Our servers are located in the Asia Pacific region for low latency and optimal performance. Pricing is also more affordable compared to international platforms."
+            question: "Are there regular updates?",
+            answer: "We actively maintain the project to ensure compatibility with the latest versions of PHP, Laravel, and React, and frequently add new features and components."
         }
     ];
 
@@ -140,10 +140,10 @@ export default function FAQSection({ className = '' }: FAQSectionProps) {
                         <span className="text-sm font-mono text-muted-foreground tracking-wider uppercase">FAQ</span>
                     </div>
                     <h2 className="text-4xl sm:text-5xl font-bold text-foreground mb-4">
-                        Common Questions
+                        Common <span className="italic">Questions</span>
                     </h2>
                     <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-                        Everything you need to know about TSInertia Starter
+                        <span className="text-foreground font-semibold">Everything you need</span> to know about <span className="text-foreground font-semibold">TSInertia Starter</span>
                     </p>
                 </motion.div>
 

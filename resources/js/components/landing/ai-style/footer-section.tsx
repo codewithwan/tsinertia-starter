@@ -33,7 +33,7 @@ export default function FooterSection({ className = '' }: FooterSectionProps) {
                             <AppLogo />
                         </div>
                         <p className="text-sm text-muted-foreground max-w-md mx-auto">
-                            Cloud platform for developers. Reverse tunnel, static hosting, custom domain.
+                            The <span className="text-foreground font-semibold">ultimate Laravel & React starter kit</span> with premium components and <span className="text-foreground font-semibold">best-in-class developer experience</span>.
                         </p>
                     </div>
 
@@ -47,7 +47,7 @@ export default function FooterSection({ className = '' }: FooterSectionProps) {
                     {/* Bottom */}
                     <div className="flex flex-col md:flex-row justify-between items-center gap-6">
                         <p className="text-xs font-mono text-muted-foreground uppercase tracking-wider">
-                            © 2025 / All rights reserved
+                            © {new Date().getFullYear()} / All rights reserved
                         </p>
                         <div className="flex items-center gap-6">
                             <a href="#" className="text-xs font-mono text-muted-foreground hover:text-foreground transition-colors uppercase tracking-wider">

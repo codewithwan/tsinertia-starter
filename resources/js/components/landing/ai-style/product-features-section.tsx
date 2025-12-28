@@ -58,10 +58,10 @@ export default function ProductFeaturesSection({ className = '' }: ProductFeatur
                         <span className="text-sm font-mono text-muted-foreground tracking-wider uppercase">Tech Stack</span>
                     </div>
                     <h2 className="text-4xl sm:text-5xl font-bold text-foreground mb-2">
-                        Modern Full-Stack Development
+                        Modern <span className="italic">Full-Stack</span> Development
                     </h2>
                     <p className="text-xl text-muted-foreground max-w-2xl">
-                        Built with the latest technologies for maximum developer productivity
+                        Built with the <span className="text-foreground font-semibold">latest technologies</span> for <span className="text-foreground font-semibold">maximum developer productivity</span>
                     </p>
                 </motion.div>
 

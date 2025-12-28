@@ -1,5 +1,5 @@
 import { Head } from '@inertiajs/react';
-import { LandingLayout } from '@/components/landing/ai-style';
+import LandingLayout from '@/components/landing/ai-style/landing-layout';
 
 export default function Welcome() {
     return (

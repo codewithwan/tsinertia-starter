@@ -28,8 +28,7 @@ const BentoGridItem = ({
   };
 
   return (
-    <motion.div
-      variants={variants}
+    <div
       className={cn(
         'group relative flex h-full min-h-[280px] cursor-pointer flex-col justify-between overflow-hidden bg-background/40 backdrop-blur-xl hover:bg-foreground/5 transition-all duration-500',
         className,
@@ -65,7 +64,7 @@ const BentoGridItem = ({
 
       {/* Bottom neon line */}
       <div className="absolute bottom-0 left-0 h-px w-full bg-gradient-to-r from-transparent via-foreground/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-    </motion.div>
+    </div>
   );
 };
 
@@ -128,6 +127,25 @@ export default function FeaturesSection({ className = '' }: FeaturesSectionProps
   const backgroundY = useTransform(scrollYProgress, [0, 1], isMobile ? [0, 0] : [0, -100]);
   const glowY = useTransform(scrollYProgress, [0, 1], isMobile ? [0, 0] : [50, -50]);
 
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.1
+      }
+    }
+  };
+
+  const itemVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: { duration: 0.6, ease: "easeOut" as const }
+    }
+  };
+
   return (
     <section ref={sectionRef} id="features" className={`relative py-24 overflow-hidden ${className}`} style={{ zIndex: 20, marginTop: '-8rem' }}>
       {/* Background */}
@@ -164,36 +182,40 @@ export default function FeaturesSection({ className = '' }: FeaturesSectionProps
             <span className="text-sm font-medium uppercase tracking-wider">Features</span>
           </div>
           <h2 className="text-4xl sm:text-5xl font-bold text-foreground mb-4">
-            Everything You Need to Build
+            Everything You <span className="italic">Need</span> to Build
           </h2>
           <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-            Production-ready starter kit with all the modern tools and best practices configured for you.
+            <span className="text-foreground font-semibold">Production-ready</span> starter kit with all the <span className="text-foreground font-semibold">modern tools</span> and <span className="text-foreground font-semibold">best practices</span> configured for you.
           </p>
         </motion.div>
 
         <motion.div
-          className="grid grid-cols-1 gap-px sm:grid-cols-2 md:grid-cols-6 max-w-6xl mx-auto bg-foreground/10 border border-foreground/10 rounded-2xl overflow-hidden"
           initial={{ opacity: 0, y: 40 }}
           whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          viewport={{ once: true }}
+          transition={{ duration: 0.8 }}
+          viewport={{ once: true, margin: "-100px" }}
+          className="grid grid-cols-1 gap-px sm:grid-cols-2 md:grid-cols-6 max-w-6xl mx-auto bg-foreground/10 border border-foreground/10 rounded-2xl overflow-hidden"
         >
           {items.map((item, i) => (
-            <BentoGridItem
+            <div
               key={i}
-              title={item.title}
-              description={item.description}
-              icon={item.icon}
-              size={item.size}
               className={cn(
                 item.size === 'large'
                   ? 'col-span-4'
                   : item.size === 'medium'
                     ? 'col-span-3'
                     : 'col-span-2',
-                'h-full rounded-none', // Ensure no rounded corners on items to fit grid
+                'h-full',
               )}
-            />
+            >
+              <BentoGridItem
+                title={item.title}
+                description={item.description}
+                icon={item.icon}
+                size={item.size}
+                className="rounded-none border-0"
+              />
+            </div>
           ))}
         </motion.div>
       </div>

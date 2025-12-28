@@ -3,6 +3,8 @@ import HeroSection from './hero-section';
 import QuoteSection from './quote-section';
 import FeaturesSection from './features-section';
 import ProductFeaturesSection from './product-features-section';
+import TestimonialsSection from './testimonials-section';
+import DeveloperSection from './developer-section';
 import PricingSection from './pricing-section';
 import CTASection from './cta-section';
 import FAQSection from './faq-section';
@@ -38,6 +40,8 @@ export default function LandingLayout({ className = '' }: LandingLayoutProps) {
             <QuoteSection />
             <FeaturesSection />
             <ProductFeaturesSection />
+            <TestimonialsSection />
+            <DeveloperSection />
             <PricingSection />
             <CTASection />
             <FAQSection />

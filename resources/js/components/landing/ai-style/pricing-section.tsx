@@ -63,10 +63,10 @@ export default function PricingSection({ className = '' }: PricingSectionProps) 
                         <div className="h-px w-8 bg-foreground/20"></div>
                     </div>
                     <h2 className="text-4xl sm:text-5xl font-bold text-foreground mb-4">
-                        Free & Open Source
+                        Free & <span className="italic">Open Source</span>
                     </h2>
                     <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-                        TSInertia Starter is completely free and open source. Start building today!
+                        TSInertia Starter is <span className="text-foreground font-semibold">completely free</span> and <span className="text-foreground font-semibold">open source</span>. Start building today!
                     </p>
                 </motion.div>
 
