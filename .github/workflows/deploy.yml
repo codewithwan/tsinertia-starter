@@ -1,0 +1,143 @@
+name: deploy
+
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: GitHub environment to deploy to.
+        required: true
+        default: production
+        type: choice
+        options:
+          - production
+          - staging
+      branch:
+        description: Branch to deploy.
+        required: true
+        default: main
+      run_migrations:
+        description: Run php artisan migrate --force.
+        required: true
+        default: true
+        type: boolean
+      build_assets:
+        description: Build frontend assets on the server.
+        required: true
+        default: true
+        type: boolean
+      maintenance_mode:
+        description: Enable Laravel maintenance mode during deploy.
+        required: true
+        default: false
+        type: boolean
+      restart_command:
+        description: Optional server restart command, e.g. sudo systemctl reload php8.4-fpm.
+        required: false
+        default: ''
+
+permissions:
+  contents: read
+
+concurrency:
+  group: deploy-${{ inputs.environment }}
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    name: Deploy ${{ inputs.branch }} to ${{ inputs.environment }}
+    runs-on: ubuntu-latest
+    environment: ${{ inputs.environment }}
+    timeout-minutes: 30
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Validate Required Secrets
+        env:
+          SSH_HOST: ${{ secrets.SSH_HOST }}
+          SSH_USER: ${{ secrets.SSH_USER }}
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+          DEPLOY_PATH: ${{ secrets.DEPLOY_PATH }}
+        run: |
+          test -n "$SSH_HOST" || (echo 'Missing secret: SSH_HOST' && exit 1)
+          test -n "$SSH_USER" || (echo 'Missing secret: SSH_USER' && exit 1)
+          test -n "$SSH_PRIVATE_KEY" || (echo 'Missing secret: SSH_PRIVATE_KEY' && exit 1)
+          test -n "$DEPLOY_PATH" || (echo 'Missing secret: DEPLOY_PATH' && exit 1)
+
+      - name: Configure SSH
+        env:
+          SSH_HOST: ${{ secrets.SSH_HOST }}
+          SSH_PORT: ${{ secrets.SSH_PORT || '22' }}
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+        run: |
+          mkdir -p ~/.ssh
+          chmod 700 ~/.ssh
+          printf '%s\n' "$SSH_PRIVATE_KEY" > ~/.ssh/deploy_key
+          chmod 600 ~/.ssh/deploy_key
+          ssh-keyscan -p "$SSH_PORT" -H "$SSH_HOST" >> ~/.ssh/known_hosts
+
+      - name: Deploy Over SSH
+        env:
+          SSH_HOST: ${{ secrets.SSH_HOST }}
+          SSH_PORT: ${{ secrets.SSH_PORT || '22' }}
+          SSH_USER: ${{ secrets.SSH_USER }}
+          DEPLOY_PATH: ${{ secrets.DEPLOY_PATH }}
+          DEPLOY_BRANCH: ${{ inputs.branch }}
+          RUN_MIGRATIONS: ${{ inputs.run_migrations }}
+          BUILD_ASSETS: ${{ inputs.build_assets }}
+          MAINTENANCE_MODE: ${{ inputs.maintenance_mode }}
+          RESTART_COMMAND: ${{ inputs.restart_command }}
+        run: |
+          ssh -i ~/.ssh/deploy_key -p "$SSH_PORT" "$SSH_USER@$SSH_HOST" \
+            "DEPLOY_PATH='$DEPLOY_PATH' DEPLOY_BRANCH='$DEPLOY_BRANCH' RUN_MIGRATIONS='$RUN_MIGRATIONS' BUILD_ASSETS='$BUILD_ASSETS' MAINTENANCE_MODE='$MAINTENANCE_MODE' RESTART_COMMAND='$RESTART_COMMAND' bash -se" <<'REMOTE_DEPLOY'
+          set -Eeuo pipefail
+
+          cd "$DEPLOY_PATH"
+
+          echo 'Fetching latest code...'
+          git fetch --prune origin "$DEPLOY_BRANCH"
+          git checkout "$DEPLOY_BRANCH"
+          git reset --hard "origin/$DEPLOY_BRANCH"
+
+          if [ "$MAINTENANCE_MODE" = 'true' ]; then
+            php artisan down --retry=60 || true
+          fi
+
+          cleanup() {
+            if [ "$MAINTENANCE_MODE" = 'true' ]; then
+              php artisan up || true
+            fi
+          }
+          trap cleanup EXIT
+
+          echo 'Installing PHP production dependencies...'
+          composer install --no-dev --no-interaction --prefer-dist --optimize-autoloader
+
+          if [ "$BUILD_ASSETS" = 'true' ]; then
+            echo 'Installing Node dependencies and building assets...'
+            npm ci
+            npm run build
+          fi
+
+          echo 'Preparing Laravel...'
+          php artisan storage:link || true
+          php artisan optimize:clear
+
+          if [ "$RUN_MIGRATIONS" = 'true' ]; then
+            php artisan migrate --force
+          fi
+
+          php artisan config:cache
+          php artisan route:cache
+          php artisan view:cache
+          php artisan event:cache
+          php artisan queue:restart || true
+
+          if [ -n "$RESTART_COMMAND" ]; then
+            echo 'Running custom restart command...'
+            eval "$RESTART_COMMAND"
+          fi
+
+          echo 'Deploy complete.'
+          REMOTE_DEPLOY
