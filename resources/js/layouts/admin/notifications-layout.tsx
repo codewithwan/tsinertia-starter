@@ -2,8 +2,8 @@ import Heading from '@/components/heading';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import { Link } from '@inertiajs/react';
+import { Radio, Send } from 'lucide-react';
 import { type PropsWithChildren, useMemo } from 'react';
-import { Send, Radio } from 'lucide-react';
 
 const sidebarNavItems = [
     {
@@ -69,11 +69,10 @@ export default function NotificationsLayout({ children, isSuperadmin = false }: 
                     </nav>
                 </aside>
 
-                <div className="min-w-0 w-full">
+                <div className="w-full min-w-0">
                     <section className="w-full space-y-6">{children}</section>
                 </div>
             </div>
         </div>
     );
 }
-

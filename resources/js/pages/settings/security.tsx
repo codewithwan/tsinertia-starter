@@ -1,17 +1,12 @@
 import { type BreadcrumbItem, type SharedData } from '@/types';
 import { Head, router, usePage } from '@inertiajs/react';
-import { Monitor, MapPin, Clock, Trash2, LogOut, AlertCircle } from 'lucide-react';
+import { AlertCircle, Clock, LogOut, MapPin, Monitor, Trash2 } from 'lucide-react';
 import { useState } from 'react';
 import { route } from 'ziggy-js';
 
 import DeleteUser from '@/components/delete-user';
-import AppLayout from '@/layouts/app-layout';
-import SettingsLayout from '@/layouts/settings/layout';
-import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
-import { Alert, AlertDescription } from '@/components/ui/alert';
 import HeadingSmall from '@/components/heading-small';
+import { Alert, AlertDescription } from '@/components/ui/alert';
 import {
     AlertDialog,
     AlertDialogAction,
@@ -23,6 +18,11 @@ import {
     AlertDialogTitle,
     AlertDialogTrigger,
 } from '@/components/ui/alert-dialog';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import AppLayout from '@/layouts/app-layout';
+import SettingsLayout from '@/layouts/settings/layout';
 
 interface Session {
     id: string;
@@ -123,21 +123,21 @@ export default function Security({ sessions, currentSessionId, status }: Securit
                                                 <Monitor className="mt-0.5 h-4 w-4 text-muted-foreground" />
                                                 <div>
                                                     <p className="font-medium">{session.device}</p>
-                                                    <p className="text-muted-foreground text-xs">{session.user_agent}</p>
+                                                    <p className="text-xs text-muted-foreground">{session.user_agent}</p>
                                                 </div>
                                             </div>
                                             <div className="flex items-start gap-3 text-sm">
                                                 <MapPin className="mt-0.5 h-4 w-4 text-muted-foreground" />
                                                 <div>
                                                     <p className="font-medium">Location</p>
-                                                    <p className="text-muted-foreground text-xs">{session.location}</p>
+                                                    <p className="text-xs text-muted-foreground">{session.location}</p>
                                                 </div>
                                             </div>
                                             <div className="flex items-start gap-3 text-sm">
                                                 <Clock className="mt-0.5 h-4 w-4 text-muted-foreground" />
                                                 <div>
                                                     <p className="font-medium">Last Activity</p>
-                                                    <p className="text-muted-foreground text-xs">{session.last_activity_human}</p>
+                                                    <p className="text-xs text-muted-foreground">{session.last_activity_human}</p>
                                                 </div>
                                             </div>
                                         </CardContent>
@@ -152,11 +152,7 @@ export default function Security({ sessions, currentSessionId, status }: Securit
                                             <CardTitle className="text-base">Other Session</CardTitle>
                                             <AlertDialog>
                                                 <AlertDialogTrigger asChild>
-                                                    <Button
-                                                        variant="ghost"
-                                                        size="sm"
-                                                        disabled={deletingSessionId === session.id || isDemo}
-                                                    >
+                                                    <Button variant="ghost" size="sm" disabled={deletingSessionId === session.id || isDemo}>
                                                         {deletingSessionId === session.id ? (
                                                             'Deleting...'
                                                         ) : (
@@ -171,7 +167,8 @@ export default function Security({ sessions, currentSessionId, status }: Securit
                                                     <AlertDialogHeader>
                                                         <AlertDialogTitle>Revoke Session</AlertDialogTitle>
                                                         <AlertDialogDescription>
-                                                            Are you sure you want to revoke this session? The user will be logged out from this device.
+                                                            Are you sure you want to revoke this session? The user will be logged out from this
+                                                            device.
                                                         </AlertDialogDescription>
                                                     </AlertDialogHeader>
                                                     <AlertDialogFooter>
@@ -192,21 +189,21 @@ export default function Security({ sessions, currentSessionId, status }: Securit
                                             <Monitor className="mt-0.5 h-4 w-4 text-muted-foreground" />
                                             <div>
                                                 <p className="font-medium">{session.device}</p>
-                                                <p className="text-muted-foreground text-xs">{session.user_agent}</p>
+                                                <p className="text-xs text-muted-foreground">{session.user_agent}</p>
                                             </div>
                                         </div>
                                         <div className="flex items-start gap-3 text-sm">
                                             <MapPin className="mt-0.5 h-4 w-4 text-muted-foreground" />
                                             <div>
                                                 <p className="font-medium">Location</p>
-                                                <p className="text-muted-foreground text-xs">{session.location}</p>
+                                                <p className="text-xs text-muted-foreground">{session.location}</p>
                                             </div>
                                         </div>
                                         <div className="flex items-start gap-3 text-sm">
                                             <Clock className="mt-0.5 h-4 w-4 text-muted-foreground" />
                                             <div>
                                                 <p className="font-medium">Last Activity</p>
-                                                <p className="text-muted-foreground text-xs">{session.last_activity_human}</p>
+                                                <p className="text-xs text-muted-foreground">{session.last_activity_human}</p>
                                             </div>
                                         </div>
                                     </CardContent>
@@ -215,9 +212,7 @@ export default function Security({ sessions, currentSessionId, status }: Securit
 
                             {!hasOtherSessions && sessions.length === 1 && (
                                 <Card>
-                                    <CardContent className="py-6 text-center text-sm text-muted-foreground">
-                                        No other active sessions
-                                    </CardContent>
+                                    <CardContent className="py-6 text-center text-sm text-muted-foreground">No other active sessions</CardContent>
                                 </Card>
                             )}
                         </div>
@@ -235,15 +230,13 @@ export default function Security({ sessions, currentSessionId, status }: Securit
                                         <AlertDialogHeader>
                                             <AlertDialogTitle>Revoke All Other Sessions</AlertDialogTitle>
                                             <AlertDialogDescription>
-                                                Are you sure you want to revoke all other sessions? You will be logged out from all other devices except this one.
+                                                Are you sure you want to revoke all other sessions? You will be logged out from all other devices
+                                                except this one.
                                             </AlertDialogDescription>
                                         </AlertDialogHeader>
                                         <AlertDialogFooter>
                                             <AlertDialogCancel>Cancel</AlertDialogCancel>
-                                            <AlertDialogAction
-                                                onClick={deleteAllSessions}
-                                                className="bg-red-500 hover:bg-red-600"
-                                            >
+                                            <AlertDialogAction onClick={deleteAllSessions} className="bg-red-500 hover:bg-red-600">
                                                 Revoke All
                                             </AlertDialogAction>
                                         </AlertDialogFooter>

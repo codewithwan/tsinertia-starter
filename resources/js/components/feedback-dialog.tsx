@@ -1,28 +1,14 @@
 import { useForm } from '@inertiajs/react';
+import { Bug, HelpCircle, Lightbulb, MessageSquare, Sparkles, Star } from 'lucide-react';
 import { FormEventHandler, useState } from 'react';
-import { MessageSquare, Star, Bug, Sparkles, Lightbulb, HelpCircle } from 'lucide-react';
 
 import InputError from '@/components/input-error';
 import { Button } from '@/components/ui/button';
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Textarea } from '@/components/ui/textarea';
-import {
-    Dialog,
-    DialogContent,
-    DialogDescription,
-    DialogFooter,
-    DialogHeader,
-    DialogTitle,
-    DialogTrigger,
-} from '@/components/ui/dialog';
-import {
-    Select,
-    SelectContent,
-    SelectItem,
-    SelectTrigger,
-    SelectValue,
-} from '@/components/ui/select';
 import { toast } from 'sonner';
 import { route } from 'ziggy-js';
 
@@ -104,13 +90,12 @@ export default function FeedbackDialog({ trigger, page }: FeedbackDialogProps) {
         }
     };
 
-
     return (
         <Dialog open={open} onOpenChange={handleOpenChange}>
             <DialogTrigger asChild>
                 {trigger || (
                     <Button variant="outline" size="sm">
-                        <MessageSquare className="h-4 w-4 mr-2" />
+                        <MessageSquare className="mr-2 h-4 w-4" />
                         Feedback
                     </Button>
                 )}
@@ -118,38 +103,32 @@ export default function FeedbackDialog({ trigger, page }: FeedbackDialogProps) {
             <DialogContent className="sm:max-w-[500px]">
                 <DialogHeader>
                     <DialogTitle>Send Feedback</DialogTitle>
-                    <DialogDescription>
-                        How would you rate your experience? Your feedback helps us improve!
-                    </DialogDescription>
+                    <DialogDescription>How would you rate your experience? Your feedback helps us improve!</DialogDescription>
                 </DialogHeader>
                 <form onSubmit={submit} className="space-y-4">
                     {/* Rating - Always shown first and required */}
                     <div className="space-y-2">
-                        <Label>Rating <span className="text-red-500">*</span></Label>
-                        <div className="flex items-center gap-2 justify-center py-2">
+                        <Label>
+                            Rating <span className="text-red-500">*</span>
+                        </Label>
+                        <div className="flex items-center justify-center gap-2 py-2">
                             {[1, 2, 3, 4, 5].map((value) => (
                                 <button
                                     key={value}
                                     type="button"
                                     onClick={() => handleRatingClick(value)}
-                                    className={`transition-all ${
-                                        rating === value
-                                            ? 'scale-110'
-                                            : 'hover:scale-105'
-                                    }`}
+                                    className={`transition-all ${rating === value ? 'scale-110' : 'hover:scale-105'}`}
                                 >
                                     <Star
                                         className={`h-10 w-10 ${
-                                            rating && rating >= value
-                                                ? 'fill-yellow-400 text-yellow-400'
-                                                : 'text-gray-300 hover:text-yellow-300'
+                                            rating && rating >= value ? 'fill-yellow-400 text-yellow-400' : 'text-gray-300 hover:text-yellow-300'
                                         }`}
                                     />
                                 </button>
                             ))}
                         </div>
                         {rating && (
-                            <p className="text-xs text-center text-muted-foreground">
+                            <p className="text-center text-xs text-muted-foreground">
                                 {rating === 1 && '😞 Very Poor'}
                                 {rating === 2 && '😕 Poor'}
                                 {rating === 3 && '😐 Fair'}
@@ -163,20 +142,24 @@ export default function FeedbackDialog({ trigger, page }: FeedbackDialogProps) {
                     {/* Type selector - Only shown after rating is selected */}
                     {rating && (
                         <div className="space-y-2">
-                            <Label htmlFor="type">Type <span className="text-muted-foreground text-xs">(optional)</span></Label>
+                            <Label htmlFor="type">
+                                Type <span className="text-xs text-muted-foreground">(optional)</span>
+                            </Label>
                             <Select value={selectedType} onValueChange={handleTypeChange}>
                                 <SelectTrigger id="type" className="!w-full">
                                     <SelectValue placeholder="Select feedback type" />
                                 </SelectTrigger>
                                 <SelectContent>
-                                    {feedbackTypes.filter(type => type.value !== 'rating').map((type) => (
-                                        <SelectItem key={type.value} value={type.value}>
-                                            <div className="flex items-center gap-2">
-                                                <type.icon className="h-4 w-4" />
-                                                {type.label}
-                                            </div>
-                                        </SelectItem>
-                                    ))}
+                                    {feedbackTypes
+                                        .filter((type) => type.value !== 'rating')
+                                        .map((type) => (
+                                            <SelectItem key={type.value} value={type.value}>
+                                                <div className="flex items-center gap-2">
+                                                    <type.icon className="h-4 w-4" />
+                                                    {type.label}
+                                                </div>
+                                            </SelectItem>
+                                        ))}
                                 </SelectContent>
                             </Select>
                             <InputError message={errors.type} />
@@ -186,7 +169,9 @@ export default function FeedbackDialog({ trigger, page }: FeedbackDialogProps) {
                     {/* Subject - Optional, shown after rating */}
                     {rating && selectedType && (
                         <div className="space-y-2">
-                            <Label htmlFor="subject">Subject <span className="text-muted-foreground text-xs">(optional)</span></Label>
+                            <Label htmlFor="subject">
+                                Subject <span className="text-xs text-muted-foreground">(optional)</span>
+                            </Label>
                             <Input
                                 id="subject"
                                 value={data.subject}
@@ -195,8 +180,8 @@ export default function FeedbackDialog({ trigger, page }: FeedbackDialogProps) {
                                     selectedType === 'bug'
                                         ? 'e.g., Login button not working'
                                         : selectedType === 'feature'
-                                        ? 'e.g., Add dark mode toggle'
-                                        : 'Brief summary...'
+                                          ? 'e.g., Add dark mode toggle'
+                                          : 'Brief summary...'
                                 }
                             />
                             <InputError message={errors.subject} />
@@ -206,7 +191,7 @@ export default function FeedbackDialog({ trigger, page }: FeedbackDialogProps) {
                     {/* Message - Optional */}
                     <div className="space-y-2">
                         <Label htmlFor="message">
-                            Message <span className="text-muted-foreground text-xs">(optional)</span>
+                            Message <span className="text-xs text-muted-foreground">(optional)</span>
                         </Label>
                         <Textarea
                             id="message"
@@ -216,8 +201,8 @@ export default function FeedbackDialog({ trigger, page }: FeedbackDialogProps) {
                                 selectedType === 'bug'
                                     ? 'Describe the bug, steps to reproduce, and expected behavior...'
                                     : selectedType === 'feature'
-                                    ? 'Share your feature idea and how it would help...'
-                                    : 'Tell us more about your experience...'
+                                      ? 'Share your feature idea and how it would help...'
+                                      : 'Tell us more about your experience...'
                             }
                             rows={5}
                         />
@@ -225,12 +210,7 @@ export default function FeedbackDialog({ trigger, page }: FeedbackDialogProps) {
                     </div>
 
                     <DialogFooter>
-                        <Button
-                            type="button"
-                            variant="outline"
-                            onClick={() => handleOpenChange(false)}
-                            disabled={processing}
-                        >
+                        <Button type="button" variant="outline" onClick={() => handleOpenChange(false)} disabled={processing}>
                             Cancel
                         </Button>
                         <Button type="submit" disabled={processing}>
@@ -242,4 +222,3 @@ export default function FeedbackDialog({ trigger, page }: FeedbackDialogProps) {
         </Dialog>
     );
 }
-

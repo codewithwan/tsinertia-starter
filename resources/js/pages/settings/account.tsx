@@ -1,8 +1,8 @@
 import { type BreadcrumbItem, type SharedData } from '@/types';
 import { Transition } from '@headlessui/react';
-import { Head, Link, useForm, usePage, router } from '@inertiajs/react';
-import { FormEventHandler, useRef, useState, useEffect } from 'react';
+import { Head, Link, router, useForm, usePage } from '@inertiajs/react';
 import { Camera } from 'lucide-react';
+import { FormEventHandler, useEffect, useRef, useState } from 'react';
 
 import { AvatarCropper } from '@/components/avatar-cropper';
 import HeadingSmall from '@/components/heading-small';
@@ -116,27 +116,31 @@ export default function Account({ mustVerifyEmail, status }: { mustVerifyEmail: 
             return;
         }
 
-        router.post(route('profile.update'), {
-            _method: 'PATCH',
-            name: profileForm.data.name,
-            email: profileForm.data.email,
-            avatar: profileForm.data.avatar,
-        }, {
-            preserveScroll: true,
-            forceFormData: true,
-            onSuccess: () => {
-                profileForm.setData('avatar', null);
-                if (fileInputRef.current) {
-                    fileInputRef.current.value = '';
-                }
-                router.reload({
-                    only: ['auth']
-                });
+        router.post(
+            route('profile.update'),
+            {
+                _method: 'PATCH',
+                name: profileForm.data.name,
+                email: profileForm.data.email,
+                avatar: profileForm.data.avatar,
             },
-            onError: (errors) => {
-                console.error('Validation errors:', errors);
+            {
+                preserveScroll: true,
+                forceFormData: true,
+                onSuccess: () => {
+                    profileForm.setData('avatar', null);
+                    if (fileInputRef.current) {
+                        fileInputRef.current.value = '';
+                    }
+                    router.reload({
+                        only: ['auth'],
+                    });
+                },
+                onError: (errors) => {
+                    console.error('Validation errors:', errors);
+                },
             },
-        });
+        );
     };
 
     const updatePassword: FormEventHandler = (e) => {
@@ -175,13 +179,8 @@ export default function Account({ mustVerifyEmail, status }: { mustVerifyEmail: 
                                 <Label>Profile Photo</Label>
                                 <div className="flex items-center gap-4">
                                     <Avatar className="h-20 w-20">
-                                        <AvatarImage
-                                            src={avatarPreview || auth.user.avatar || undefined}
-                                            alt={auth.user.name}
-                                        />
-                                        <AvatarFallback className="bg-primary/10 text-primary text-lg">
-                                            {getInitials(auth.user.name)}
-                                        </AvatarFallback>
+                                        <AvatarImage src={avatarPreview || auth.user.avatar || undefined} alt={auth.user.name} />
+                                        <AvatarFallback className="bg-primary/10 text-lg text-primary">{getInitials(auth.user.name)}</AvatarFallback>
                                     </Avatar>
                                     <div className="flex flex-col gap-2">
                                         <Button
@@ -214,9 +213,7 @@ export default function Account({ mustVerifyEmail, status }: { mustVerifyEmail: 
                                                 Remove
                                             </Button>
                                         )}
-                                        <p className="text-xs text-muted-foreground">
-                                            JPG, PNG or GIF. Max size of 2MB.
-                                        </p>
+                                        <p className="text-xs text-muted-foreground">JPG, PNG or GIF. Max size of 2MB.</p>
                                     </div>
                                     <input
                                         ref={fileInputRef}
@@ -364,12 +361,7 @@ export default function Account({ mustVerifyEmail, status }: { mustVerifyEmail: 
             </SettingsLayout>
 
             {imageToCrop && (
-                <AvatarCropper
-                    imageSrc={imageToCrop}
-                    open={showCropper}
-                    onClose={handleCloseCropper}
-                    onCropComplete={handleCropComplete}
-                />
+                <AvatarCropper imageSrc={imageToCrop} open={showCropper} onClose={handleCloseCropper} onCropComplete={handleCropComplete} />
             )}
         </AppLayout>
     );

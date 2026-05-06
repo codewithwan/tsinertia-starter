@@ -3,9 +3,10 @@
 /** @phpstan-ignore-file */
 use App\Models\User;
 use Illuminate\Auth\Notifications\ResetPassword;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Notification;
 
-uses(\Illuminate\Foundation\Testing\RefreshDatabase::class);
+uses(RefreshDatabase::class);
 
 test('reset password link screen can be rendered', function () {
     $response = $this->get('/forgot-password');

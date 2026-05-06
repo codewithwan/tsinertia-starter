@@ -1,6 +1,8 @@
 <?php
 
 use App\Models\User;
+use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Hash;
 use Spatie\Permission\Models\Role;
 
 test('user can be created', function () {
@@ -50,7 +52,7 @@ test('user password is hashed', function () {
     ]);
 
     expect($user->password)->not->toBe('plain-password');
-    expect(\Illuminate\Support\Facades\Hash::check('plain-password', $user->password))->toBeTrue();
+    expect(Hash::check('plain-password', $user->password))->toBeTrue();
 });
 
 test('user can have avatar', function () {
@@ -68,7 +70,7 @@ test('user can have otp code and expiration', function () {
     ]);
 
     expect($user->otp_code)->toBe('123456');
-    expect($user->otp_expires_at)->toBeInstanceOf(\Illuminate\Support\Carbon::class);
+    expect($user->otp_expires_at)->toBeInstanceOf(Carbon::class);
 });
 
 test('user can have oauth provider', function () {
@@ -86,6 +88,5 @@ test('user email verified at is cast to datetime', function () {
         'email_verified_at' => now(),
     ]);
 
-    expect($user->email_verified_at)->toBeInstanceOf(\Illuminate\Support\Carbon::class);
+    expect($user->email_verified_at)->toBeInstanceOf(Carbon::class);
 });
-

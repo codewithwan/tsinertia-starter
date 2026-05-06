@@ -1,5 +1,5 @@
 import { motion, useScroll, useTransform } from 'framer-motion';
-import { Package, Layers, Shield, Code2 } from 'lucide-react';
+import { Code2, Layers, Package, Shield } from 'lucide-react';
 import { useRef } from 'react';
 
 interface ProductFeaturesSectionProps {
@@ -10,7 +10,7 @@ export default function ProductFeaturesSection({ className = '' }: ProductFeatur
     const sectionRef = useRef<HTMLElement>(null);
     const { scrollYProgress } = useScroll({
         target: sectionRef,
-        offset: ["start end", "end start"]
+        offset: ['start end', 'end start'],
     });
 
     // Disable parallax animations on mobile (< 768px)
@@ -23,80 +23,82 @@ export default function ProductFeaturesSection({ className = '' }: ProductFeatur
     const scale = useTransform(scrollYProgress, [0, 0.3, 0.7, 1], isMobile ? [1, 1, 1, 1] : [0.95, 1.02, 1, 0.98]);
 
     return (
-        <section ref={sectionRef} id="platform" className={`relative py-24 md:py-32 overflow-hidden ${className}`} style={{ zIndex: 1 }}>
+        <section ref={sectionRef} id="platform" className={`relative overflow-hidden py-24 md:py-32 ${className}`} style={{ zIndex: 1 }}>
             {/* Background */}
             <div className="absolute inset-0 bg-background"></div>
 
             {/* Enhanced depth shadow */}
-            <div className="absolute inset-0 bg-gradient-to-b from-background via-transparent to-background pointer-events-none"></div>
+            <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-background via-transparent to-background"></div>
 
             {/* Neon vertical lines pattern with parallax - reduced on mobile */}
-            <motion.div
-                style={{ y: backgroundY }}
-                className="absolute inset-0 opacity-[0.015] hidden md:block"
-            >
-                <div style={{
-                    backgroundImage: 'repeating-linear-gradient(90deg, transparent, transparent 100px, currentColor 100px, currentColor 101px)',
-                    height: '200%'
-                }}></div>
+            <motion.div style={{ y: backgroundY }} className="absolute inset-0 hidden opacity-[0.015] md:block">
+                <div
+                    style={{
+                        backgroundImage: 'repeating-linear-gradient(90deg, transparent, transparent 100px, currentColor 100px, currentColor 101px)',
+                        height: '200%',
+                    }}
+                ></div>
             </motion.div>
 
             {/* Top/Bottom neon lines */}
-            <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-foreground/20 to-transparent"></div>
-            <div className="absolute bottom-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-foreground/20 to-transparent"></div>
+            <div className="absolute top-0 left-0 h-px w-full bg-gradient-to-r from-transparent via-foreground/20 to-transparent"></div>
+            <div className="absolute bottom-0 left-0 h-px w-full bg-gradient-to-r from-transparent via-foreground/20 to-transparent"></div>
 
-            <div className="container mx-auto px-6 relative">
+            <div className="relative container mx-auto px-6">
                 <motion.div
                     initial={{ opacity: 0, y: 30 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.6 }}
-                    viewport={{ once: true, margin: "-100px" }}
+                    viewport={{ once: true, margin: '-100px' }}
                     className="mb-8"
                 >
-                    <div className="flex items-center gap-4 mb-3">
+                    <div className="mb-3 flex items-center gap-4">
                         <div className="h-px w-16 bg-foreground/20"></div>
-                        <span className="text-sm font-mono text-muted-foreground tracking-wider uppercase">Tech Stack</span>
+                        <span className="font-mono text-sm tracking-wider text-muted-foreground uppercase">Tech Stack</span>
                     </div>
-                    <h2 className="text-4xl sm:text-5xl font-bold text-foreground mb-2">
+                    <h2 className="mb-2 text-4xl font-bold text-foreground sm:text-5xl">
                         Modern <span className="italic">Full-Stack</span> Development
                     </h2>
-                    <p className="text-xl text-muted-foreground max-w-2xl">
-                        Built with the <span className="text-foreground font-semibold">latest technologies</span> for <span className="text-foreground font-semibold">maximum developer productivity</span>
+                    <p className="max-w-2xl text-xl text-muted-foreground">
+                        Built with the <span className="font-semibold text-foreground">latest technologies</span> for{' '}
+                        <span className="font-semibold text-foreground">maximum developer productivity</span>
                     </p>
                 </motion.div>
 
-                <div className="grid lg:grid-cols-2 gap-12 items-start">
+                <div className="grid items-start gap-12 lg:grid-cols-2">
                     {/* Left Side - Features with parallax - reduced on mobile */}
-                    <motion.div
-                        style={{ y: yLeft, opacity, scale }}
-                        className="space-y-5"
-                    >
+                    <motion.div style={{ y: yLeft, opacity, scale }} className="space-y-5">
                         <div className="space-y-4">
                             <motion.div
                                 initial={{ opacity: 0, y: 20 }}
                                 whileInView={{ opacity: 1, y: 0 }}
                                 transition={{ duration: 0.5, delay: 0.3 }}
                                 viewport={{ once: true }}
-                                className="flex items-start gap-4 group"
+                                className="group flex items-start gap-4"
                             >
                                 {/* PREMIUM ICON DESIGN */}
-                                <div className="relative flex-shrink-0 mt-1">
+                                <div className="relative mt-1 flex-shrink-0">
                                     {/* Neon blur ring */}
-                                    <div className="absolute inset-0 rounded-xl bg-gradient-to-br from-foreground/15 to-foreground/5 blur-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                                    <div className="absolute inset-0 rounded-xl bg-gradient-to-br from-foreground/15 to-foreground/5 opacity-0 blur-lg transition-opacity duration-300 group-hover:opacity-100"></div>
 
                                     {/* Glass icon container */}
-                                    <div className="relative w-14 h-14 bg-foreground/5 backdrop-blur-sm rounded-xl flex items-center justify-center border border-foreground/10 group-hover:bg-foreground/10 group-hover:border-foreground/20 transition-all duration-300">
-                                        <Package className="h-7 w-7 text-foreground/60 group-hover:text-foreground transition-colors" strokeWidth={1.5} />
+                                    <div className="relative flex h-14 w-14 items-center justify-center rounded-xl border border-foreground/10 bg-foreground/5 backdrop-blur-sm transition-all duration-300 group-hover:border-foreground/20 group-hover:bg-foreground/10">
+                                        <Package
+                                            className="h-7 w-7 text-foreground/60 transition-colors group-hover:text-foreground"
+                                            strokeWidth={1.5}
+                                        />
                                     </div>
 
                                     {/* Corner accents */}
-                                    <div className="absolute -top-0.5 -left-0.5 w-4 h-4 border-t border-l border-foreground/20 rounded-tl-xl opacity-0 group-hover:opacity-100 transition-opacity"></div>
-                                    <div className="absolute -bottom-0.5 -right-0.5 w-4 h-4 border-b border-r border-foreground/20 rounded-br-xl opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                                    <div className="absolute -top-0.5 -left-0.5 h-4 w-4 rounded-tl-xl border-t border-l border-foreground/20 opacity-0 transition-opacity group-hover:opacity-100"></div>
+                                    <div className="absolute -right-0.5 -bottom-0.5 h-4 w-4 rounded-br-xl border-r border-b border-foreground/20 opacity-0 transition-opacity group-hover:opacity-100"></div>
                                 </div>
 
                                 <div>
-                                    <h3 className="text-xl font-semibold text-foreground mb-2">Laravel 12 Backend</h3>
-                                    <p className="text-muted-foreground">Modern PHP framework with elegant syntax, powerful ORM, and extensive ecosystem</p>
+                                    <h3 className="mb-2 text-xl font-semibold text-foreground">Laravel 12 Backend</h3>
+                                    <p className="text-muted-foreground">
+                                        Modern PHP framework with elegant syntax, powerful ORM, and extensive ecosystem
+                                    </p>
                                 </div>
                             </motion.div>
 
@@ -105,21 +107,26 @@ export default function ProductFeaturesSection({ className = '' }: ProductFeatur
                                 whileInView={{ opacity: 1, y: 0 }}
                                 transition={{ duration: 0.5, delay: 0.4 }}
                                 viewport={{ once: true }}
-                                className="flex items-start gap-4 group"
+                                className="group flex items-start gap-4"
                             >
                                 {/* PREMIUM ICON DESIGN */}
-                                <div className="relative flex-shrink-0 mt-1">
-                                    <div className="absolute inset-0 rounded-xl bg-gradient-to-br from-foreground/15 to-foreground/5 blur-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                                    <div className="relative w-14 h-14 bg-foreground/5 backdrop-blur-sm rounded-xl flex items-center justify-center border border-foreground/10 group-hover:bg-foreground/10 group-hover:border-foreground/20 transition-all duration-300">
-                                        <Layers className="h-7 w-7 text-foreground/60 group-hover:text-foreground transition-colors" strokeWidth={1.5} />
+                                <div className="relative mt-1 flex-shrink-0">
+                                    <div className="absolute inset-0 rounded-xl bg-gradient-to-br from-foreground/15 to-foreground/5 opacity-0 blur-lg transition-opacity duration-300 group-hover:opacity-100"></div>
+                                    <div className="relative flex h-14 w-14 items-center justify-center rounded-xl border border-foreground/10 bg-foreground/5 backdrop-blur-sm transition-all duration-300 group-hover:border-foreground/20 group-hover:bg-foreground/10">
+                                        <Layers
+                                            className="h-7 w-7 text-foreground/60 transition-colors group-hover:text-foreground"
+                                            strokeWidth={1.5}
+                                        />
                                     </div>
-                                    <div className="absolute -top-0.5 -left-0.5 w-4 h-4 border-t border-l border-foreground/20 rounded-tl-xl opacity-0 group-hover:opacity-100 transition-opacity"></div>
-                                    <div className="absolute -bottom-0.5 -right-0.5 w-4 h-4 border-b border-r border-foreground/20 rounded-br-xl opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                                    <div className="absolute -top-0.5 -left-0.5 h-4 w-4 rounded-tl-xl border-t border-l border-foreground/20 opacity-0 transition-opacity group-hover:opacity-100"></div>
+                                    <div className="absolute -right-0.5 -bottom-0.5 h-4 w-4 rounded-br-xl border-r border-b border-foreground/20 opacity-0 transition-opacity group-hover:opacity-100"></div>
                                 </div>
 
                                 <div>
-                                    <h3 className="text-xl font-semibold text-foreground mb-2">React 19 + Inertia.js</h3>
-                                    <p className="text-muted-foreground">Build modern SPAs without API complexity. TypeScript-first with full type safety</p>
+                                    <h3 className="mb-2 text-xl font-semibold text-foreground">React 19 + Inertia.js</h3>
+                                    <p className="text-muted-foreground">
+                                        Build modern SPAs without API complexity. TypeScript-first with full type safety
+                                    </p>
                                 </div>
                             </motion.div>
 
@@ -128,21 +135,26 @@ export default function ProductFeaturesSection({ className = '' }: ProductFeatur
                                 whileInView={{ opacity: 1, y: 0 }}
                                 transition={{ duration: 0.5, delay: 0.5 }}
                                 viewport={{ once: true }}
-                                className="flex items-start gap-4 group"
+                                className="group flex items-start gap-4"
                             >
                                 {/* PREMIUM ICON DESIGN */}
-                                <div className="relative flex-shrink-0 mt-1">
-                                    <div className="absolute inset-0 rounded-xl bg-gradient-to-br from-foreground/15 to-foreground/5 blur-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                                    <div className="relative w-14 h-14 bg-foreground/5 backdrop-blur-sm rounded-xl flex items-center justify-center border border-foreground/10 group-hover:bg-foreground/10 group-hover:border-foreground/20 transition-all duration-300">
-                                        <Shield className="h-7 w-7 text-foreground/60 group-hover:text-foreground transition-colors" strokeWidth={1.5} />
+                                <div className="relative mt-1 flex-shrink-0">
+                                    <div className="absolute inset-0 rounded-xl bg-gradient-to-br from-foreground/15 to-foreground/5 opacity-0 blur-lg transition-opacity duration-300 group-hover:opacity-100"></div>
+                                    <div className="relative flex h-14 w-14 items-center justify-center rounded-xl border border-foreground/10 bg-foreground/5 backdrop-blur-sm transition-all duration-300 group-hover:border-foreground/20 group-hover:bg-foreground/10">
+                                        <Shield
+                                            className="h-7 w-7 text-foreground/60 transition-colors group-hover:text-foreground"
+                                            strokeWidth={1.5}
+                                        />
                                     </div>
-                                    <div className="absolute -top-0.5 -left-0.5 w-4 h-4 border-t border-l border-foreground/20 rounded-tl-xl opacity-0 group-hover:opacity-100 transition-opacity"></div>
-                                    <div className="absolute -bottom-0.5 -right-0.5 w-4 h-4 border-b border-r border-foreground/20 rounded-br-xl opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                                    <div className="absolute -top-0.5 -left-0.5 h-4 w-4 rounded-tl-xl border-t border-l border-foreground/20 opacity-0 transition-opacity group-hover:opacity-100"></div>
+                                    <div className="absolute -right-0.5 -bottom-0.5 h-4 w-4 rounded-br-xl border-r border-b border-foreground/20 opacity-0 transition-opacity group-hover:opacity-100"></div>
                                 </div>
 
                                 <div>
-                                    <h3 className="text-xl font-semibold text-foreground mb-2">Complete Auth System</h3>
-                                    <p className="text-muted-foreground">Login, register, email verification, password reset, and social auth ready</p>
+                                    <h3 className="mb-2 text-xl font-semibold text-foreground">Complete Auth System</h3>
+                                    <p className="text-muted-foreground">
+                                        Login, register, email verification, password reset, and social auth ready
+                                    </p>
                                 </div>
                             </motion.div>
 
@@ -151,20 +163,23 @@ export default function ProductFeaturesSection({ className = '' }: ProductFeatur
                                 whileInView={{ opacity: 1, y: 0 }}
                                 transition={{ duration: 0.5, delay: 0.6 }}
                                 viewport={{ once: true }}
-                                className="flex items-start gap-4 group"
+                                className="group flex items-start gap-4"
                             >
                                 {/* PREMIUM ICON DESIGN */}
-                                <div className="relative flex-shrink-0 mt-1">
-                                    <div className="absolute inset-0 rounded-xl bg-gradient-to-br from-foreground/15 to-foreground/5 blur-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                                    <div className="relative w-14 h-14 bg-foreground/5 backdrop-blur-sm rounded-xl flex items-center justify-center border border-foreground/10 group-hover:bg-foreground/10 group-hover:border-foreground/20 transition-all duration-300">
-                                        <Code2 className="h-7 w-7 text-foreground/60 group-hover:text-foreground transition-colors" strokeWidth={1.5} />
+                                <div className="relative mt-1 flex-shrink-0">
+                                    <div className="absolute inset-0 rounded-xl bg-gradient-to-br from-foreground/15 to-foreground/5 opacity-0 blur-lg transition-opacity duration-300 group-hover:opacity-100"></div>
+                                    <div className="relative flex h-14 w-14 items-center justify-center rounded-xl border border-foreground/10 bg-foreground/5 backdrop-blur-sm transition-all duration-300 group-hover:border-foreground/20 group-hover:bg-foreground/10">
+                                        <Code2
+                                            className="h-7 w-7 text-foreground/60 transition-colors group-hover:text-foreground"
+                                            strokeWidth={1.5}
+                                        />
                                     </div>
-                                    <div className="absolute -top-0.5 -left-0.5 w-4 h-4 border-t border-l border-foreground/20 rounded-tl-xl opacity-0 group-hover:opacity-100 transition-opacity"></div>
-                                    <div className="absolute -bottom-0.5 -right-0.5 w-4 h-4 border-b border-r border-foreground/20 rounded-br-xl opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                                    <div className="absolute -top-0.5 -left-0.5 h-4 w-4 rounded-tl-xl border-t border-l border-foreground/20 opacity-0 transition-opacity group-hover:opacity-100"></div>
+                                    <div className="absolute -right-0.5 -bottom-0.5 h-4 w-4 rounded-br-xl border-r border-b border-foreground/20 opacity-0 transition-opacity group-hover:opacity-100"></div>
                                 </div>
 
                                 <div>
-                                    <h3 className="text-xl font-semibold text-foreground mb-2">UI Components Library</h3>
+                                    <h3 className="mb-2 text-xl font-semibold text-foreground">UI Components Library</h3>
                                     <p className="text-muted-foreground">50+ accessible components with Radix UI, Tailwind CSS, and dark mode</p>
                                 </div>
                             </motion.div>
@@ -172,17 +187,14 @@ export default function ProductFeaturesSection({ className = '' }: ProductFeatur
                     </motion.div>
 
                     {/* Right Side - Tech Stack with parallax - reduced on mobile */}
-                    <motion.div
-                        style={{ y: yRight, opacity, scale }}
-                        className="space-y-4"
-                    >
-                        <div className="bg-muted/30 rounded-xl p-6 border border-border/50">
+                    <motion.div style={{ y: yRight, opacity, scale }} className="space-y-4">
+                        <div className="rounded-xl border border-border/50 bg-muted/30 p-6">
                             <motion.h3
                                 initial={{ opacity: 0, y: 20 }}
                                 whileInView={{ opacity: 1, y: 0 }}
                                 transition={{ duration: 0.5, delay: 0.5 }}
                                 viewport={{ once: true }}
-                                className="text-2xl font-bold text-foreground mb-4"
+                                className="mb-4 text-2xl font-bold text-foreground"
                             >
                                 What's Included
                             </motion.h3>
@@ -191,7 +203,7 @@ export default function ProductFeaturesSection({ className = '' }: ProductFeatur
                                 whileInView={{ opacity: 1, y: 0 }}
                                 transition={{ duration: 0.5, delay: 0.6 }}
                                 viewport={{ once: true }}
-                                className="text-muted-foreground mb-4"
+                                className="mb-4 text-muted-foreground"
                             >
                                 Everything you need to build production-ready applications
                             </motion.p>
@@ -202,7 +214,7 @@ export default function ProductFeaturesSection({ className = '' }: ProductFeatur
                                     whileInView={{ opacity: 1, x: 0 }}
                                     transition={{ duration: 0.5, delay: 0.7 }}
                                     viewport={{ once: true }}
-                                    className="flex items-center justify-between p-3 rounded-lg bg-background border border-border/50"
+                                    className="flex items-center justify-between rounded-lg border border-border/50 bg-background p-3"
                                 >
                                     <div>
                                         <div className="font-semibold text-foreground">TypeScript</div>
@@ -216,7 +228,7 @@ export default function ProductFeaturesSection({ className = '' }: ProductFeatur
                                     whileInView={{ opacity: 1, x: 0 }}
                                     transition={{ duration: 0.5, delay: 0.8 }}
                                     viewport={{ once: true }}
-                                    className="flex items-center justify-between p-3 rounded-lg bg-foreground/5 border border-foreground/20"
+                                    className="flex items-center justify-between rounded-lg border border-foreground/20 bg-foreground/5 p-3"
                                 >
                                     <div>
                                         <div className="font-semibold text-foreground">Admin Panel</div>
@@ -230,7 +242,7 @@ export default function ProductFeaturesSection({ className = '' }: ProductFeatur
                                     whileInView={{ opacity: 1, x: 0 }}
                                     transition={{ duration: 0.5, delay: 0.9 }}
                                     viewport={{ once: true }}
-                                    className="flex items-center justify-between p-3 rounded-lg bg-background border border-border/50"
+                                    className="flex items-center justify-between rounded-lg border border-border/50 bg-background p-3"
                                 >
                                     <div>
                                         <div className="font-semibold text-foreground">Dark Mode</div>
@@ -246,16 +258,16 @@ export default function ProductFeaturesSection({ className = '' }: ProductFeatur
                             whileInView={{ opacity: 1, y: 0 }}
                             transition={{ duration: 0.5, delay: 1.0 }}
                             viewport={{ once: true }}
-                            className="rounded-xl p-6 border border-foreground/20 bg-foreground/5"
+                            className="rounded-xl border border-foreground/20 bg-foreground/5 p-6"
                         >
                             <div className="mb-2">
-                                <div className="inline-flex items-center gap-2 mb-2">
+                                <div className="mb-2 inline-flex items-center gap-2">
                                     <div className="h-px w-8 bg-foreground/30"></div>
-                                    <div className="w-2 h-2 rounded-full bg-foreground/50"></div>
+                                    <div className="h-2 w-2 rounded-full bg-foreground/50"></div>
                                 </div>
                                 <h4 className="text-lg font-semibold text-foreground">Production Ready</h4>
                             </div>
-                            <p className="text-muted-foreground text-sm">
+                            <p className="text-sm text-muted-foreground">
                                 Pre-configured with ESLint, Prettier, and Laravel Pint. Docker support included for easy deployment.
                             </p>
                         </motion.div>

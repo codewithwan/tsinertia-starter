@@ -1,15 +1,15 @@
 // Components
 import { Head, useForm, usePage } from '@inertiajs/react';
-import { LoaderCircle, AlertCircle } from 'lucide-react';
+import { AlertCircle, LoaderCircle } from 'lucide-react';
 import { FormEventHandler } from 'react';
 
 import InputError from '@/components/input-error';
 import TextLink from '@/components/text-link';
+import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import AuthLayout from '@/layouts/auth-layout';
-import { Alert, AlertDescription } from '@/components/ui/alert';
 import { type SharedData } from '@/types';
 
 export default function ForgotPassword({ status }: { status?: string }) {
@@ -38,9 +38,7 @@ export default function ForgotPassword({ status }: { status?: string }) {
                 {isDemo && (
                     <Alert className="border-amber-500/50 bg-amber-500/10">
                         <AlertCircle className="h-4 w-4 text-amber-500" />
-                        <AlertDescription className="text-amber-600 dark:text-amber-400">
-                            Password reset is disabled in demo mode.
-                        </AlertDescription>
+                        <AlertDescription className="text-amber-600 dark:text-amber-400">Password reset is disabled in demo mode.</AlertDescription>
                     </Alert>
                 )}
                 <form onSubmit={submit} className="animate-in fade-in-0 slide-in-from-bottom-1">

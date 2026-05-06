@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Auth;
 class ActivityLogService
 {
     public static function log(
-        User|int|null $user = null,
+        User|int|null $user,
         string $action,
         string $description,
         ?array $metadata = null,
@@ -18,7 +18,7 @@ class ActivityLogService
         ?string $userAgent = null
     ): ActivityLog {
         $userId = null;
-        
+
         if ($user instanceof User) {
             $userId = $user->id;
         } elseif (is_int($user)) {
@@ -53,4 +53,3 @@ class ActivityLogService
         );
     }
 }
-

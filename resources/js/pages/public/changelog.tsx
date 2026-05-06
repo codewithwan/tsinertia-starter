@@ -1,23 +1,16 @@
-import { Head } from '@inertiajs/react';
-import { useState } from 'react';
-import { motion } from 'framer-motion';
-import Navbar from '@/components/landing/ai-style/navbar';
 import FooterSection from '@/components/landing/ai-style/footer-section';
-import { Filter, Code, Copy, Check } from 'lucide-react';
+import Navbar from '@/components/landing/ai-style/navbar';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import {
-    Select,
-    SelectContent,
-    SelectItem,
-    SelectTrigger,
-    SelectValue,
-} from '@/components/ui/select';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Head } from '@inertiajs/react';
+import { motion } from 'framer-motion';
+import { Check, Code, Copy, Filter } from 'lucide-react';
+import { useState } from 'react';
+import ReactMarkdown from 'react-markdown';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { vscDarkPlus } from 'react-syntax-highlighter/dist/esm/styles/prism';
-import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
-
 
 interface ChangelogEntry {
     date: string;
@@ -140,16 +133,14 @@ export default function Changelog({ changelogs = sampleChangelogs }: ChangelogPr
         const addedLines: number[] = [];
         const deletedLines: number[] = [];
         const lines = code.split('\n');
-        
+
         // Check if it's a diff format - detect by line content (lines starting with + or -)
         // This works regardless of language, so tsx can still have diff highlighting
-        const hasDiffLines = lines.some(line => {
+        const hasDiffLines = lines.some((line) => {
             const trimmed = line.trim();
-            return (trimmed.startsWith('+') || trimmed.startsWith('-')) && 
-                   !trimmed.startsWith('+++') && 
-                   !trimmed.startsWith('---');
+            return (trimmed.startsWith('+') || trimmed.startsWith('-')) && !trimmed.startsWith('+++') && !trimmed.startsWith('---');
         });
-        
+
         if (hasDiffLines) {
             lines.forEach((line, index) => {
                 const lineNum = index + 1;
@@ -161,7 +152,7 @@ export default function Changelog({ changelogs = sampleChangelogs }: ChangelogPr
                 }
             });
         }
-        
+
         // Parse highlight meta - format: {3,5-7}
         if (meta && meta.trim()) {
             const cleanMeta = meta.replace(/[{}]/g, '').trim();
@@ -184,7 +175,7 @@ export default function Changelog({ changelogs = sampleChangelogs }: ChangelogPr
                 });
             }
         }
-        
+
         return { code, language: language || 'text', highlightLines, addedLines, deletedLines };
     };
 
@@ -240,9 +231,8 @@ export default function Changelog({ changelogs = sampleChangelogs }: ChangelogPr
         };
     };
 
-
     return (
-        <div className="min-h-screen bg-background text-foreground relative overflow-hidden">
+        <div className="relative min-h-screen overflow-hidden bg-background text-foreground">
             <Head title="Changelog" />
 
             {/* AI-style Background */}
@@ -256,26 +246,26 @@ export default function Changelog({ changelogs = sampleChangelogs }: ChangelogPr
                         backgroundSize: '60px 60px',
                     }}
                 ></div>
-                <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[800px] bg-primary/5 rounded-full blur-3xl"></div>
+                <div className="absolute top-0 left-1/2 h-[800px] w-[800px] -translate-x-1/2 rounded-full bg-primary/5 blur-3xl"></div>
             </div>
 
             {/* Navbar */}
             <Navbar />
 
             {/* Content */}
-            <div className="relative z-10 pt-32 pb-20 px-4 sm:px-6">
-                <div className="max-w-6xl mx-auto">
+            <div className="relative z-10 px-4 pt-32 pb-20 sm:px-6">
+                <div className="mx-auto max-w-6xl">
                     {/* Header */}
                     <motion.div
                         initial={{ opacity: 0, y: 30 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.8 }}
-                        className="text-center mb-12"
+                        className="mb-12 text-center"
                     >
-                        <h1 className="text-5xl sm:text-6xl font-bold mb-4 bg-gradient-to-r from-foreground to-foreground/60 bg-clip-text text-transparent">
+                        <h1 className="mb-4 bg-gradient-to-r from-foreground to-foreground/60 bg-clip-text text-5xl font-bold text-transparent sm:text-6xl">
                             Changelog
                         </h1>
-                        <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+                        <p className="mx-auto max-w-2xl text-lg text-muted-foreground">
                             Stay up to date with the latest features, improvements, and bug fixes
                         </p>
                     </motion.div>
@@ -288,8 +278,8 @@ export default function Changelog({ changelogs = sampleChangelogs }: ChangelogPr
                         className="mb-8 flex justify-end"
                     >
                         <Select value={selectedCategory} onValueChange={(value) => setSelectedCategory(value as CategoryType)}>
-                            <SelectTrigger className="w-full sm:w-[200px] bg-background/50 backdrop-blur-xl border-border/40">
-                                <Filter className="h-4 w-4 mr-2" />
+                            <SelectTrigger className="w-full border-border/40 bg-background/50 backdrop-blur-xl sm:w-[200px]">
+                                <Filter className="mr-2 h-4 w-4" />
                                 <SelectValue />
                             </SelectTrigger>
                             <SelectContent>
@@ -307,14 +297,14 @@ export default function Changelog({ changelogs = sampleChangelogs }: ChangelogPr
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.6, delay: 0.3 }}
-                        className="bg-background/50 backdrop-blur-xl border border-border/40 p-4 sm:p-8 md:p-12 shadow-lg shadow-primary/5"
+                        className="border border-border/40 bg-background/50 p-4 shadow-lg shadow-primary/5 backdrop-blur-xl sm:p-8 md:p-12"
                     >
                         <div className="relative">
-                            <div className="hidden md:block absolute left-28 top-0 bottom-0 w-px bg-gradient-to-b from-primary/20 via-border/40 to-border/20"></div>
+                            <div className="absolute top-0 bottom-0 left-28 hidden w-px bg-gradient-to-b from-primary/20 via-border/40 to-border/20 md:block"></div>
 
                             <div className="space-y-0">
                                 {filteredChangelogs.length === 0 ? (
-                                    <div className="text-center py-12 text-muted-foreground">
+                                    <div className="py-12 text-center text-muted-foreground">
                                         <p>No changelog entries found matching your criteria.</p>
                                     </div>
                                 ) : (
@@ -329,180 +319,225 @@ export default function Changelog({ changelogs = sampleChangelogs }: ChangelogPr
                                                 initial={{ opacity: 0, x: -20 }}
                                                 animate={{ opacity: 1, x: 0 }}
                                                 transition={{ duration: 0.5, delay: entryIndex * 0.1 }}
-                                                className="relative md:pl-36 pb-8 md:pb-12 group"
+                                                className="group relative pb-8 md:pb-12 md:pl-36"
                                             >
-                                                <div className="hidden md:block absolute left-[104px] top-2 w-4 h-4 rounded-full bg-primary border-4 border-background shadow-lg shadow-primary/20 group-hover:scale-125 transition-transform"></div>
+                                                <div className="absolute top-2 left-[104px] hidden h-4 w-4 rounded-full border-4 border-background bg-primary shadow-lg shadow-primary/20 transition-transform group-hover:scale-125 md:block"></div>
 
-                                                <div className="hidden md:block absolute left-0 top-2 w-24 text-left">
-                                                    <div className="text-xs font-semibold text-muted-foreground">
-                                                        {dateInfo.short}
-                                                    </div>
+                                                <div className="absolute top-2 left-0 hidden w-24 text-left md:block">
+                                                    <div className="text-xs font-semibold text-muted-foreground">{dateInfo.short}</div>
                                                 </div>
 
                                                 <div className="space-y-3">
-                                                    <div className="flex flex-col sm:flex-row sm:items-start gap-2 sm:gap-3">
+                                                    <div className="flex flex-col gap-2 sm:flex-row sm:items-start sm:gap-3">
                                                         <div className="flex-1">
-                                                            <div className="flex flex-col sm:flex-row sm:items-center gap-2 mb-1">
-                                                                <div className="flex items-center gap-2 flex-wrap">
-                                                                    <h3 className="text-base sm:text-lg font-semibold text-foreground">
+                                                            <div className="mb-1 flex flex-col gap-2 sm:flex-row sm:items-center">
+                                                                <div className="flex flex-wrap items-center gap-2">
+                                                                    <h3 className="text-base font-semibold text-foreground sm:text-lg">
                                                                         {entry.title}
                                                                     </h3>
-                                                                    <Badge
-                                                                        variant="outline"
-                                                                        className="text-xs font-medium shrink-0"
-                                                                    >
+                                                                    <Badge variant="outline" className="shrink-0 text-xs font-medium">
                                                                         {label}
                                                                     </Badge>
                                                                 </div>
-                                                                <div className="md:hidden text-xs font-semibold text-muted-foreground">
+                                                                <div className="text-xs font-semibold text-muted-foreground md:hidden">
                                                                     {dateInfo.short}
                                                                 </div>
                                                             </div>
-                                                            {entry.data && (() => {
-                                                                const { processedMarkdown, codeBlockMap } = processMarkdown(entry.data || '');
-                                                                const codeBlockInfos = Array.from(codeBlockMap.values());
-                                                                const codeBlockIndexRef = { current: 0 };
-                                                                
-                                                                return (
-                                                                    <div className="text-sm text-muted-foreground leading-relaxed mt-2 [&_h2]:text-sm sm:text-base [&_h2]:font-semibold [&_h2]:text-foreground [&_h2]:mt-4 [&_h2]:mb-2 [&_p]:mb-2 [&_ul]:list-disc [&_ul]:ml-4 [&_ul]:space-y-1 [&_li]:text-muted-foreground [&_a]:text-primary [&_a]:underline [&_a]:hover:text-primary/80 [&_code]:bg-background/60 [&_code]:px-1 [&_code]:py-0.5 [&_code]:rounded [&_code]:text-foreground [&_code]:text-xs [&_pre]:my-4">
-                                                                        <ReactMarkdown
-                                                                            remarkPlugins={[remarkGfm]}
-                                                                            components={{
-                                                                                // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                                                                                code({ inline, className, children, ...props }: any) {
-                                                                                    const match = /language-(\w+)/.exec(className || '');
-                                                                                    const language = match ? match[1] : '';
-                                                                                    const codeString = String(children).replace(/\n$/, '');
-                                                                                    const currentIndex = codeBlockIndexRef.current++;
-                                                                                    const codeBlockInfo = codeBlockInfos[currentIndex];
-                                                                                    const meta = codeBlockInfo?.meta || '';
-                                                                                    const { highlightLines, addedLines, deletedLines } = parseCodeBlock(codeString, language, meta);
-                                                                                    const codeId = `${changeId}-${codeString.slice(0, 10)}`;
-                                                                                    const isCopiedCode = copiedCode === codeId;
+                                                            {entry.data &&
+                                                                (() => {
+                                                                    const { processedMarkdown, codeBlockMap } = processMarkdown(entry.data || '');
+                                                                    const codeBlockInfos = Array.from(codeBlockMap.values());
+                                                                    const codeBlockIndexRef = { current: 0 };
 
-                                                                                if (!inline && language) {
-                                                                                    return (
-                                                        <div className="mt-4">
-                                                                                            <div className="bg-background/80 border border-border/40 overflow-hidden">
-                                                                <div className="flex items-center justify-between px-2 sm:px-4 py-2 bg-background/40 border-b border-border/40">
-                                                                    <div className="flex items-center gap-2 text-xs text-muted-foreground">
-                                                                        <Code className="h-3 w-3 shrink-0" />
-                                                                                                        <span className="truncate">{language}</span>
-                                                                    </div>
-                                                                    <Button
-                                                                        variant="ghost"
-                                                                        size="sm"
-                                                                        className="h-7 px-2 text-xs shrink-0"
-                                                                                                        onClick={() => {
-                                                                                                            navigator.clipboard.writeText(codeString);
-                                                                                                            setCopiedCode(codeId);
-                                                                                                            setTimeout(() => setCopiedCode(null), 2000);
-                                                                                                        }}
-                                                                    >
-                                                                                                        {isCopiedCode ? (
-                                                                            <>
-                                                                                <Check className="h-3 w-3 mr-1" />
-                                                                                <span className="hidden sm:inline">Copied</span>
-                                                                            </>
-                                                                        ) : (
-                                                                            <>
-                                                                                <Copy className="h-3 w-3 mr-1" />
-                                                                                <span className="hidden sm:inline">Copy</span>
-                                                                            </>
-                                                                        )}
-                                                                    </Button>
-                                                                </div>
-                                                                                                <div className="relative overflow-x-auto code-block-scroll">
-                                                                    <div className="p-2 sm:p-4">
-                                                                        <SyntaxHighlighter
-                                                                            language={language}
-                                                                            style={vscDarkPlus}
-                                                                            customStyle={{
-                                                                                margin: 0,
-                                                                                padding: 0,
-                                                                                background: 'transparent',
-                                                                                fontSize: '0.875rem',
-                                                                            }}
-                                                                            showLineNumbers
-                                                                            wrapLines={true}
-                                                                            wrapLongLines={false}
-                                                                            lineNumberStyle={{
-                                                                                minWidth: '2em',
-                                                                                paddingRight: '0.5em',
-                                                                                paddingLeft: '0',
-                                                                                color: 'rgba(156, 163, 175, 0.3)',
-                                                                                userSelect: 'none',
-                                                                                textAlign: 'right',
-                                                                                fontSize: '0.75rem',
-                                                                            }}
-                                                                            lineProps={(lineNumber) => {
-                                                                                const isHighlighted = highlightLines.includes(lineNumber);
-                                                                                const isAdded = addedLines.includes(lineNumber);
-                                                                                const isDeleted = deletedLines.includes(lineNumber);
-                                                                                
-                                                                                let backgroundColor = 'transparent';
-                                                                                let borderLeft = 'none';
-                                                                                
-                                                                                // Priority: added > deleted > highlighted
-                                                                                if (isAdded) {
-                                                                                    backgroundColor = 'rgba(34, 197, 94, 0.2)';
-                                                                                    borderLeft = '3px solid rgba(34, 197, 94, 0.5)';
-                                                                                } else if (isDeleted) {
-                                                                                    backgroundColor = 'rgba(239, 68, 68, 0.2)';
-                                                                                    borderLeft = '3px solid rgba(239, 68, 68, 0.5)';
-                                                                                } else if (isHighlighted) {
-                                                                                    backgroundColor = 'rgba(59, 130, 246, 0.25)';
-                                                                                    borderLeft = '3px solid rgba(59, 130, 246, 0.7)';
-                                                                                }
-                                                                                
-                                                                                return {
-                                                                                    style: {
-                                                                                        backgroundColor,
-                                                                                        paddingLeft: '1rem',
-                                                                                        paddingRight: '1rem',
-                                                                                        paddingTop: '0.125rem',
-                                                                                        paddingBottom: '0.125rem',
-                                                                                        marginLeft: isHighlighted || isAdded || isDeleted ? '-1rem' : '0',
-                                                                                        marginRight: isHighlighted || isAdded || isDeleted ? '-1rem' : '0',
-                                                                                        borderLeft,
-                                                                                        display: 'block',
-                                                                                        width: isHighlighted || isAdded || isDeleted ? 'calc(100% + 2rem)' : '100%',
+                                                                    return (
+                                                                        <div className="mt-2 text-sm leading-relaxed text-muted-foreground sm:text-base [&_a]:text-primary [&_a]:underline [&_a]:hover:text-primary/80 [&_code]:rounded [&_code]:bg-background/60 [&_code]:px-1 [&_code]:py-0.5 [&_code]:text-xs [&_code]:text-foreground [&_h2]:mt-4 [&_h2]:mb-2 [&_h2]:text-sm [&_h2]:font-semibold [&_h2]:text-foreground [&_li]:text-muted-foreground [&_p]:mb-2 [&_pre]:my-4 [&_ul]:ml-4 [&_ul]:list-disc [&_ul]:space-y-1">
+                                                                            <ReactMarkdown
+                                                                                remarkPlugins={[remarkGfm]}
+                                                                                components={{
+                                                                                    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                                                                                    code({ inline, className, children, ...props }: any) {
+                                                                                        const match = /language-(\w+)/.exec(className || '');
+                                                                                        const language = match ? match[1] : '';
+                                                                                        const codeString = String(children).replace(/\n$/, '');
+                                                                                        const currentIndex = codeBlockIndexRef.current++;
+                                                                                        const codeBlockInfo = codeBlockInfos[currentIndex];
+                                                                                        const meta = codeBlockInfo?.meta || '';
+                                                                                        const { highlightLines, addedLines, deletedLines } =
+                                                                                            parseCodeBlock(codeString, language, meta);
+                                                                                        const codeId = `${changeId}-${codeString.slice(0, 10)}`;
+                                                                                        const isCopiedCode = copiedCode === codeId;
+
+                                                                                        if (!inline && language) {
+                                                                                            return (
+                                                                                                <div className="mt-4">
+                                                                                                    <div className="overflow-hidden border border-border/40 bg-background/80">
+                                                                                                        <div className="flex items-center justify-between border-b border-border/40 bg-background/40 px-2 py-2 sm:px-4">
+                                                                                                            <div className="flex items-center gap-2 text-xs text-muted-foreground">
+                                                                                                                <Code className="h-3 w-3 shrink-0" />
+                                                                                                                <span className="truncate">
+                                                                                                                    {language}
+                                                                                                                </span>
+                                                                                                            </div>
+                                                                                                            <Button
+                                                                                                                variant="ghost"
+                                                                                                                size="sm"
+                                                                                                                className="h-7 shrink-0 px-2 text-xs"
+                                                                                                                onClick={() => {
+                                                                                                                    navigator.clipboard.writeText(
+                                                                                                                        codeString,
+                                                                                                                    );
+                                                                                                                    setCopiedCode(codeId);
+                                                                                                                    setTimeout(
+                                                                                                                        () => setCopiedCode(null),
+                                                                                                                        2000,
+                                                                                                                    );
+                                                                                                                }}
+                                                                                                            >
+                                                                                                                {isCopiedCode ? (
+                                                                                                                    <>
+                                                                                                                        <Check className="mr-1 h-3 w-3" />
+                                                                                                                        <span className="hidden sm:inline">
+                                                                                                                            Copied
+                                                                                                                        </span>
+                                                                                                                    </>
+                                                                                                                ) : (
+                                                                                                                    <>
+                                                                                                                        <Copy className="mr-1 h-3 w-3" />
+                                                                                                                        <span className="hidden sm:inline">
+                                                                                                                            Copy
+                                                                                                                        </span>
+                                                                                                                    </>
+                                                                                                                )}
+                                                                                                            </Button>
+                                                                                                        </div>
+                                                                                                        <div className="code-block-scroll relative overflow-x-auto">
+                                                                                                            <div className="p-2 sm:p-4">
+                                                                                                                <SyntaxHighlighter
+                                                                                                                    language={language}
+                                                                                                                    style={vscDarkPlus}
+                                                                                                                    customStyle={{
+                                                                                                                        margin: 0,
+                                                                                                                        padding: 0,
+                                                                                                                        background: 'transparent',
+                                                                                                                        fontSize: '0.875rem',
+                                                                                                                    }}
+                                                                                                                    showLineNumbers
+                                                                                                                    wrapLines={true}
+                                                                                                                    wrapLongLines={false}
+                                                                                                                    lineNumberStyle={{
+                                                                                                                        minWidth: '2em',
+                                                                                                                        paddingRight: '0.5em',
+                                                                                                                        paddingLeft: '0',
+                                                                                                                        color: 'rgba(156, 163, 175, 0.3)',
+                                                                                                                        userSelect: 'none',
+                                                                                                                        textAlign: 'right',
+                                                                                                                        fontSize: '0.75rem',
+                                                                                                                    }}
+                                                                                                                    lineProps={(lineNumber) => {
+                                                                                                                        const isHighlighted =
+                                                                                                                            highlightLines.includes(
+                                                                                                                                lineNumber,
+                                                                                                                            );
+                                                                                                                        const isAdded =
+                                                                                                                            addedLines.includes(
+                                                                                                                                lineNumber,
+                                                                                                                            );
+                                                                                                                        const isDeleted =
+                                                                                                                            deletedLines.includes(
+                                                                                                                                lineNumber,
+                                                                                                                            );
+
+                                                                                                                        let backgroundColor =
+                                                                                                                            'transparent';
+                                                                                                                        let borderLeft = 'none';
+
+                                                                                                                        // Priority: added > deleted > highlighted
+                                                                                                                        if (isAdded) {
+                                                                                                                            backgroundColor =
+                                                                                                                                'rgba(34, 197, 94, 0.2)';
+                                                                                                                            borderLeft =
+                                                                                                                                '3px solid rgba(34, 197, 94, 0.5)';
+                                                                                                                        } else if (isDeleted) {
+                                                                                                                            backgroundColor =
+                                                                                                                                'rgba(239, 68, 68, 0.2)';
+                                                                                                                            borderLeft =
+                                                                                                                                '3px solid rgba(239, 68, 68, 0.5)';
+                                                                                                                        } else if (isHighlighted) {
+                                                                                                                            backgroundColor =
+                                                                                                                                'rgba(59, 130, 246, 0.25)';
+                                                                                                                            borderLeft =
+                                                                                                                                '3px solid rgba(59, 130, 246, 0.7)';
+                                                                                                                        }
+
+                                                                                                                        return {
+                                                                                                                            style: {
+                                                                                                                                backgroundColor,
+                                                                                                                                paddingLeft: '1rem',
+                                                                                                                                paddingRight: '1rem',
+                                                                                                                                paddingTop:
+                                                                                                                                    '0.125rem',
+                                                                                                                                paddingBottom:
+                                                                                                                                    '0.125rem',
+                                                                                                                                marginLeft:
+                                                                                                                                    isHighlighted ||
+                                                                                                                                    isAdded ||
+                                                                                                                                    isDeleted
+                                                                                                                                        ? '-1rem'
+                                                                                                                                        : '0',
+                                                                                                                                marginRight:
+                                                                                                                                    isHighlighted ||
+                                                                                                                                    isAdded ||
+                                                                                                                                    isDeleted
+                                                                                                                                        ? '-1rem'
+                                                                                                                                        : '0',
+                                                                                                                                borderLeft,
+                                                                                                                                display: 'block',
+                                                                                                                                width:
+                                                                                                                                    isHighlighted ||
+                                                                                                                                    isAdded ||
+                                                                                                                                    isDeleted
+                                                                                                                                        ? 'calc(100% + 2rem)'
+                                                                                                                                        : '100%',
+                                                                                                                            },
+                                                                                                                        };
+                                                                                                                    }}
+                                                                                                                >
+                                                                                                                    {codeString}
+                                                                                                                </SyntaxHighlighter>
+                                                                                                            </div>
+                                                                                                        </div>
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                            );
+                                                                                        }
+                                                                                        return (
+                                                                                            <code className={className} {...props}>
+                                                                                                {children}
+                                                                                            </code>
+                                                                                        );
                                                                                     },
-                                                                                };
-                                                                            }}
-                                                                        >
-                                                                            {codeString}
-                                                                        </SyntaxHighlighter>
-                                                                    </div>
-                                                                </div>
-                                                                                            </div>
-                                                                                        </div>
-                                                                                    );
-                                                                                }
-                                                                                return (
-                                                                                    <code className={className} {...props}>
-                                                                                        {children}
-                                                                                    </code>
-                                                                                );
-                                                                            },
-                                                                            // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                                                                            a({ href, children, ...props }: any) {
-                                                                                return (
-                                                                                    <a href={href} target="_blank" rel="noopener noreferrer" {...props}>
-                                                                                        {children}
-                                                                                    </a>
-                                                                                );
-                                                                            },
-                                                                        }}
-                                                                        >
-                                                                            {processedMarkdown}
-                                                                        </ReactMarkdown>
-                                                            </div>
-                                                                );
-                                                            })()}
+                                                                                    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                                                                                    a({ href, children, ...props }: any) {
+                                                                                        return (
+                                                                                            <a
+                                                                                                href={href}
+                                                                                                target="_blank"
+                                                                                                rel="noopener noreferrer"
+                                                                                                {...props}
+                                                                                            >
+                                                                                                {children}
+                                                                                            </a>
+                                                                                        );
+                                                                                    },
+                                                                                }}
+                                                                            >
+                                                                                {processedMarkdown}
+                                                                            </ReactMarkdown>
+                                                                        </div>
+                                                                    );
+                                                                })()}
                                                         </div>
                                                     </div>
-
                                                 </div>
                                             </motion.div>
                                         );

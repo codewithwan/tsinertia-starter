@@ -1,15 +1,8 @@
-import { useState, useCallback } from 'react';
-import Cropper, { Area } from 'react-easy-crop';
 import { Button } from '@/components/ui/button';
-import {
-    Dialog,
-    DialogContent,
-    DialogDescription,
-    DialogFooter,
-    DialogHeader,
-    DialogTitle,
-} from '@/components/ui/dialog';
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Slider } from '@/components/ui/slider';
+import { useCallback, useState } from 'react';
+import Cropper, { Area } from 'react-easy-crop';
 
 interface AvatarCropperProps {
     imageSrc: string;
@@ -45,10 +38,7 @@ export function AvatarCropper({ imageSrc, open, onClose, onCropComplete }: Avata
             image.src = url;
         });
 
-    const getCroppedImg = async (
-        imageSrc: string,
-        pixelCrop: Area
-    ): Promise<File> => {
+    const getCroppedImg = async (imageSrc: string, pixelCrop: Area): Promise<File> => {
         const image = await createImage(imageSrc);
         const canvas = document.createElement('canvas');
         const ctx = canvas.getContext('2d');
@@ -61,27 +51,21 @@ export function AvatarCropper({ imageSrc, open, onClose, onCropComplete }: Avata
         canvas.width = outputSize;
         canvas.height = outputSize;
 
-        ctx.drawImage(
-            image,
-            pixelCrop.x,
-            pixelCrop.y,
-            pixelCrop.width,
-            pixelCrop.height,
-            0,
-            0,
-            outputSize,
-            outputSize
-        );
+        ctx.drawImage(image, pixelCrop.x, pixelCrop.y, pixelCrop.width, pixelCrop.height, 0, 0, outputSize, outputSize);
 
         return new Promise<File>((resolve, reject) => {
-            canvas.toBlob((blob) => {
-                if (!blob) {
-                    reject(new Error('Canvas is empty'));
-                    return;
-                }
-                const file = new File([blob], 'avatar.jpg', { type: 'image/jpeg' });
-                resolve(file);
-            }, 'image/jpeg', 0.95);
+            canvas.toBlob(
+                (blob) => {
+                    if (!blob) {
+                        reject(new Error('Canvas is empty'));
+                        return;
+                    }
+                    const file = new File([blob], 'avatar.jpg', { type: 'image/jpeg' });
+                    resolve(file);
+                },
+                'image/jpeg',
+                0.95,
+            );
         });
     };
 
@@ -107,11 +91,9 @@ export function AvatarCropper({ imageSrc, open, onClose, onCropComplete }: Avata
             <DialogContent className="sm:max-w-[500px]">
                 <DialogHeader>
                     <DialogTitle>Crop Profile Photo</DialogTitle>
-                    <DialogDescription>
-                        Adjust the position and zoom of your profile photo. Drag to move, use slider to zoom.
-                    </DialogDescription>
+                    <DialogDescription>Adjust the position and zoom of your profile photo. Drag to move, use slider to zoom.</DialogDescription>
                 </DialogHeader>
-                <div className="relative w-full h-[400px] bg-black rounded-lg overflow-hidden">
+                <div className="relative h-[400px] w-full overflow-hidden rounded-lg bg-black">
                     <Cropper
                         image={imageSrc}
                         crop={crop}
@@ -134,14 +116,7 @@ export function AvatarCropper({ imageSrc, open, onClose, onCropComplete }: Avata
                 <div className="space-y-4">
                     <div className="space-y-2">
                         <label className="text-sm font-medium">Zoom</label>
-                        <Slider
-                            value={[zoom]}
-                            min={1}
-                            max={3}
-                            step={0.1}
-                            onValueChange={(value) => setZoom(value[0])}
-                            className="w-full"
-                        />
+                        <Slider value={[zoom]} min={1} max={3} step={0.1} onValueChange={(value) => setZoom(value[0])} className="w-full" />
                     </div>
                 </div>
                 <DialogFooter>
@@ -156,4 +131,3 @@ export function AvatarCropper({ imageSrc, open, onClose, onCropComplete }: Avata
         </Dialog>
     );
 }
-

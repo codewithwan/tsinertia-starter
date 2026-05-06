@@ -1,5 +1,5 @@
-import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
+import { useEffect, useState } from 'react';
 import { useInView } from 'react-intersection-observer';
 
 interface AnimatedCounterProps {
@@ -9,12 +9,7 @@ interface AnimatedCounterProps {
     showUnit?: boolean;
 }
 
-export default function AnimatedCounter({ 
-    value, 
-    suffix = '', 
-    duration = 2000, 
-    showUnit = true 
-}: AnimatedCounterProps) {
+export default function AnimatedCounter({ value, suffix = '', duration = 2000, showUnit = true }: AnimatedCounterProps) {
     const [displayValue, setDisplayValue] = useState('');
     const [ref, inView] = useInView({
         triggerOnce: true,
@@ -62,7 +57,7 @@ export default function AnimatedCounter({
                     if (suffix === 'MB' && numericValue >= 1000) {
                         // Convert MB to GB when it gets to 1000+
                         if (currentValue >= 1000) {
-                            const gbValue = (currentValue / 1024);
+                            const gbValue = currentValue / 1024;
                             // Remove .0 if it's a whole number
                             const displayGB = gbValue % 1 === 0 ? Math.floor(gbValue) : gbValue.toFixed(1);
                             setDisplayValue(`${displayGB}GB`);
@@ -86,8 +81,7 @@ export default function AnimatedCounter({
 
             // Handle CPU values (with decimal, start from 0.1)
             // Check for CPU context: either has CPU suffix, contains decimal, or is a whole number for CPU
-            if (suffix === 'CPU' || value.toString().includes('.') ||
-                (typeof value === 'number' && (value === 1 || value === 0.5))) {
+            if (suffix === 'CPU' || value.toString().includes('.') || (typeof value === 'number' && (value === 1 || value === 0.5))) {
                 const numericValue = typeof value === 'number' ? value : parseFloat(value.toString().replace(/[^0-9.]/g, ''));
                 const startTime = Date.now();
 
@@ -140,9 +134,10 @@ export default function AnimatedCounter({
             initial={{ opacity: 0, y: 20 }}
             animate={inView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.6 }}
-            className="text-2xl sm:text-3xl font-bold text-foreground"
+            className="text-2xl font-bold text-foreground sm:text-3xl"
         >
-            {displayValue}{showUnit && suffix && !displayValue.includes(suffix) ? suffix : ''}
+            {displayValue}
+            {showUnit && suffix && !displayValue.includes(suffix) ? suffix : ''}
         </motion.div>
     );
 }

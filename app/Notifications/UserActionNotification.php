@@ -29,4 +29,3 @@ class UserActionNotification extends Notification
         ];
     }
 }
-

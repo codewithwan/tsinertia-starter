@@ -3,9 +3,10 @@
 /** @phpstan-ignore-file */
 use App\Models\ActivityLog;
 use App\Models\User;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Spatie\Permission\Models\Role;
 
-uses(\Illuminate\Foundation\Testing\RefreshDatabase::class);
+uses(RefreshDatabase::class);
 
 beforeEach(function () {
     /** @var Role $superadminRole */
@@ -14,7 +15,7 @@ beforeEach(function () {
     $adminRole = Role::create(['name' => 'admin']);
     /** @var Role $userRole */
     $userRole = Role::create(['name' => 'user']);
-    
+
     $this->superadminRole = $superadminRole;
     $this->adminRole = $adminRole;
     $this->userRole = $userRole;
@@ -33,9 +34,8 @@ test('user can view their own activity logs', function () {
     $response = $this->actingAs($user)->get('/settings/activity');
 
     $response->assertOk();
-    $response->assertInertia(fn ($page) => 
-        $page->component('activity/index')
-            ->has('activityLogs')
+    $response->assertInertia(fn ($page) => $page->component('activity/index')
+        ->has('activityLogs')
     );
 });
 
@@ -245,4 +245,3 @@ test('activity logs can be exported as json', function () {
     $response->assertOk();
     $response->assertHeader('Content-Type', 'application/json');
 });
-

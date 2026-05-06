@@ -1,15 +1,15 @@
 import { Head, Link, useForm, usePage } from '@inertiajs/react';
-import { LoaderCircle, AlertCircle } from 'lucide-react';
+import { AlertCircle, LoaderCircle } from 'lucide-react';
 import { FormEventHandler } from 'react';
 
 import InputError from '@/components/input-error';
 import TextLink from '@/components/text-link';
+import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { PasswordInput } from '@/components/ui/password-input';
 import AuthLayout from '@/layouts/auth-layout';
-import { Alert, AlertDescription } from '@/components/ui/alert';
 import { type SharedData } from '@/types';
 
 export default function Register() {
@@ -133,13 +133,7 @@ export default function Register() {
                 </div>
 
                 <div className="grid grid-cols-2 gap-3">
-                    <Button
-                        type="button"
-                        variant="outline"
-                        className="h-11 w-full"
-                        disabled={isDemo}
-                        asChild={!isDemo}
-                    >
+                    <Button type="button" variant="outline" className="h-11 w-full" disabled={isDemo} asChild={!isDemo}>
                         {!isDemo && (
                             <Link href={route('oauth.google')}>
                                 <svg className="mr-2 h-4 w-4" viewBox="0 0 24 24">
@@ -187,13 +181,7 @@ export default function Register() {
                             </>
                         )}
                     </Button>
-                    <Button
-                        type="button"
-                        variant="outline"
-                        className="h-11 w-full"
-                        disabled={isDemo}
-                        asChild={!isDemo}
-                    >
+                    <Button type="button" variant="outline" className="h-11 w-full" disabled={isDemo} asChild={!isDemo}>
                         {!isDemo && (
                             <Link href={route('oauth.github')}>
                                 <svg className="mr-2 h-4 w-4" fill="currentColor" viewBox="0 0 24 24">

@@ -1,7 +1,7 @@
 import AppLogo from '@/components/app-logo';
 import { Link } from '@inertiajs/react';
-import { type PropsWithChildren } from 'react';
 import { Code2, Layers, Shield, Zap } from 'lucide-react';
+import { type PropsWithChildren } from 'react';
 
 interface AuthLayoutProps {
     title?: string;
@@ -9,13 +9,12 @@ interface AuthLayoutProps {
 }
 
 export default function AuthSplitLayout({ children, title, description }: PropsWithChildren<AuthLayoutProps>) {
-
     return (
         <div className="relative grid h-dvh flex-col items-center justify-center px-8 sm:px-0 lg:max-w-none lg:grid-cols-2 lg:px-0">
             {/* Left Side - Branding */}
             <div className="relative hidden h-full flex-col bg-background p-10 text-foreground lg:flex">
                 {/* Grid Pattern Background */}
-                <div className="absolute inset-0 bg-[linear-gradient(rgba(0,0,0,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(0,0,0,0.02)_1px,transparent_1px)] dark:bg-[linear-gradient(rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:24px_24px] pointer-events-none"></div>
+                <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(rgba(0,0,0,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(0,0,0,0.02)_1px,transparent_1px)] bg-[size:24px_24px] dark:bg-[linear-gradient(rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.02)_1px,transparent_1px)]"></div>
 
                 {/* Logo */}
                 <Link href={route('home')} className="relative z-20 flex items-center text-lg font-medium">
@@ -26,9 +25,10 @@ export default function AuthSplitLayout({ children, title, description }: PropsW
                 <div className="relative z-20 mt-auto space-y-8">
                     <div className="space-y-6">
                         <h2 className="text-4xl font-bold text-foreground">
-                            Modern Full-Stack <span className="bg-gradient-to-r from-primary to-primary/80 bg-clip-text text-transparent">Starter Kit</span>
+                            Modern Full-Stack{' '}
+                            <span className="bg-gradient-to-r from-primary to-primary/80 bg-clip-text text-transparent">Starter Kit</span>
                         </h2>
-                        <p className="text-lg text-muted-foreground leading-relaxed">
+                        <p className="text-lg leading-relaxed text-muted-foreground">
                             TypeScript, Laravel, React, and Inertia.js pre-configured with authentication, admin panel, and beautiful UI components.
                         </p>
                     </div>
@@ -36,7 +36,7 @@ export default function AuthSplitLayout({ children, title, description }: PropsW
                     {/* Features */}
                     <div className="space-y-4">
                         <div className="flex items-start gap-3">
-                            <div className="w-8 h-8 bg-primary/10 rounded-lg flex items-center justify-center flex-shrink-0 mt-1">
+                            <div className="mt-1 flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-lg bg-primary/10">
                                 <Code2 className="h-4 w-4 text-primary" />
                             </div>
                             <div>
@@ -46,7 +46,7 @@ export default function AuthSplitLayout({ children, title, description }: PropsW
                         </div>
 
                         <div className="flex items-start gap-3">
-                            <div className="w-8 h-8 bg-primary/10 rounded-lg flex items-center justify-center flex-shrink-0 mt-1">
+                            <div className="mt-1 flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-lg bg-primary/10">
                                 <Layers className="h-4 w-4 text-primary" />
                             </div>
                             <div>
@@ -56,7 +56,7 @@ export default function AuthSplitLayout({ children, title, description }: PropsW
                         </div>
 
                         <div className="flex items-start gap-3">
-                            <div className="w-8 h-8 bg-primary/10 rounded-lg flex items-center justify-center flex-shrink-0 mt-1">
+                            <div className="mt-1 flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-lg bg-primary/10">
                                 <Shield className="h-4 w-4 text-primary" />
                             </div>
                             <div>
@@ -66,7 +66,7 @@ export default function AuthSplitLayout({ children, title, description }: PropsW
                         </div>
 
                         <div className="flex items-start gap-3">
-                            <div className="w-8 h-8 bg-primary/10 rounded-lg flex items-center justify-center flex-shrink-0 mt-1">
+                            <div className="mt-1 flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-lg bg-primary/10">
                                 <Zap className="h-4 w-4 text-primary" />
                             </div>
                             <div>

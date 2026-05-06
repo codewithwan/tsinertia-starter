@@ -1,14 +1,14 @@
+import { NotificationItem } from '@/components/notifications/notification-item';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { ScrollArea } from '@/components/ui/scroll-area';
 import AppLayout from '@/layouts/app-layout';
 import UserNotificationsLayout from '@/layouts/notifications/user-notifications-layout';
-import { Head, router, usePage } from '@inertiajs/react';
-import { Button } from '@/components/ui/button';
-import { ScrollArea } from '@/components/ui/scroll-area';
-import { NotificationItem } from '@/components/notifications/notification-item';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { route } from 'ziggy-js';
 import { type BreadcrumbItem, type PageProps } from '@/types';
-import { useState, useMemo, useEffect } from 'react';
+import { Head, router, usePage } from '@inertiajs/react';
 import { CheckCheck } from 'lucide-react';
+import { useEffect, useMemo, useState } from 'react';
+import { route } from 'ziggy-js';
 
 interface Notification {
     id: string;
@@ -58,7 +58,7 @@ export default function NotificationsIndex({ notifications }: NotificationsPageP
         }
         return 'all';
     });
-    
+
     useEffect(() => {
         if (typeof window !== 'undefined') {
             const urlParams = new URLSearchParams(window.location.search);
@@ -71,35 +71,39 @@ export default function NotificationsIndex({ notifications }: NotificationsPageP
     }, [page.url]);
 
     const handleMarkAsRead = (notificationId: string) => {
-        router.post(route('notifications.read', { notification: notificationId }), {}, {
-            preserveScroll: true,
-            onSuccess: () => {
-                setLocalNotifications(prev =>
-                    prev.map(n => n.id === notificationId ? { ...n, read_at: new Date().toISOString() } : n)
-                );
+        router.post(
+            route('notifications.read', { notification: notificationId }),
+            {},
+            {
+                preserveScroll: true,
+                onSuccess: () => {
+                    setLocalNotifications((prev) => prev.map((n) => (n.id === notificationId ? { ...n, read_at: new Date().toISOString() } : n)));
+                },
             },
-        });
+        );
     };
 
     const handleMarkAllAsRead = () => {
-        router.post(route('notifications.read-all'), {}, {
-            preserveScroll: true,
-            onSuccess: () => {
-                setLocalNotifications(prev =>
-                    prev.map(n => ({ ...n, read_at: n.read_at || new Date().toISOString() }))
-                );
+        router.post(
+            route('notifications.read-all'),
+            {},
+            {
+                preserveScroll: true,
+                onSuccess: () => {
+                    setLocalNotifications((prev) => prev.map((n) => ({ ...n, read_at: n.read_at || new Date().toISOString() })));
+                },
             },
-        });
+        );
     };
 
     const filteredNotifications = useMemo(() => {
         if (filter === 'unread') {
-            return localNotifications.filter(n => !n.read_at);
+            return localNotifications.filter((n) => !n.read_at);
         }
         return localNotifications;
     }, [localNotifications, filter]);
 
-    const unreadCount = localNotifications.filter(n => !n.read_at).length;
+    const unreadCount = localNotifications.filter((n) => !n.read_at).length;
 
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
@@ -109,19 +113,16 @@ export default function NotificationsIndex({ notifications }: NotificationsPageP
                     <CardHeader>
                         <div className="flex items-center justify-between">
                             <div>
-                                <CardTitle>
-                                    {filter === 'unread' ? 'Unread Notifications' : 'All Notifications'}
-                                </CardTitle>
+                                <CardTitle>{filter === 'unread' ? 'Unread Notifications' : 'All Notifications'}</CardTitle>
                                 <CardDescription>
-                                    {filter === 'unread' 
+                                    {filter === 'unread'
                                         ? `${unreadCount} unread notification${unreadCount !== 1 ? 's' : ''}`
-                                        : `${localNotifications.length} total notification${localNotifications.length !== 1 ? 's' : ''}`
-                                    }
+                                        : `${localNotifications.length} total notification${localNotifications.length !== 1 ? 's' : ''}`}
                                 </CardDescription>
                             </div>
                             {unreadCount > 0 && (
                                 <Button onClick={handleMarkAllAsRead} variant="outline" size="sm">
-                                    <CheckCheck className="h-4 w-4 mr-2" />
+                                    <CheckCheck className="mr-2 h-4 w-4" />
                                     Mark all as read
                                 </Button>
                             )}
@@ -153,4 +154,3 @@ export default function NotificationsIndex({ notifications }: NotificationsPageP
         </AppLayout>
     );
 }
-

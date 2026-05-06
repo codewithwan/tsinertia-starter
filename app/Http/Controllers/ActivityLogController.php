@@ -6,8 +6,6 @@ use App\Models\ActivityLog;
 use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response as HttpResponse;
-use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
 use Inertia\Response;
 use Symfony\Component\HttpFoundation\StreamedResponse;
@@ -23,9 +21,9 @@ class ActivityLogController extends Controller
         $query = ActivityLog::with('user:id,name,email')
             ->latest();
 
-        if (!$isSuperadmin && !$isAdmin) {
+        if (! $isSuperadmin && ! $isAdmin) {
             $query->where('user_id', $currentUser->id);
-        } elseif ($isAdmin && !$isSuperadmin) {
+        } elseif ($isAdmin && ! $isSuperadmin) {
             $query->whereHas('user', function ($q) {
                 $q->whereDoesntHave('roles', function ($roleQuery) {
                     $roleQuery->whereIn('name', ['admin', 'superadmin']);
@@ -95,10 +93,11 @@ class ActivityLogController extends Controller
                     'email' => $user->email,
                 ]);
 
-            if (!$isSuperadmin) {
+            if (! $isSuperadmin) {
                 $users = $users->filter(function ($user) {
                     $userModel = User::find($user['id']);
-                    return $userModel && !$userModel->hasAnyRole(['admin', 'superadmin']);
+
+                    return $userModel && ! $userModel->hasAnyRole(['admin', 'superadmin']);
                 });
             }
 
@@ -131,7 +130,7 @@ class ActivityLogController extends Controller
     public function export($query, string $format): StreamedResponse
     {
         $logs = $query->get();
-        $filename = 'activity_logs_' . now()->format('Y-m-d_H-i-s') . '.' . $format;
+        $filename = 'activity_logs_'.now()->format('Y-m-d_H-i-s').'.'.$format;
 
         if ($format === 'csv') {
             return $this->exportCsv($logs, $filename);
@@ -200,7 +199,7 @@ class ActivityLogController extends Controller
 
     public function deleteOldLogs(Request $request): RedirectResponse
     {
-        if (!$request->user()->hasRole('superadmin')) {
+        if (! $request->user()->hasRole('superadmin')) {
             abort(403);
         }
 

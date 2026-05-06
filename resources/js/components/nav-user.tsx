@@ -17,8 +17,12 @@ export function NavUser() {
             <SidebarMenuItem>
                 <DropdownMenu>
                     <DropdownMenuTrigger asChild>
-                        <div className="border rounded-lg hover:bg-sidebar-accent transition-colors cursor-pointer group-data-[collapsible=icon]:border-0">
-                            <SidebarMenuButton size="lg" tooltip={{ children: auth.user.name }} className="group text-sidebar-accent-foreground data-[state=open]:bg-transparent w-full">
+                        <div className="cursor-pointer rounded-lg border transition-colors group-data-[collapsible=icon]:border-0 hover:bg-sidebar-accent">
+                            <SidebarMenuButton
+                                size="lg"
+                                tooltip={{ children: auth.user.name }}
+                                className="group w-full text-sidebar-accent-foreground data-[state=open]:bg-transparent"
+                            >
                                 <UserInfo user={auth.user} />
                                 <ChevronsUpDown className="ml-auto size-4 group-data-[collapsible=icon]:hidden" />
                             </SidebarMenuButton>

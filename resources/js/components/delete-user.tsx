@@ -42,7 +42,9 @@ export default function DeleteUser({ isDemo = false }: { isDemo?: boolean }) {
 
                 <Dialog>
                     <DialogTrigger asChild>
-                        <Button variant="destructive" disabled={isDemo}>Delete account</Button>
+                        <Button variant="destructive" disabled={isDemo}>
+                            Delete account
+                        </Button>
                     </DialogTrigger>
                     <DialogContent>
                         <DialogTitle>Are you sure you want to delete your account?</DialogTitle>

@@ -1,16 +1,4 @@
-import { type LucideIcon } from 'lucide-react';
-import {
-    LayoutGrid,
-    Users,
-    Bell,
-    Activity,
-    MessageSquare,
-    Settings,
-    User,
-    Lock,
-    Shield,
-    LogOut,
-} from 'lucide-react';
+import { Activity, Bell, LayoutGrid, Lock, LogOut, MessageSquare, Settings, Shield, User, Users, type LucideIcon } from 'lucide-react';
 
 export type CommandPaletteItem = {
     id: string;
@@ -161,13 +149,8 @@ const getActionItems = (logoutAction: () => void): CommandPaletteItem[] => [
  */
 export function getCommandPaletteItems(userRole?: string, logoutAction?: () => void): CommandPaletteItem[] {
     const actionItemsList = logoutAction ? getActionItems(logoutAction) : [];
-    
-    const allItems = [
-        ...navigationItems,
-        ...settingsItems,
-        ...administrationItems,
-        ...actionItemsList,
-    ];
+
+    const allItems = [...navigationItems, ...settingsItems, ...administrationItems, ...actionItemsList];
 
     // Filter by role
     return allItems.filter((item) => {
@@ -193,11 +176,8 @@ export function searchCommandPaletteItems(query: string, userRole?: string, logo
     return items.filter((item) => {
         const titleMatch = item.title.toLowerCase().includes(lowerQuery);
         const descriptionMatch = item.description?.toLowerCase().includes(lowerQuery);
-        const keywordMatch = item.keywords?.some((keyword) =>
-            keyword.toLowerCase().includes(lowerQuery)
-        );
+        const keywordMatch = item.keywords?.some((keyword) => keyword.toLowerCase().includes(lowerQuery));
 
         return titleMatch || descriptionMatch || keywordMatch;
     });
 }
-

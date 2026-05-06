@@ -48,7 +48,7 @@ export function AppHeader({ breadcrumbs = [] }: AppHeaderProps) {
     const getInitials = useInitials();
     return (
         <>
-            <div className="bg-white dark:bg-neutral-900 shadow-sm backdrop-blur-sm bg-opacity-80 dark:bg-opacity-80 sticky top-0 z-50">
+            <div className="bg-opacity-80 dark:bg-opacity-80 sticky top-0 z-50 bg-white shadow-sm backdrop-blur-sm dark:bg-neutral-900">
                 <div className="mx-auto flex h-16 items-center px-4 md:max-w-7xl">
                     {/* Mobile Menu */}
                     <div className="lg:hidden">
@@ -58,7 +58,10 @@ export function AppHeader({ breadcrumbs = [] }: AppHeaderProps) {
                                     <Menu className="h-5 w-5" />
                                 </Button>
                             </SheetTrigger>
-                            <SheetContent side="left" className="flex h-full w-64 flex-col items-stretch justify-between bg-white dark:bg-neutral-900">
+                            <SheetContent
+                                side="left"
+                                className="flex h-full w-64 flex-col items-stretch justify-between bg-white dark:bg-neutral-900"
+                            >
                                 <SheetTitle className="sr-only">Navigation Menu</SheetTitle>
                                 <SheetHeader className="flex justify-start text-left">
                                     <AppLogoIcon className="h-6 w-6 fill-current text-primary" />
@@ -67,12 +70,12 @@ export function AppHeader({ breadcrumbs = [] }: AppHeaderProps) {
                                     <div className="flex h-full flex-col justify-between text-sm">
                                         <div className="flex flex-col space-y-4">
                                             {mainNavItems.map((item) => (
-                                                <Link 
-                                                    key={item.title} 
-                                                    href={item.href} 
+                                                <Link
+                                                    key={item.title}
+                                                    href={item.href}
                                                     className={cn(
-                                                        "flex items-center space-x-2 font-medium p-2 rounded-lg transition-colors",
-                                                        page.url === item.href ? activeItemStyles : "hover:bg-neutral-100 dark:hover:bg-neutral-800"
+                                                        'flex items-center space-x-2 rounded-lg p-2 font-medium transition-colors',
+                                                        page.url === item.href ? activeItemStyles : 'hover:bg-neutral-100 dark:hover:bg-neutral-800',
                                                     )}
                                                 >
                                                     {item.icon && <Icon iconNode={item.icon} className="h-5 w-5" />}
@@ -88,7 +91,7 @@ export function AppHeader({ breadcrumbs = [] }: AppHeaderProps) {
                                                     href={item.href}
                                                     target="_blank"
                                                     rel="noopener noreferrer"
-                                                    className="flex items-center space-x-2 font-medium p-2 rounded-lg hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-colors"
+                                                    className="flex items-center space-x-2 rounded-lg p-2 font-medium transition-colors hover:bg-neutral-100 dark:hover:bg-neutral-800"
                                                 >
                                                     {item.icon && <Icon iconNode={item.icon} className="h-5 w-5" />}
                                                     <span>{item.title}</span>
@@ -114,8 +117,8 @@ export function AppHeader({ breadcrumbs = [] }: AppHeaderProps) {
                                         <Link
                                             href={item.href}
                                             className={cn(
-                                                "flex items-center px-4 py-2 rounded-lg transition-colors",
-                                                page.url === item.href ? activeItemStyles : "hover:bg-neutral-100 dark:hover:bg-neutral-800"
+                                                'flex items-center rounded-lg px-4 py-2 transition-colors',
+                                                page.url === item.href ? activeItemStyles : 'hover:bg-neutral-100 dark:hover:bg-neutral-800',
                                             )}
                                         >
                                             {item.icon && <Icon iconNode={item.icon} className="mr-2 h-4 w-4" />}
@@ -160,9 +163,7 @@ export function AppHeader({ breadcrumbs = [] }: AppHeaderProps) {
                                 <Button variant="ghost" className="size-10 rounded-lg p-1 hover:bg-neutral-100 dark:hover:bg-neutral-800">
                                     <Avatar className="size-8 overflow-hidden rounded-lg ring-2 ring-primary/20">
                                         <AvatarImage src={auth.user.avatar} alt={auth.user.name} />
-                                        <AvatarFallback className="bg-primary/10 text-primary">
-                                            {getInitials(auth.user.name)}
-                                        </AvatarFallback>
+                                        <AvatarFallback className="bg-primary/10 text-primary">{getInitials(auth.user.name)}</AvatarFallback>
                                     </Avatar>
                                 </Button>
                             </DropdownMenuTrigger>
@@ -174,7 +175,7 @@ export function AppHeader({ breadcrumbs = [] }: AppHeaderProps) {
                 </div>
             </div>
             {breadcrumbs.length > 1 && (
-                <div className="bg-white dark:bg-neutral-900 border-t border-neutral-200/80 dark:border-neutral-800">
+                <div className="border-t border-neutral-200/80 bg-white dark:border-neutral-800 dark:bg-neutral-900">
                     <div className="mx-auto flex h-12 w-full items-center justify-start px-4 text-neutral-500 md:max-w-7xl">
                         <Breadcrumbs breadcrumbs={breadcrumbs} />
                     </div>

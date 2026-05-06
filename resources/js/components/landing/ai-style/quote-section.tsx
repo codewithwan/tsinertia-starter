@@ -1,6 +1,5 @@
-import { motion, useScroll, useTransform } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { Sparkles } from 'lucide-react';
-import { useRef } from 'react';
 
 interface QuoteSectionProps {
     className?: string;
@@ -8,59 +7,60 @@ interface QuoteSectionProps {
 
 export default function QuoteSection({ className = '' }: QuoteSectionProps) {
     return (
-        <section className={`relative py-24 overflow-hidden ${className}`} style={{ zIndex: 10, marginTop: '-4rem' }}>
+        <section className={`relative overflow-hidden py-24 ${className}`} style={{ zIndex: 10, marginTop: '-4rem' }}>
             {/* Modern background */}
             <div className="absolute inset-0 bg-background"></div>
 
             {/* Enhanced depth shadow */}
-            <div className="absolute inset-0 bg-gradient-to-b from-background/70 via-transparent to-background/95 pointer-events-none"></div>
+            <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-background/70 via-transparent to-background/95"></div>
 
             {/* Neon scan lines */}
             <div className="absolute inset-0 opacity-[0.02]">
-                <div style={{
-                    backgroundImage: 'repeating-linear-gradient(0deg, transparent, transparent 2px, currentColor 2px, currentColor 3px)',
-                    backgroundSize: '100% 40px',
-                    height: '100%'
-                }}></div>
+                <div
+                    style={{
+                        backgroundImage: 'repeating-linear-gradient(0deg, transparent, transparent 2px, currentColor 2px, currentColor 3px)',
+                        backgroundSize: '100% 40px',
+                        height: '100%',
+                    }}
+                ></div>
             </div>
 
             {/* Decorative neon lines */}
-            <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-foreground/30 to-transparent"></div>
-            <div className="absolute bottom-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-foreground/30 to-transparent"></div>
+            <div className="absolute top-0 left-0 h-px w-full bg-gradient-to-r from-transparent via-foreground/30 to-transparent"></div>
+            <div className="absolute bottom-0 left-0 h-px w-full bg-gradient-to-r from-transparent via-foreground/30 to-transparent"></div>
 
-            <div className="container mx-auto px-6 relative z-20">
+            <div className="relative z-20 container mx-auto px-6">
                 <motion.div
                     initial={{ opacity: 0, y: 20 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
                     transition={{ duration: 0.8 }}
-                    className="text-center max-w-5xl mx-auto relative z-20"
+                    className="relative z-20 mx-auto max-w-5xl text-center"
                 >
                     {/* Premium Icon - Like Maintenance Page */}
                     <div className="relative mb-12 inline-block">
                         {/* Outer neon ring */}
-                        <div className="absolute inset-0 rounded-full bg-gradient-to-br from-primary/30 to-primary/5 blur-2xl animate-neon-pulse"></div>
+                        <div className="animate-neon-pulse absolute inset-0 rounded-full bg-gradient-to-br from-primary/30 to-primary/5 blur-2xl"></div>
 
                         {/* Glass circle */}
-                        <div className="relative w-24 h-24 rounded-full bg-background/40 backdrop-blur-xl border border-primary/20 flex items-center justify-center shadow-2xl">
+                        <div className="relative flex h-24 w-24 items-center justify-center rounded-full border border-primary/20 bg-background/40 shadow-2xl backdrop-blur-xl">
                             <Sparkles className="h-10 w-10 text-primary/60" strokeWidth={1.5} />
                         </div>
 
                         {/* Corner accents - Stylized AI/Maintenance mode feel */}
-                        <div className="absolute -top-2 -left-2 w-8 h-8 border-t-2 border-l-2 border-primary/30 rounded-tl-full"></div>
-                        <div className="absolute -bottom-2 -right-2 w-8 h-8 border-b-2 border-r-2 border-primary/30 rounded-br-full"></div>
+                        <div className="absolute -top-2 -left-2 h-8 w-8 rounded-tl-full border-t-2 border-l-2 border-primary/30"></div>
+                        <div className="absolute -right-2 -bottom-2 h-8 w-8 rounded-br-full border-r-2 border-b-2 border-primary/30"></div>
 
                         {/* Orbiting particles */}
-                        <div className="absolute inset-0 border border-primary/10 rounded-full animate-[spin_10s_linear_infinite]">
-                            <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 w-1.5 h-1.5 bg-primary/40 rounded-full blur-[1px]"></div>
+                        <div className="absolute inset-0 animate-[spin_10s_linear_infinite] rounded-full border border-primary/10">
+                            <div className="absolute top-0 left-1/2 h-1.5 w-1.5 -translate-x-1/2 -translate-y-1/2 rounded-full bg-primary/40 blur-[1px]"></div>
                         </div>
                     </div>
 
                     {/* Main quote */}
-                    <blockquote className="relative z-10 text-3xl sm:text-4xl md:text-5xl font-light text-foreground mb-8 leading-tight px-4">
-                        Build apps with <span className="font-semibold">TypeScript</span>,{' '}
-                        <span className="font-semibold">Inertia.js</span>, and{' '}
-                        <span className="font-semibold italic text-primary">elegance</span>
+                    <blockquote className="relative z-10 mb-8 px-4 text-3xl leading-tight font-light text-foreground sm:text-4xl md:text-5xl">
+                        Build apps with <span className="font-semibold">TypeScript</span>, <span className="font-semibold">Inertia.js</span>, and{' '}
+                        <span className="font-semibold text-primary italic">elegance</span>
                     </blockquote>
 
                     {/* Attribution */}
@@ -69,10 +69,10 @@ export default function QuoteSection({ className = '' }: QuoteSectionProps) {
                         whileInView={{ opacity: 1 }}
                         transition={{ duration: 0.6, delay: 0.4 }}
                         viewport={{ once: true }}
-                        className="flex items-center justify-center gap-3 mb-8"
+                        className="mb-8 flex items-center justify-center gap-3"
                     >
                         <div className="h-px w-12 bg-gradient-to-r from-transparent to-foreground/30"></div>
-                        <cite className="text-sm text-muted-foreground font-mono not-italic uppercase tracking-wider">
+                        <cite className="font-mono text-sm tracking-wider text-muted-foreground uppercase not-italic">
                             <span className="text-foreground">tsinertia</span> / Starter Kit
                         </cite>
                         <div className="h-px w-12 bg-gradient-to-l from-transparent to-foreground/30"></div>
@@ -83,13 +83,15 @@ export default function QuoteSection({ className = '' }: QuoteSectionProps) {
                         whileInView={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.6, delay: 0.6 }}
                         viewport={{ once: true }}
-                        className="text-lg sm:text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed pb-20"
+                        className="mx-auto max-w-3xl pb-20 text-lg leading-relaxed text-muted-foreground sm:text-xl"
                     >
-                        The <span className="text-foreground font-semibold">ultimate foundation</span> for your <span className="text-foreground font-semibold">next big idea</span>. We've combined the power of{' '}
-                        <span className="text-foreground font-bold">Laravel 12+</span>, the speed of{' '}
-                        <span className="text-foreground font-bold">Vite</span>, and the flexibility of{' '}
-                        <span className="text-foreground font-bold">React 19</span> into a <span className="text-foreground font-semibold">seamless experience</span> for{' '}
-                        <span className="text-foreground font-bold whitespace-nowrap">modern full-stack developers</span> who just want to ship.
+                        The <span className="font-semibold text-foreground">ultimate foundation</span> for your{' '}
+                        <span className="font-semibold text-foreground">next big idea</span>. We've combined the power of{' '}
+                        <span className="font-bold text-foreground">Laravel 12+</span>, the speed of{' '}
+                        <span className="font-bold text-foreground">Vite</span>, and the flexibility of{' '}
+                        <span className="font-bold text-foreground">React 19</span> into a{' '}
+                        <span className="font-semibold text-foreground">seamless experience</span> for{' '}
+                        <span className="font-bold whitespace-nowrap text-foreground">modern full-stack developers</span> who just want to ship.
                     </motion.div>
                 </motion.div>
             </div>

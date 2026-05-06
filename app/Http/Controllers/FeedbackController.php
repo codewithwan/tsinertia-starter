@@ -44,7 +44,7 @@ class FeedbackController extends Controller
         $isSuperadmin = $currentUser->hasRole('superadmin');
         $isAdmin = $currentUser->hasRole('admin');
 
-        if (!$isSuperadmin && !$isAdmin) {
+        if (! $isSuperadmin && ! $isAdmin) {
             abort(403);
         }
 
@@ -53,7 +53,7 @@ class FeedbackController extends Controller
 
         // Superadmin can see all feedbacks
         // Admin can see all feedbacks except superadmin feedbacks
-        if ($isAdmin && !$isSuperadmin) {
+        if ($isAdmin && ! $isSuperadmin) {
             $query->where(function ($q) {
                 $q->whereHas('user', function ($userQuery) {
                     $userQuery->whereDoesntHave('roles', function ($roleQuery) {
@@ -102,7 +102,7 @@ class FeedbackController extends Controller
         // Get filter options
         $types = ['bug', 'feature', 'improvement', 'rating', 'other'];
         $users = User::select('id', 'name', 'email')
-            ->when($isAdmin && !$isSuperadmin, function ($q) {
+            ->when($isAdmin && ! $isSuperadmin, function ($q) {
                 $q->whereDoesntHave('roles', function ($roleQuery) {
                     $roleQuery->whereIn('name', ['admin', 'superadmin']);
                 });
@@ -112,8 +112,8 @@ class FeedbackController extends Controller
 
         // Get statistics (overall stats without filters, but with role restrictions)
         $statsQuery = Feedback::query();
-        
-        if ($isAdmin && !$isSuperadmin) {
+
+        if ($isAdmin && ! $isSuperadmin) {
             $statsQuery->where(function ($q) {
                 $q->whereHas('user', function ($userQuery) {
                     $userQuery->whereDoesntHave('roles', function ($roleQuery) {

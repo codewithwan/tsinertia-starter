@@ -1,16 +1,15 @@
-import { PageProps, SharedData } from '@/types';
-import { Head, Link, useForm, usePage, router } from '@inertiajs/react';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
+import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Label } from '@/components/ui/label';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
-import { Alert, AlertDescription } from '@/components/ui/alert';
-import { CheckCircle2, XCircle, ArrowLeft, AlertTriangle } from 'lucide-react';
-import AppLayout from '@/layouts/app-layout';
-import { type BreadcrumbItem } from '@/types';
 import { useInitials } from '@/hooks/use-initials';
+import AppLayout from '@/layouts/app-layout';
+import { PageProps, SharedData, type BreadcrumbItem } from '@/types';
+import { Head, Link, router, useForm, usePage } from '@inertiajs/react';
+import { AlertTriangle, ArrowLeft, CheckCircle2, XCircle } from 'lucide-react';
 import { FormEventHandler, useEffect } from 'react';
 
 interface User {
@@ -54,7 +53,7 @@ const breadcrumbs: BreadcrumbItem[] = [
 export default function Edit({ user, roles }: Props) {
     const { auth } = usePage<SharedData>().props;
     const getInitials = useInitials();
-    const isSuperadmin = auth.user.roles?.some(role => role.name === 'superadmin') || false;
+    const isSuperadmin = auth.user.roles?.some((role) => role.name === 'superadmin') || false;
     const isOwnAccount = user.id === auth.user.id;
 
     useEffect(() => {
@@ -64,7 +63,7 @@ export default function Edit({ user, roles }: Props) {
     }, [isSuperadmin, isOwnAccount]);
 
     const { data, setData, put, processing, errors } = useForm({
-        role_id: user.roles.length > 0 ? user.roles[0].id : (roles.length > 0 ? roles[0].id : null),
+        role_id: user.roles.length > 0 ? user.roles[0].id : roles.length > 0 ? roles[0].id : null,
     });
 
     const submit: FormEventHandler = (e) => {
@@ -93,9 +92,7 @@ export default function Edit({ user, roles }: Props) {
                         <div className="flex items-center gap-4">
                             <Avatar className="h-16 w-16">
                                 <AvatarImage src={user.avatar || undefined} alt={user.name} />
-                                <AvatarFallback className="bg-primary/10 text-primary text-xl">
-                                    {getInitials(user.name)}
-                                </AvatarFallback>
+                                <AvatarFallback className="bg-primary/10 text-xl text-primary">{getInitials(user.name)}</AvatarFallback>
                             </Avatar>
                             <div className="flex flex-col gap-1">
                                 <CardTitle className="text-xl">{user.name}</CardTitle>
@@ -124,27 +121,26 @@ export default function Edit({ user, roles }: Props) {
                         <form onSubmit={submit} className="space-y-6">
                             <div className="space-y-4">
                                 <div>
-                                    <Label className="text-base font-semibold mb-4 block">User Role</Label>
+                                    <Label className="mb-4 block text-base font-semibold">User Role</Label>
                                     <RadioGroup
                                         value={data.role_id ? data.role_id.toString() : ''}
                                         onValueChange={(value) => setData('role_id', parseInt(value, 10))}
                                     >
                                         <div className="space-y-3">
                                             {roles.map((role) => {
-                                                const isCurrent = user.roles.some(r => r.id === role.id);
+                                                const isCurrent = user.roles.some((r) => r.id === role.id);
                                                 return (
                                                     <div key={role.id} className="flex items-center space-x-2">
-                                                        <RadioGroupItem
-                                                            value={role.id.toString()}
-                                                            id={`role-${role.id}`}
-                                                        />
+                                                        <RadioGroupItem value={role.id.toString()} id={`role-${role.id}`} />
                                                         <Label
                                                             htmlFor={`role-${role.id}`}
-                                                            className="text-sm font-normal cursor-pointer flex items-center gap-2"
+                                                            className="flex cursor-pointer items-center gap-2 text-sm font-normal"
                                                         >
                                                             <span>{role.name}</span>
                                                             {isCurrent && (
-                                                                <Badge variant="secondary" className="text-xs">Current</Badge>
+                                                                <Badge variant="secondary" className="text-xs">
+                                                                    Current
+                                                                </Badge>
                                                             )}
                                                         </Label>
                                                     </div>
@@ -152,9 +148,7 @@ export default function Edit({ user, roles }: Props) {
                                             })}
                                         </div>
                                     </RadioGroup>
-                                    {errors.role_id && (
-                                        <p className="text-sm text-destructive mt-2">{errors.role_id}</p>
-                                    )}
+                                    {errors.role_id && <p className="mt-2 text-sm text-destructive">{errors.role_id}</p>}
                                 </div>
                             </div>
 
@@ -173,4 +167,3 @@ export default function Edit({ user, roles }: Props) {
         </AppLayout>
     );
 }
-

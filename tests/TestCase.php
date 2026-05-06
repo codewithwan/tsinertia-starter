@@ -3,10 +3,11 @@
 namespace Tests;
 
 use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
+use Spatie\Permission\Models\Role;
 
 /**
  * Base TestCase for Pest PHP tests
- * 
+ *
  * @method \Illuminate\Testing\TestResponse get(string $uri, array $headers = [])
  * @method \Illuminate\Testing\TestResponse post(string $uri, array $data = [], array $headers = [])
  * @method \Illuminate\Testing\TestResponse put(string $uri, array $data = [], array $headers = [])
@@ -25,9 +26,10 @@ use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
  * @method void assertSessionHasErrors(array|string $keys = [], mixed $format = null, string $errorBag = 'default')
  * @method void assertSessionHasNoErrors()
  * @method \Inertia\Testing\AssertableInertia assertInertia(callable $callback = null)
- * @property \Spatie\Permission\Models\Role $superadminRole
- * @property \Spatie\Permission\Models\Role $adminRole
- * @property \Spatie\Permission\Models\Role $userRole
+ *
+ * @property Role $superadminRole
+ * @property Role $adminRole
+ * @property Role $userRole
  */
 abstract class TestCase extends BaseTestCase
 {

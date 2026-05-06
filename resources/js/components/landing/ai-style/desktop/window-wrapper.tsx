@@ -25,12 +25,15 @@ export function WindowWrapper({
     offsetX = 0,
     offsetY = 0,
     dragConstraints,
-    style
+    style,
 }: WindowWrapperProps) {
     const dragControls = useDragControls();
 
-    const defaultClasses = "absolute top-12 left-16 right-16 bottom-16 bg-background/95 backdrop-blur-xl border border-border rounded-xl shadow-2xl overflow-hidden z-30";
-    const finalClasses = className.includes('absolute') ? `${className} bg-background/95 backdrop-blur-xl border border-border rounded-xl shadow-2xl overflow-hidden z-30` : `${defaultClasses} ${className}`;
+    const defaultClasses =
+        'absolute top-12 left-16 right-16 bottom-16 bg-background/95 backdrop-blur-xl border border-border rounded-xl shadow-2xl overflow-hidden z-30';
+    const finalClasses = className.includes('absolute')
+        ? `${className} bg-background/95 backdrop-blur-xl border border-border rounded-xl shadow-2xl overflow-hidden z-30`
+        : `${defaultClasses} ${className}`;
 
     return (
         <motion.div
@@ -48,31 +51,33 @@ export function WindowWrapper({
         >
             <div
                 onPointerDown={(e) => dragControls.start(e)}
-                className="flex items-center justify-between px-2 sm:px-4 py-1.5 sm:py-2 bg-muted/30 border-b border-border/50 cursor-grab active:cursor-grabbing select-none"
+                className="flex cursor-grab items-center justify-between border-b border-border/50 bg-muted/30 px-2 py-1.5 select-none active:cursor-grabbing sm:px-4 sm:py-2"
             >
                 <div className="flex items-center gap-1 sm:gap-2">
-                    <button
-                        onPointerDown={(e) => e.stopPropagation()}
-                        onClick={onClose}
-                        className="w-2 h-2 sm:w-3 sm:h-3 rounded-full bg-red-500/20 hover:bg-red-500/40 transition-colors border border-red-500/30"
-                    ></button>
-                    <button
-                        onPointerDown={(e) => e.stopPropagation()}
-                        className="w-2 h-2 sm:w-3 sm:h-3 rounded-full bg-yellow-500/20 hover:bg-yellow-500/40 transition-colors border border-yellow-500/30"
-                    ></button>
-                    <button
-                        onPointerDown={(e) => e.stopPropagation()}
-                        className="w-2 h-2 sm:w-3 sm:h-3 rounded-full bg-green-500/20 hover:bg-green-500/40 transition-colors border border-green-500/30"
-                    ></button>
+                    {showControls && (
+                        <>
+                            <button
+                                onPointerDown={(e) => e.stopPropagation()}
+                                onClick={onClose}
+                                className="h-2 w-2 rounded-full border border-red-500/30 bg-red-500/20 transition-colors hover:bg-red-500/40 sm:h-3 sm:w-3"
+                            ></button>
+                            <button
+                                onPointerDown={(e) => e.stopPropagation()}
+                                className="h-2 w-2 rounded-full border border-yellow-500/30 bg-yellow-500/20 transition-colors hover:bg-yellow-500/40 sm:h-3 sm:w-3"
+                            ></button>
+                            <button
+                                onPointerDown={(e) => e.stopPropagation()}
+                                className="h-2 w-2 rounded-full border border-green-500/30 bg-green-500/20 transition-colors hover:bg-green-500/40 sm:h-3 sm:w-3"
+                            ></button>
+                        </>
+                    )}
                 </div>
-                <span className="text-[10px] sm:text-xs font-medium">{title}</span>
+                <span className="text-[10px] font-medium sm:text-xs">{title}</span>
                 <div className="flex items-center gap-2 opacity-0">
-                    <Minus className="h-2 w-2 sm:h-3 sm:w-3 text-muted-foreground" />
+                    <Minus className="h-2 w-2 text-muted-foreground sm:h-3 sm:w-3" />
                 </div>
             </div>
-            <div className="h-full overflow-hidden">
-                {children}
-            </div>
+            <div className="h-full overflow-hidden">{children}</div>
         </motion.div>
     );
 }

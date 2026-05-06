@@ -13,12 +13,10 @@ export default function UserDashboard() {
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="User Dashboard" />
-            <div className="flex h-full flex-1 flex-col gap-4 p-4 overflow-x-auto">
-
+            <div className="flex h-full flex-1 flex-col gap-4 overflow-x-auto p-4">
                 <div>
                     <h1>User Dashboard</h1>
                 </div>
-
             </div>
         </AppLayout>
     );

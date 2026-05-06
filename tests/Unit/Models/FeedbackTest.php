@@ -5,7 +5,7 @@ use App\Models\User;
 
 test('feedback can be created', function () {
     $user = User::factory()->create();
-    
+
     $feedback = Feedback::create([
         'user_id' => $user->id,
         'type' => 'bug',
@@ -70,14 +70,13 @@ test('feedback metadata is cast to array', function () {
 
 test('feedback can have all types', function () {
     $types = ['bug', 'feature', 'improvement', 'rating', 'other'];
-    
+
     foreach ($types as $type) {
         $feedback = Feedback::create([
             'type' => $type,
             'message' => "Test {$type}",
         ]);
-        
+
         expect($feedback->type)->toBe($type);
     }
 });
-

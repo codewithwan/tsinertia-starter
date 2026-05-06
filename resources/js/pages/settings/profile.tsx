@@ -1,11 +1,12 @@
 import { type BreadcrumbItem, type SharedData } from '@/types';
 import { Transition } from '@headlessui/react';
-import { Head, Link, useForm, usePage, router } from '@inertiajs/react';
-import { FormEventHandler, useRef, useState, useEffect } from 'react';
-import { Camera, AlertCircle } from 'lucide-react';
+import { Head, Link, router, useForm, usePage } from '@inertiajs/react';
+import { AlertCircle, Camera } from 'lucide-react';
+import { FormEventHandler, useEffect, useRef, useState } from 'react';
 
 import { AvatarCropper } from '@/components/avatar-cropper';
 import InputError from '@/components/input-error';
+import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -15,7 +16,6 @@ import { useInitials } from '@/hooks/use-initials';
 import AppLayout from '@/layouts/app-layout';
 import SettingsLayout from '@/layouts/settings/layout';
 import { route } from 'ziggy-js';
-import { Alert, AlertDescription } from '@/components/ui/alert';
 
 function PasswordForm({ isDemo }: { isDemo: boolean }) {
     const passwordInput = useRef<HTMLInputElement>(null);
@@ -184,7 +184,6 @@ export default function Profile({ mustVerifyEmail, status }: { mustVerifyEmail: 
         }
     };
 
-
     const nameForm = useForm({ name: auth.user.name });
     const emailForm = useForm({ email: auth.user.email });
 
@@ -209,7 +208,6 @@ export default function Profile({ mustVerifyEmail, status }: { mustVerifyEmail: 
             },
         });
     };
-
 
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
@@ -239,19 +237,12 @@ export default function Profile({ mustVerifyEmail, status }: { mustVerifyEmail: 
                             <div className="flex items-center justify-between gap-4">
                                 <div className="flex items-center gap-4">
                                     <Avatar className="h-16 w-16">
-                                        <AvatarImage
-                                            src={avatarPreview || auth.user.avatar || undefined}
-                                            alt={auth.user.name}
-                                        />
-                                        <AvatarFallback className="bg-primary/10 text-primary text-lg">
-                                            {getInitials(auth.user.name)}
-                                        </AvatarFallback>
+                                        <AvatarImage src={avatarPreview || auth.user.avatar || undefined} alt={auth.user.name} />
+                                        <AvatarFallback className="bg-primary/10 text-lg text-primary">{getInitials(auth.user.name)}</AvatarFallback>
                                     </Avatar>
                                     <div className="flex flex-col gap-1">
                                         <p className="text-sm font-medium">Profile Picture</p>
-                                        <p className="text-xs text-muted-foreground">
-                                            JPG, PNG or GIF. Max size of 2MB.
-                                        </p>
+                                        <p className="text-xs text-muted-foreground">JPG, PNG or GIF. Max size of 2MB.</p>
                                     </div>
                                 </div>
                                 <div className="flex items-center gap-2">
@@ -398,12 +389,7 @@ export default function Profile({ mustVerifyEmail, status }: { mustVerifyEmail: 
             </SettingsLayout>
 
             {imageToCrop && (
-                <AvatarCropper
-                    imageSrc={imageToCrop}
-                    open={showCropper}
-                    onClose={handleCloseCropper}
-                    onCropComplete={handleCropComplete}
-                />
+                <AvatarCropper imageSrc={imageToCrop} open={showCropper} onClose={handleCloseCropper} onCropComplete={handleCropComplete} />
             )}
         </AppLayout>
     );

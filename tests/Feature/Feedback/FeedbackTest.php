@@ -3,9 +3,10 @@
 /** @phpstan-ignore-file */
 use App\Models\Feedback;
 use App\Models\User;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Spatie\Permission\Models\Role;
 
-uses(\Illuminate\Foundation\Testing\RefreshDatabase::class);
+uses(RefreshDatabase::class);
 
 beforeEach(function () {
     /** @var Role $superadminRole */
@@ -14,7 +15,7 @@ beforeEach(function () {
     $adminRole = Role::create(['name' => 'admin']);
     /** @var Role $userRole */
     $userRole = Role::create(['name' => 'user']);
-    
+
     $this->superadminRole = $superadminRole;
     $this->adminRole = $adminRole;
     $this->userRole = $userRole;
@@ -135,10 +136,9 @@ test('superadmin can view feedback index', function () {
     $response = $this->actingAs($superadmin)->get('/admin/feedback');
 
     $response->assertOk();
-    $response->assertInertia(fn ($page) => 
-        $page->component('admin/feedback/index')
-            ->has('feedbacks')
-            ->has('stats')
+    $response->assertInertia(fn ($page) => $page->component('admin/feedback/index')
+        ->has('feedbacks')
+        ->has('stats')
     );
 });
 
@@ -232,4 +232,3 @@ test('feedback can be filtered by date range', function () {
 
     $response->assertOk();
 });
-

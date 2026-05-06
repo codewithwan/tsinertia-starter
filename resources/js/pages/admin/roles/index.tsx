@@ -1,10 +1,9 @@
-import { PageProps } from '@/types';
-import { Head } from '@inertiajs/react';
+import { Badge } from '@/components/ui/badge';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
-import { Badge } from '@/components/ui/badge';
 import AppLayout from '@/layouts/app-layout';
-import { type BreadcrumbItem } from '@/types';
+import { PageProps, type BreadcrumbItem } from '@/types';
+import { Head } from '@inertiajs/react';
 
 interface Permission {
     id: number;
@@ -73,4 +72,4 @@ export default function Index({ roles }: Props) {
             </div>
         </AppLayout>
     );
-} 
+}

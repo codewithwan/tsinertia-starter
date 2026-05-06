@@ -65,7 +65,7 @@ class ProfileController extends Controller
      */
     private function getDeviceInfo(?string $userAgent): string
     {
-        if (!$userAgent) {
+        if (! $userAgent) {
             return 'Unknown Device';
         }
 
@@ -91,11 +91,11 @@ class ProfileController extends Controller
         }
 
         // Detect Browser
-        if (preg_match('/Chrome/i', $userAgent) && !preg_match('/Edg|OPR/i', $userAgent)) {
+        if (preg_match('/Chrome/i', $userAgent) && ! preg_match('/Edg|OPR/i', $userAgent)) {
             $browser = 'Chrome';
         } elseif (preg_match('/Firefox/i', $userAgent)) {
             $browser = 'Firefox';
-        } elseif (preg_match('/Safari/i', $userAgent) && !preg_match('/Chrome/i', $userAgent)) {
+        } elseif (preg_match('/Safari/i', $userAgent) && ! preg_match('/Chrome/i', $userAgent)) {
             $browser = 'Safari';
         } elseif (preg_match('/Edg/i', $userAgent)) {
             $browser = 'Edge';
@@ -113,7 +113,7 @@ class ProfileController extends Controller
      */
     private function getLocationInfo(?string $ipAddress): string
     {
-        if (!$ipAddress || $ipAddress === '127.0.0.1' || $ipAddress === '::1') {
+        if (! $ipAddress || $ipAddress === '127.0.0.1' || $ipAddress === '::1') {
             return 'Local';
         }
 
@@ -130,10 +130,10 @@ class ProfileController extends Controller
 
         if ($request->hasFile('avatar')) {
             $oldAvatar = $user->avatar;
-            
+
             $avatarPath = $request->file('avatar')->store('avatars', 'public');
-            $user->avatar = '/storage/' . $avatarPath;
-            
+            $user->avatar = '/storage/'.$avatarPath;
+
             if ($oldAvatar && $oldAvatar !== $user->avatar) {
                 $oldAvatarPath = str_replace('/storage/', '', $oldAvatar);
                 if (Storage::disk('public')->exists($oldAvatarPath)) {
@@ -143,16 +143,16 @@ class ProfileController extends Controller
         }
 
         $changes = [];
-        
-        if (isset($validated['name']) && !empty(trim($validated['name']))) {
+
+        if (isset($validated['name']) && ! empty(trim($validated['name']))) {
             $oldName = $user->name;
             $user->name = trim($validated['name']);
             if ($oldName !== $user->name) {
                 $changes['name'] = ['old' => $oldName, 'new' => $user->name];
             }
         }
-        
-        if (isset($validated['email']) && !empty(trim($validated['email']))) {
+
+        if (isset($validated['email']) && ! empty(trim($validated['email']))) {
             $oldEmail = $user->email;
             $user->email = trim($validated['email']);
 
@@ -165,7 +165,7 @@ class ProfileController extends Controller
         $user->save();
         $user->refresh();
 
-        if (!empty($changes)) {
+        if (! empty($changes)) {
             ActivityLogService::logFromRequest(
                 $request,
                 'profile_updated',

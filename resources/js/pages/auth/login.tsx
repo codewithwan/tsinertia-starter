@@ -2,6 +2,7 @@ import { Head, Link, useForm, usePage } from '@inertiajs/react';
 import { LoaderCircle } from 'lucide-react';
 import { FormEventHandler } from 'react';
 
+import DemoAccounts from '@/components/demo-accounts';
 import InputError from '@/components/input-error';
 import TextLink from '@/components/text-link';
 import { Button } from '@/components/ui/button';
@@ -10,7 +11,6 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { PasswordInput } from '@/components/ui/password-input';
 import AuthLayout from '@/layouts/auth-layout';
-import DemoAccounts from '@/components/demo-accounts';
 import { type SharedData } from '@/types';
 
 interface LoginProps {
@@ -50,11 +50,7 @@ export default function Login({ status, error, canResetPassword }: LoginProps) {
                 </div>
             )}
 
-            {error && (
-                <div className="mb-6 rounded-md bg-red-50 p-3 text-center text-sm font-medium text-red-600 dark:bg-red-950/30">
-                    {error}
-                </div>
-            )}
+            {error && <div className="mb-6 rounded-md bg-red-50 p-3 text-center text-sm font-medium text-red-600 dark:bg-red-950/30">{error}</div>}
 
             <div className="space-y-6">
                 <form onSubmit={submit} className="animate-in fade-in-0 slide-in-from-bottom-1">
@@ -101,7 +97,10 @@ export default function Login({ status, error, canResetPassword }: LoginProps) {
                                     checked={data.remember}
                                     onCheckedChange={(checked) => setData('remember', checked === true)}
                                 />
-                                <Label htmlFor="remember" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+                                <Label
+                                    htmlFor="remember"
+                                    className="text-sm leading-none font-medium peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                                >
                                     Remember me
                                 </Label>
                             </div>
@@ -114,7 +113,7 @@ export default function Login({ status, error, canResetPassword }: LoginProps) {
                         </div>
 
                         <Button
-                            className="h-11 w-full transition-all duration-200 hover:shadow-md disabled:opacity-50 cursor-pointer"
+                            className="h-11 w-full cursor-pointer transition-all duration-200 hover:shadow-md disabled:opacity-50"
                             disabled={processing}
                         >
                             {processing && <LoaderCircle className="mr-2 h-4 w-4 animate-spin" />}
@@ -133,13 +132,7 @@ export default function Login({ status, error, canResetPassword }: LoginProps) {
                 </div>
 
                 <div className="grid grid-cols-2 gap-3">
-                    <Button
-                        type="button"
-                        variant="outline"
-                        className="h-11 w-full"
-                        disabled={isDemo}
-                        asChild={!isDemo}
-                    >
+                    <Button type="button" variant="outline" className="h-11 w-full" disabled={isDemo} asChild={!isDemo}>
                         {!isDemo && (
                             <Link href={route('oauth.google')}>
                                 <svg className="mr-2 h-4 w-4" viewBox="0 0 24 24">
@@ -187,13 +180,7 @@ export default function Login({ status, error, canResetPassword }: LoginProps) {
                             </>
                         )}
                     </Button>
-                    <Button
-                        type="button"
-                        variant="outline"
-                        className="h-11 w-full"
-                        disabled={isDemo}
-                        asChild={!isDemo}
-                    >
+                    <Button type="button" variant="outline" className="h-11 w-full" disabled={isDemo} asChild={!isDemo}>
                         {!isDemo && (
                             <Link href={route('oauth.github')}>
                                 <svg className="mr-2 h-4 w-4" fill="currentColor" viewBox="0 0 24 24">

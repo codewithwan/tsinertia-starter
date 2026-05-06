@@ -1,19 +1,3 @@
-import AppLayout from '@/layouts/app-layout';
-import { Head, router } from '@inertiajs/react';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Input } from '@/components/ui/input';
-import { Button } from '@/components/ui/button';
-import { Label } from '@/components/ui/label';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { ScrollArea } from '@/components/ui/scroll-area';
-import { Badge } from '@/components/ui/badge';
-import { type BreadcrumbItem, type PageProps, type SharedData } from '@/types';
-import { useState, useEffect, useRef, useCallback } from 'react';
-import { Search, X, Calendar, User, Download, Trash2 } from 'lucide-react';
-import SettingsLayout from '@/layouts/settings/layout';
-import { route } from 'ziggy-js';
-import { usePage } from '@inertiajs/react';
-import { toast } from 'sonner';
 import {
     AlertDialog,
     AlertDialogAction,
@@ -25,6 +9,21 @@ import {
     AlertDialogTitle,
     AlertDialogTrigger,
 } from '@/components/ui/alert-dialog';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { ScrollArea } from '@/components/ui/scroll-area';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import AppLayout from '@/layouts/app-layout';
+import SettingsLayout from '@/layouts/settings/layout';
+import { type BreadcrumbItem, type PageProps, type SharedData } from '@/types';
+import { Head, router, usePage } from '@inertiajs/react';
+import { Calendar, Download, Search, Trash2, User, X } from 'lucide-react';
+import { useCallback, useEffect, useRef, useState } from 'react';
+import { toast } from 'sonner';
+import { route } from 'ziggy-js';
 
 interface ActivityLog {
     id: number;
@@ -105,7 +104,14 @@ const getActionColor = (action: string): string => {
     return actionMap[action] || 'bg-muted text-muted-foreground border-border';
 };
 
-export default function ActivityIndex({ activityLogs = { data: [], links: [], meta: { current_page: 1, last_page: 1, per_page: 20, total: 0, from: 0, to: 0 } }, users = [], actions = [], filters = {}, isSuperadmin = false, isAdmin = false }: Props) {
+export default function ActivityIndex({
+    activityLogs = { data: [], links: [], meta: { current_page: 1, last_page: 1, per_page: 20, total: 0, from: 0, to: 0 } },
+    users = [],
+    actions = [],
+    filters = {},
+    isSuperadmin = false,
+    isAdmin = false,
+}: Props) {
     const [searchQuery, setSearchQuery] = useState(filters?.search || '');
     const [selectedUserId, setSelectedUserId] = useState(filters?.user_id || '');
     const [selectedAction, setSelectedAction] = useState(filters?.action || '');
@@ -115,7 +121,7 @@ export default function ActivityIndex({ activityLogs = { data: [], links: [], me
 
     const applyFilters = useCallback(() => {
         const params = new URLSearchParams();
-        
+
         if (searchQuery.trim()) params.set('search', searchQuery.trim());
         if (selectedUserId) params.set('user_id', selectedUserId);
         if (selectedAction) params.set('action', selectedAction);
@@ -128,11 +134,11 @@ export default function ActivityIndex({ activityLogs = { data: [], links: [], me
 
     const handleSearchChange = (value: string) => {
         setSearchQuery(value);
-        
+
         if (searchTimeoutRef.current) {
             clearTimeout(searchTimeoutRef.current);
         }
-        
+
         searchTimeoutRef.current = setTimeout(() => {
             applyFilters();
         }, 500);
@@ -170,12 +176,16 @@ export default function ActivityIndex({ activityLogs = { data: [], links: [], me
     };
 
     const handleDeleteOldLogs = () => {
-        router.post(route('admin.activity.delete-old'), {}, {
-            preserveScroll: true,
-            onSuccess: () => {
-                router.reload();
+        router.post(
+            route('admin.activity.delete-old'),
+            {},
+            {
+                preserveScroll: true,
+                onSuccess: () => {
+                    router.reload();
+                },
             },
-        });
+        );
     };
 
     const hasActiveFilters = searchQuery || selectedUserId || selectedAction || dateFrom || dateTo;
@@ -209,9 +219,7 @@ export default function ActivityIndex({ activityLogs = { data: [], links: [], me
                 <div className="w-full px-4 py-6 lg:px-6 xl:px-8">
                     <div className="mb-8">
                         <h1 className="text-2xl font-bold">Activity Log</h1>
-                        <p className="text-sm text-muted-foreground mt-1">
-                            View and filter all user activities
-                        </p>
+                        <p className="mt-1 text-sm text-muted-foreground">View and filter all user activities</p>
                     </div>
                     <Card>
                         <CardHeader>
@@ -223,7 +231,7 @@ export default function ActivityIndex({ activityLogs = { data: [], links: [], me
                                 <div className="space-y-2">
                                     <Label htmlFor="search">Search</Label>
                                     <div className="relative">
-                                        <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                                        <Search className="absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 transform text-muted-foreground" />
                                         <Input
                                             id="search"
                                             placeholder="Search description..."
@@ -233,15 +241,18 @@ export default function ActivityIndex({ activityLogs = { data: [], links: [], me
                                         />
                                     </div>
                                 </div>
-                                
+
                                 {(isSuperadmin || isAdmin) && users.length > 0 && (
                                     <div className="space-y-2">
                                         <Label htmlFor="user">User</Label>
                                         <div className="flex gap-2">
-                                            <Select value={selectedUserId || undefined} onValueChange={(value) => {
-                                                setSelectedUserId(value);
-                                                setTimeout(applyFilters, 100);
-                                            }}>
+                                            <Select
+                                                value={selectedUserId || undefined}
+                                                onValueChange={(value) => {
+                                                    setSelectedUserId(value);
+                                                    setTimeout(applyFilters, 100);
+                                                }}
+                                            >
                                                 <SelectTrigger id="user" className="flex-1">
                                                     <SelectValue placeholder="All users" />
                                                 </SelectTrigger>
@@ -273,10 +284,13 @@ export default function ActivityIndex({ activityLogs = { data: [], links: [], me
                                     <div className="space-y-2">
                                         <Label htmlFor="action">Action</Label>
                                         <div className="flex gap-2">
-                                            <Select value={selectedAction || undefined} onValueChange={(value) => {
-                                                setSelectedAction(value);
-                                                setTimeout(applyFilters, 100);
-                                            }}>
+                                            <Select
+                                                value={selectedAction || undefined}
+                                                onValueChange={(value) => {
+                                                    setSelectedAction(value);
+                                                    setTimeout(applyFilters, 100);
+                                                }}
+                                            >
                                                 <SelectTrigger id="action" className="flex-1">
                                                     <SelectValue placeholder="All actions" />
                                                 </SelectTrigger>
@@ -307,7 +321,7 @@ export default function ActivityIndex({ activityLogs = { data: [], links: [], me
                                 <div className="space-y-2">
                                     <Label htmlFor="date_from">Date From</Label>
                                     <div className="relative">
-                                        <Calendar className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                                        <Calendar className="absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 transform text-muted-foreground" />
                                         <Input
                                             id="date_from"
                                             type="date"
@@ -324,7 +338,7 @@ export default function ActivityIndex({ activityLogs = { data: [], links: [], me
                                 <div className="space-y-2">
                                     <Label htmlFor="date_to">Date To</Label>
                                     <div className="relative">
-                                        <Calendar className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                                        <Calendar className="absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 transform text-muted-foreground" />
                                         <Input
                                             id="date_to"
                                             type="date"
@@ -339,9 +353,9 @@ export default function ActivityIndex({ activityLogs = { data: [], links: [], me
                                 </div>
 
                                 {hasActiveFilters && (
-                                    <div className="space-y-2 flex items-end">
+                                    <div className="flex items-end space-y-2">
                                         <Button variant="outline" onClick={clearFilters} className="w-full">
-                                            <X className="h-4 w-4 mr-2" />
+                                            <X className="mr-2 h-4 w-4" />
                                             Clear Filters
                                         </Button>
                                     </div>
@@ -362,19 +376,19 @@ export default function ActivityIndex({ activityLogs = { data: [], links: [], me
                                 {(isSuperadmin || isAdmin) && (
                                     <div className="flex items-center gap-2">
                                         <Button variant="outline" size="sm" onClick={handleExportCSV}>
-                                            <Download className="h-4 w-4 mr-2" />
+                                            <Download className="mr-2 h-4 w-4" />
                                             Export CSV
                                         </Button>
                                         {isSuperadmin && (
                                             <>
                                                 <Button variant="outline" size="sm" onClick={handleExportJSON}>
-                                                    <Download className="h-4 w-4 mr-2" />
+                                                    <Download className="mr-2 h-4 w-4" />
                                                     Export JSON
                                                 </Button>
                                                 <AlertDialog>
                                                     <AlertDialogTrigger asChild>
                                                         <Button variant="destructive" size="sm">
-                                                            <Trash2 className="h-4 w-4 mr-2" />
+                                                            <Trash2 className="mr-2 h-4 w-4" />
                                                             Delete Old Logs
                                                         </Button>
                                                     </AlertDialogTrigger>
@@ -382,15 +396,13 @@ export default function ActivityIndex({ activityLogs = { data: [], links: [], me
                                                         <AlertDialogHeader>
                                                             <AlertDialogTitle>Delete Old Activity Logs</AlertDialogTitle>
                                                             <AlertDialogDescription>
-                                                                Are you sure you want to delete activity logs older than 90 days? This action cannot be undone and will permanently remove all logs older than 90 days.
+                                                                Are you sure you want to delete activity logs older than 90 days? This action cannot
+                                                                be undone and will permanently remove all logs older than 90 days.
                                                             </AlertDialogDescription>
                                                         </AlertDialogHeader>
                                                         <AlertDialogFooter>
                                                             <AlertDialogCancel>Cancel</AlertDialogCancel>
-                                                            <AlertDialogAction
-                                                                onClick={handleDeleteOldLogs}
-                                                                className="bg-red-500 hover:bg-red-600"
-                                                            >
+                                                            <AlertDialogAction onClick={handleDeleteOldLogs} className="bg-red-500 hover:bg-red-600">
                                                                 Delete Old Logs
                                                             </AlertDialogAction>
                                                         </AlertDialogFooter>
@@ -411,12 +423,12 @@ export default function ActivityIndex({ activityLogs = { data: [], links: [], me
                                 ) : (
                                     <div className="space-y-4">
                                         {activityLogs.data.map((log) => (
-                                            <div key={log.id} className="border rounded-lg p-4 hover:bg-muted/50 transition-colors">
+                                            <div key={log.id} className="rounded-lg border p-4 transition-colors hover:bg-muted/50">
                                                 <div className="flex items-start gap-4">
                                                     <div className="flex-1 space-y-2">
-                                                        <div className="flex items-center gap-2 flex-wrap">
+                                                        <div className="flex flex-wrap items-center gap-2">
                                                             <Badge variant="outline" className={getActionColor(log.action)}>
-                                                                {log.action.replace('_', ' ').replace(/\b\w/g, l => l.toUpperCase())}
+                                                                {log.action.replace('_', ' ').replace(/\b\w/g, (l) => l.toUpperCase())}
                                                             </Badge>
                                                             <span className="text-sm text-muted-foreground">{log.created_at}</span>
                                                         </div>
@@ -428,15 +440,13 @@ export default function ActivityIndex({ activityLogs = { data: [], links: [], me
                                                                 <span className="text-xs">({log.user.email})</span>
                                                             </div>
                                                         )}
-                                                        {log.ip_address && (
-                                                            <p className="text-xs text-muted-foreground">IP: {log.ip_address}</p>
-                                                        )}
+                                                        {log.ip_address && <p className="text-xs text-muted-foreground">IP: {log.ip_address}</p>}
                                                         {log.metadata && Object.keys(log.metadata).length > 0 && (
                                                             <details className="text-xs">
                                                                 <summary className="cursor-pointer text-muted-foreground hover:text-foreground">
                                                                     View metadata
                                                                 </summary>
-                                                                <pre className="mt-2 p-2 bg-muted rounded text-xs overflow-x-auto">
+                                                                <pre className="mt-2 overflow-x-auto rounded bg-muted p-2 text-xs">
                                                                     {JSON.stringify(log.metadata, null, 2)}
                                                                 </pre>
                                                             </details>
@@ -477,9 +487,7 @@ export default function ActivityIndex({ activityLogs = { data: [], links: [], me
                     <Card>
                         <CardHeader>
                             <CardTitle>Activity Log</CardTitle>
-                            <CardDescription>
-                                View your activity history and track your account actions
-                            </CardDescription>
+                            <CardDescription>View your activity history and track your account actions</CardDescription>
                         </CardHeader>
                         <CardContent>
                             <ScrollArea className="h-[calc(100vh-300px)]">
@@ -490,25 +498,23 @@ export default function ActivityIndex({ activityLogs = { data: [], links: [], me
                                 ) : (
                                     <div className="space-y-4">
                                         {activityLogs.data.map((log) => (
-                                            <div key={log.id} className="border rounded-lg p-4 hover:bg-muted/50 transition-colors">
+                                            <div key={log.id} className="rounded-lg border p-4 transition-colors hover:bg-muted/50">
                                                 <div className="flex items-start gap-4">
                                                     <div className="flex-1 space-y-2">
-                                                        <div className="flex items-center gap-2 flex-wrap">
+                                                        <div className="flex flex-wrap items-center gap-2">
                                                             <Badge variant="outline" className={getActionColor(log.action)}>
-                                                                {log.action.replace('_', ' ').replace(/\b\w/g, l => l.toUpperCase())}
+                                                                {log.action.replace('_', ' ').replace(/\b\w/g, (l) => l.toUpperCase())}
                                                             </Badge>
                                                             <span className="text-sm text-muted-foreground">{log.created_at}</span>
                                                         </div>
                                                         <p className="text-sm font-medium">{log.description}</p>
-                                                        {log.ip_address && (
-                                                            <p className="text-xs text-muted-foreground">IP: {log.ip_address}</p>
-                                                        )}
+                                                        {log.ip_address && <p className="text-xs text-muted-foreground">IP: {log.ip_address}</p>}
                                                         {log.metadata && Object.keys(log.metadata).length > 0 && (
                                                             <details className="text-xs">
                                                                 <summary className="cursor-pointer text-muted-foreground hover:text-foreground">
                                                                     View metadata
                                                                 </summary>
-                                                                <pre className="mt-2 p-2 bg-muted rounded text-xs overflow-x-auto">
+                                                                <pre className="mt-2 overflow-x-auto rounded bg-muted p-2 text-xs">
                                                                     {JSON.stringify(log.metadata, null, 2)}
                                                                 </pre>
                                                             </details>
@@ -548,4 +554,3 @@ export default function ActivityIndex({ activityLogs = { data: [], links: [], me
         </AppLayout>
     );
 }
-

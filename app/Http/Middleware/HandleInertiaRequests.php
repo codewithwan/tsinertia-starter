@@ -55,7 +55,7 @@ class HandleInertiaRequests extends Middleware
                     'email' => $request->user()->email,
                     'email_verified_at' => $request->user()->email_verified_at,
                     'avatar' => $request->user()->avatar,
-                    'roles' => $request->user()->roles->map(fn($role) => [
+                    'roles' => $request->user()->roles->map(fn ($role) => [
                         'id' => $role->id,
                         'name' => $role->name,
                     ]),
@@ -67,7 +67,7 @@ class HandleInertiaRequests extends Middleware
                 ->latest()
                 ->take(10)
                 ->get()
-                ->map(fn($notification) => [
+                ->map(fn ($notification) => [
                     'id' => $notification->id,
                     'data' => $notification->data,
                     'read_at' => $notification->read_at,

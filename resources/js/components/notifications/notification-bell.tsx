@@ -1,13 +1,12 @@
 import { Button } from '@/components/ui/button';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import { useEffect, useState } from 'react';
-import { Bell, CheckCheck } from 'lucide-react';
-import { NotificationList } from './notification-list';
-import { usePage } from '@inertiajs/react';
-import { router } from '@inertiajs/react';
-import { route } from 'ziggy-js';
 import { type SharedData } from '@/types';
+import { router, usePage } from '@inertiajs/react';
+import { Bell, CheckCheck } from 'lucide-react';
+import { useEffect, useState } from 'react';
+import { route } from 'ziggy-js';
+import { NotificationList } from './notification-list';
 
 export function NotificationBell() {
     const { unreadNotificationCount = 0 } = usePage<SharedData>().props;
@@ -32,13 +31,13 @@ export function NotificationBell() {
                 <Button variant="ghost" size="icon" className="relative h-9 w-9 rounded-lg">
                     <Bell className="h-5 w-5 opacity-80" />
                     {unreadNotificationCount > 0 && (
-                        <span className="absolute -right-1 -top-1 flex h-5 w-5 items-center justify-center rounded-full bg-red-500 text-xs font-semibold text-white">
+                        <span className="absolute -top-1 -right-1 flex h-5 w-5 items-center justify-center rounded-full bg-red-500 text-xs font-semibold text-white">
                             {unreadNotificationCount > 9 ? '9+' : unreadNotificationCount}
                         </span>
                     )}
                 </Button>
             </PopoverTrigger>
-            <PopoverContent className="w-80 p-0 !z-[110]" align="end">
+            <PopoverContent className="!z-[110] w-80 p-0" align="end">
                 <div className="flex items-center justify-between border-b px-4 py-3">
                     <h3 className="font-semibold">Notifications</h3>
                     <div className="flex items-center gap-2">
@@ -50,13 +49,17 @@ export function NotificationBell() {
                                     size="sm"
                                     className="h-7 px-2 text-xs"
                                     onClick={() => {
-                                        router.post(route('notifications.read-all'), {}, {
-                                            preserveScroll: true,
-                                            only: ['notifications', 'unreadNotificationCount'],
-                                        });
+                                        router.post(
+                                            route('notifications.read-all'),
+                                            {},
+                                            {
+                                                preserveScroll: true,
+                                                only: ['notifications', 'unreadNotificationCount'],
+                                            },
+                                        );
                                     }}
                                 >
-                                    <CheckCheck className="h-3 w-3 mr-1" />
+                                    <CheckCheck className="mr-1 h-3 w-3" />
                                     Mark all
                                 </Button>
                             </>
@@ -70,7 +73,7 @@ export function NotificationBell() {
                     <Button
                         variant="ghost"
                         size="sm"
-                        className="w-full text-xs h-8"
+                        className="h-8 w-full text-xs"
                         onClick={() => {
                             router.visit(route('notifications.index'));
                             setOpen(false);
@@ -83,4 +86,3 @@ export function NotificationBell() {
         </Popover>
     );
 }
-

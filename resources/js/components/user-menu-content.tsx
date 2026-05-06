@@ -1,13 +1,3 @@
-import { DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator } from '@/components/ui/dropdown-menu';
-import { UserInfo } from '@/components/user-info';
-import { useMobileNavigation } from '@/hooks/use-mobile-navigation';
-import { useAppearance } from '@/hooks/use-appearance';
-import { cn } from '@/lib/utils';
-import { type User } from '@/types';
-import { Link, router } from '@inertiajs/react';
-import { LogOut, User as UserIcon, Sun, Moon, Monitor } from 'lucide-react';
-import { route } from 'ziggy-js';
-import { useState } from 'react';
 import {
     AlertDialog,
     AlertDialogAction,
@@ -19,6 +9,16 @@ import {
     AlertDialogTitle,
     AlertDialogTrigger,
 } from '@/components/ui/alert-dialog';
+import { DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator } from '@/components/ui/dropdown-menu';
+import { UserInfo } from '@/components/user-info';
+import { useAppearance } from '@/hooks/use-appearance';
+import { useMobileNavigation } from '@/hooks/use-mobile-navigation';
+import { cn } from '@/lib/utils';
+import { type User } from '@/types';
+import { Link, router } from '@inertiajs/react';
+import { LogOut, Monitor, Moon, Sun, User as UserIcon } from 'lucide-react';
+import { useState } from 'react';
+import { route } from 'ziggy-js';
 
 interface UserMenuContentProps {
     user: User;
@@ -115,10 +115,7 @@ export function UserMenuContent({ user }: UserMenuContentProps) {
                     </AlertDialogHeader>
                     <AlertDialogFooter>
                         <AlertDialogCancel>Cancel</AlertDialogCancel>
-                        <AlertDialogAction
-                            onClick={handleLogout}
-                            className="bg-red-500 hover:bg-red-600"
-                        >
+                        <AlertDialogAction onClick={handleLogout} className="bg-red-500 hover:bg-red-600">
                             Log out
                         </AlertDialogAction>
                     </AlertDialogFooter>

@@ -1,10 +1,10 @@
 <?php
 
 use App\Models\User;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Hash;
 
-uses(\Illuminate\Foundation\Testing\RefreshDatabase::class);
+uses(RefreshDatabase::class);
 
 test('user can view security settings with sessions', function () {
     $user = User::factory()->create();
@@ -23,13 +23,11 @@ test('user can view security settings with sessions', function () {
     $response = $this->actingAs($user)->get('/settings/security');
 
     $response->assertOk();
-    $response->assertInertia(fn ($page) => 
-        $page->component('settings/security')
-            ->has('sessions')
-            ->has('currentSessionId')
+    $response->assertInertia(fn ($page) => $page->component('settings/security')
+        ->has('sessions')
+        ->has('currentSessionId')
     );
 });
-
 
 test('user can see their active sessions', function () {
     $user = User::factory()->create();
@@ -37,7 +35,7 @@ test('user can see their active sessions', function () {
     // Create multiple sessions
     $session1 = 'session-1';
     $session2 = 'session-2';
-    
+
     DB::table('sessions')->insert([
         [
             'id' => $session1,
@@ -60,8 +58,7 @@ test('user can see their active sessions', function () {
     $response = $this->actingAs($user)->get('/settings/security');
 
     $response->assertOk();
-    $response->assertInertia(fn ($page) => 
-        $page->has('sessions', 2)
+    $response->assertInertia(fn ($page) => $page->has('sessions', 2)
     );
 });
 
@@ -71,8 +68,7 @@ test('current session is marked correctly', function () {
     $response = $this->actingAs($user)->get('/settings/security');
 
     $response->assertOk();
-    $response->assertInertia(fn ($page) => 
-        $page->has('currentSessionId')
+    $response->assertInertia(fn ($page) => $page->has('currentSessionId')
     );
 });
 
@@ -174,7 +170,7 @@ test('user can delete all other sessions', function () {
 
     $session1 = 'session-1';
     $session2 = 'session-2';
-    
+
     DB::table('sessions')->insert([
         [
             'id' => $session1,
@@ -199,4 +195,3 @@ test('user can delete all other sessions', function () {
     $response->assertRedirect();
     $response->assertSessionHas('status');
 });
-

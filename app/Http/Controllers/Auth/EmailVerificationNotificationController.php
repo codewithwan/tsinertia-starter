@@ -22,7 +22,7 @@ class EmailVerificationNotificationController extends Controller
 
         // Generate 6-digit OTP
         $otpCode = str_pad((string) random_int(0, 999999), 6, '0', STR_PAD_LEFT);
-        
+
         // Save OTP to user (expires in 10 minutes)
         $user->otp_code = $otpCode;
         $user->otp_expires_at = now()->addMinutes(10);

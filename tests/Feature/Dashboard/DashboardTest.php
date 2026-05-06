@@ -2,9 +2,10 @@
 
 /** @phpstan-ignore-file */
 use App\Models\User;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Spatie\Permission\Models\Role;
 
-uses(\Illuminate\Foundation\Testing\RefreshDatabase::class);
+uses(RefreshDatabase::class);
 
 test('guests are redirected to the login page', function () {
     $this->get('/dashboard')->assertRedirect('/login');
@@ -101,4 +102,3 @@ test('non-admin cannot access admin dashboard route', function () {
 
     $response->assertForbidden();
 });
-

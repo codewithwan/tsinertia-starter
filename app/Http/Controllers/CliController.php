@@ -17,17 +17,18 @@ class CliController extends Controller
     {
         $callback = $request->query('callback');
 
-        if (!$callback) {
+        if (! $callback) {
             abort(400, 'Missing callback parameter');
         }
 
         $parsed = parse_url($callback);
-        if (!$parsed || !in_array($parsed['host'] ?? '', ['127.0.0.1', 'localhost', '::1'])) {
+        if (! $parsed || ! in_array($parsed['host'] ?? '', ['127.0.0.1', 'localhost', '::1'])) {
             abort(400, 'Invalid callback URL. Must be localhost.');
         }
 
         if (Auth::check()) {
             $user = Auth::user();
+
             return Inertia::render('cli/authorize', [
                 'callback' => $callback,
                 'user' => [
@@ -49,21 +50,21 @@ class CliController extends Controller
             'callback' => 'required|url',
         ]);
 
-        if (!Auth::check()) {
+        if (! Auth::check()) {
             return redirect()->route('cli.login', ['callback' => $request->input('callback')]);
         }
 
         $callback = $request->input('callback');
-        
+
         $parsed = parse_url($callback);
-        if (!$parsed || !in_array($parsed['host'] ?? '', ['127.0.0.1', 'localhost', '::1'])) {
+        if (! $parsed || ! in_array($parsed['host'] ?? '', ['127.0.0.1', 'localhost', '::1'])) {
             return back()->withErrors(['callback' => 'Invalid callback URL']);
         }
 
         $user = Auth::user();
 
         $code = Str::random(32);
-        
+
         Cache::put("cli_code:{$code}", [
             'user_id' => $user->id,
             'email' => $user->email,
@@ -71,7 +72,7 @@ class CliController extends Controller
 
         $encryptedCode = Crypt::encryptString($code);
 
-        $redirectUrl = $callback . '?code=' . urlencode($encryptedCode);
+        $redirectUrl = $callback.'?code='.urlencode($encryptedCode);
 
         if ($request->header('X-Inertia')) {
             return back()->with('redirect_url', $redirectUrl);
@@ -89,15 +90,15 @@ class CliController extends Controller
         ]);
 
         $callback = $request->input('callback');
-        
+
         $parsed = parse_url($callback);
-        if (!$parsed || !in_array($parsed['host'] ?? '', ['127.0.0.1', 'localhost', '::1'])) {
+        if (! $parsed || ! in_array($parsed['host'] ?? '', ['127.0.0.1', 'localhost', '::1'])) {
             return back()->withErrors(['callback' => 'Invalid callback URL']);
         }
 
         $credentials = $request->only('email', 'password');
-        
-        if (!Auth::attempt($credentials, $request->boolean('remember'))) {
+
+        if (! Auth::attempt($credentials, $request->boolean('remember'))) {
             return back()->withErrors([
                 'email' => 'The provided credentials do not match our records.',
             ]);
@@ -106,7 +107,7 @@ class CliController extends Controller
         $user = Auth::user();
 
         $code = Str::random(32);
-        
+
         Cache::put("cli_code:{$code}", [
             'user_id' => $user->id,
             'email' => $user->email,
@@ -114,7 +115,7 @@ class CliController extends Controller
 
         $encryptedCode = Crypt::encryptString($code);
 
-        $redirectUrl = $callback . '?code=' . urlencode($encryptedCode);
+        $redirectUrl = $callback.'?code='.urlencode($encryptedCode);
 
         if ($request->header('X-Inertia')) {
             return back()->with('redirect_url', $redirectUrl);
@@ -138,8 +139,8 @@ class CliController extends Controller
         }
 
         $data = Cache::get("cli_code:{$code}");
-        
-        if (!$data) {
+
+        if (! $data) {
             return response()->json([
                 'error' => 'Authorization code expired or invalid',
             ], 400);
@@ -148,15 +149,15 @@ class CliController extends Controller
         Cache::forget("cli_code:{$code}");
 
         $user = User::find($data['user_id']);
-        
-        if (!$user) {
+
+        if (! $user) {
             return response()->json([
                 'error' => 'User not found',
             ], 404);
         }
 
-        $token = hash('sha256', $user->id . ':' . $user->email . ':' . now()->timestamp . ':' . Str::random(32));
-        
+        $token = hash('sha256', $user->id.':'.$user->email.':'.now()->timestamp.':'.Str::random(32));
+
         Cache::put("cli_token:{$token}", [
             'user_id' => $user->id,
             'email' => $user->email,
@@ -178,4 +179,3 @@ class CliController extends Controller
         ]);
     }
 }
-

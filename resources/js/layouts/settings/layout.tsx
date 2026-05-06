@@ -63,7 +63,7 @@ export default function SettingsLayout({ children }: PropsWithChildren) {
 
                 <Separator className="my-6 lg:hidden" />
 
-                <div className="min-w-0 w-full">
+                <div className="w-full min-w-0">
                     <section className="w-full space-y-6">{children}</section>
                 </div>
             </div>

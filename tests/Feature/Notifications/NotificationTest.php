@@ -3,11 +3,12 @@
 /** @phpstan-ignore-file */
 use App\Models\User;
 use App\Notifications\SystemNotification;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Notifications\DatabaseNotification;
 use Illuminate\Support\Facades\Notification;
 use Spatie\Permission\Models\Role;
 
-uses(\Illuminate\Foundation\Testing\RefreshDatabase::class);
+uses(RefreshDatabase::class);
 
 beforeEach(function () {
     /** @var Role $superadminRole */
@@ -16,7 +17,7 @@ beforeEach(function () {
     $adminRole = Role::create(['name' => 'admin']);
     /** @var Role $userRole */
     $userRole = Role::create(['name' => 'user']);
-    
+
     $this->superadminRole = $superadminRole;
     $this->adminRole = $adminRole;
     $this->userRole = $userRole;
@@ -34,9 +35,8 @@ test('user can view their notifications', function () {
     $response = $this->actingAs($user)->get('/notifications');
 
     $response->assertOk();
-    $response->assertInertia(fn ($page) => 
-        $page->component('notifications/index')
-            ->has('notifications')
+    $response->assertInertia(fn ($page) => $page->component('notifications/index')
+        ->has('notifications')
     );
 });
 
@@ -218,9 +218,8 @@ test('superadmin can view notification management page', function () {
     $response = $this->actingAs($superadmin)->get('/admin/notifications/manage');
 
     $response->assertOk();
-    $response->assertInertia(fn ($page) => 
-        $page->component('admin/notifications/manage')
-            ->has('users')
+    $response->assertInertia(fn ($page) => $page->component('admin/notifications/manage')
+        ->has('users')
     );
 });
 
@@ -285,4 +284,3 @@ test('notification requires title and message', function () {
 
     $response->assertSessionHasErrors(['title', 'message']);
 });
-

@@ -1,9 +1,9 @@
 <?php
 
 use App\Http\Controllers\ActivityLogController;
-use App\Http\Controllers\FeedbackController;
 use App\Http\Controllers\Admin\RoleManagementController;
 use App\Http\Controllers\Admin\UserManagementController;
+use App\Http\Controllers\FeedbackController;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware(['auth', 'verified'])->prefix('admin')->group(function () {
@@ -33,4 +33,4 @@ Route::middleware(['auth', 'verified'])->prefix('admin')->group(function () {
     Route::middleware('role:admin|superadmin')->prefix('feedback')->group(function () {
         Route::get('/', [FeedbackController::class, 'index'])->name('admin.feedback.index');
     });
-}); 
+});

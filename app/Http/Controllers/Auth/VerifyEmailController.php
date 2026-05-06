@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Auth\Events\Verified;
+use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -20,7 +21,7 @@ class VerifyEmailController extends Controller
         }
 
         if ($request->user()->markEmailAsVerified()) {
-            /** @var \Illuminate\Contracts\Auth\MustVerifyEmail $user */
+            /** @var MustVerifyEmail $user */
             $user = $request->user();
 
             event(new Verified($user));
@@ -45,12 +46,12 @@ class VerifyEmailController extends Controller
         }
 
         // Check if OTP exists and is valid
-        if (!$user->otp_code || $user->otp_code !== $request->otp_code) {
+        if (! $user->otp_code || $user->otp_code !== $request->otp_code) {
             return back()->withErrors(['otp_code' => 'Invalid verification code.']);
         }
 
         // Check if OTP is expired
-        if (!$user->otp_expires_at || $user->otp_expires_at->isPast()) {
+        if (! $user->otp_expires_at || $user->otp_expires_at->isPast()) {
             return back()->withErrors(['otp_code' => 'Verification code has expired. Please request a new one.']);
         }
 

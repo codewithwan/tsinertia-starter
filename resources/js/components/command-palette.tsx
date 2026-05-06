@@ -1,21 +1,5 @@
 'use client';
 
-import { useState, useEffect } from 'react';
-import { usePage, router } from '@inertiajs/react';
-import {
-    CommandDialog,
-    CommandInput,
-    CommandList,
-    CommandEmpty,
-    CommandGroup,
-    CommandItem,
-    CommandShortcut,
-} from '@/components/ui/command';
-import { type SharedData } from '@/types';
-import { searchCommandPaletteItems, type CommandPaletteItem } from '@/lib/command-palette-config';
-import { route } from 'ziggy-js';
-import { useMobileNavigation } from '@/hooks/use-mobile-navigation';
-import { useIsMobile } from '@/hooks/use-mobile';
 import {
     AlertDialog,
     AlertDialogAction,
@@ -26,6 +10,14 @@ import {
     AlertDialogHeader,
     AlertDialogTitle,
 } from '@/components/ui/alert-dialog';
+import { CommandDialog, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList, CommandShortcut } from '@/components/ui/command';
+import { useIsMobile } from '@/hooks/use-mobile';
+import { useMobileNavigation } from '@/hooks/use-mobile-navigation';
+import { searchCommandPaletteItems, type CommandPaletteItem } from '@/lib/command-palette-config';
+import { type SharedData } from '@/types';
+import { router, usePage } from '@inertiajs/react';
+import { useEffect, useState } from 'react';
+import { route } from 'ziggy-js';
 
 interface CommandPaletteProps {
     open?: boolean;
@@ -74,13 +66,13 @@ export function CommandPalette({ open, onOpenChange }: CommandPaletteProps) {
         const down = (e: KeyboardEvent) => {
             if ((e.key === 'k' || e.key === 'K') && (e.metaKey || e.ctrlKey)) {
                 const target = e.target as HTMLElement;
-                const isInput = 
-                    target.tagName === 'INPUT' || 
-                    target.tagName === 'TEXTAREA' || 
+                const isInput =
+                    target.tagName === 'INPUT' ||
+                    target.tagName === 'TEXTAREA' ||
                     target.isContentEditable ||
                     target.closest('[contenteditable="true"]') !== null ||
                     target.closest('input, textarea') !== null;
-                
+
                 if (!isInput) {
                     e.preventDefault();
                     e.stopPropagation();
@@ -106,13 +98,16 @@ export function CommandPalette({ open, onOpenChange }: CommandPaletteProps) {
     }, [isOpen, onOpenChange]);
 
     const filteredItems = searchCommandPaletteItems(searchQuery, userRole, handleLogoutClick);
-    const groupedItems = filteredItems.reduce((acc, item) => {
-        if (!acc[item.category]) {
-            acc[item.category] = [];
-        }
-        acc[item.category].push(item);
-        return acc;
-    }, {} as Record<string, CommandPaletteItem[]>);
+    const groupedItems = filteredItems.reduce(
+        (acc, item) => {
+            if (!acc[item.category]) {
+                acc[item.category] = [];
+            }
+            acc[item.category].push(item);
+            return acc;
+        },
+        {} as Record<string, CommandPaletteItem[]>,
+    );
 
     const categoryLabels: Record<string, string> = {
         navigation: 'Navigation',
@@ -133,80 +128,68 @@ export function CommandPalette({ open, onOpenChange }: CommandPaletteProps) {
 
     return (
         <>
-        <CommandDialog
-            open={isOpen}
-            onOpenChange={handleOpenChange}
-            title="Command Palette"
-            description="Search for pages, settings, and actions. Press ⌘K to open."
-        >
-            <CommandInput
-                placeholder="Search commands..."
-                value={searchQuery}
-                onValueChange={setSearchQuery}
-            />
-            <CommandList>
-                <CommandEmpty>No results found.</CommandEmpty>
-                {Object.entries(groupedItems).map(([category, items]) => (
-                    <CommandGroup key={category} heading={categoryLabels[category]}>
-                        {items.map((item) => {
-                            const Icon = item.icon;
-                            return (
-                                <CommandItem
-                                    key={item.id}
-                                    value={item.id}
-                                    onSelect={() => handleSelect(item)}
-                                    className="cursor-pointer"
-                                >
-                                    <Icon className="mr-2 h-4 w-4" />
-                                    <div className="flex flex-col">
-                                        <span>{item.title}</span>
-                                        {item.description && (
-                                            <span className="text-xs text-muted-foreground">
-                                                {item.description}
-                                            </span>
-                                        )}
-                                    </div>
-                                    {item.shortcut && (
-                                        <CommandShortcut>{item.shortcut}</CommandShortcut>
-                                    )}
-                                </CommandItem>
-                            );
-                        })}
-                    </CommandGroup>
-                ))}
-            </CommandList>
-            {!isMobile && (
-                <div className="border-t px-4 py-2 text-xs text-muted-foreground">
-                    <div className="flex items-center justify-between">
-                        <span>Press <kbd className="px-1.5 py-0.5 rounded border bg-muted font-mono text-[10px]">⌘K</kbd> to open, <kbd className="px-1.5 py-0.5 rounded border bg-muted font-mono text-[10px]">Esc</kbd> to close</span>
-                        <div className="flex items-center gap-4">
-                            <span><kbd className="px-1.5 py-0.5 rounded border bg-muted font-mono text-[10px]">↑↓</kbd> Navigate</span>
-                            <span><kbd className="px-1.5 py-0.5 rounded border bg-muted font-mono text-[10px]">Enter</kbd> Select</span>
+            <CommandDialog
+                open={isOpen}
+                onOpenChange={handleOpenChange}
+                title="Command Palette"
+                description="Search for pages, settings, and actions. Press ⌘K to open."
+            >
+                <CommandInput placeholder="Search commands..." value={searchQuery} onValueChange={setSearchQuery} />
+                <CommandList>
+                    <CommandEmpty>No results found.</CommandEmpty>
+                    {Object.entries(groupedItems).map(([category, items]) => (
+                        <CommandGroup key={category} heading={categoryLabels[category]}>
+                            {items.map((item) => {
+                                const Icon = item.icon;
+                                return (
+                                    <CommandItem key={item.id} value={item.id} onSelect={() => handleSelect(item)} className="cursor-pointer">
+                                        <Icon className="mr-2 h-4 w-4" />
+                                        <div className="flex flex-col">
+                                            <span>{item.title}</span>
+                                            {item.description && <span className="text-xs text-muted-foreground">{item.description}</span>}
+                                        </div>
+                                        {item.shortcut && <CommandShortcut>{item.shortcut}</CommandShortcut>}
+                                    </CommandItem>
+                                );
+                            })}
+                        </CommandGroup>
+                    ))}
+                </CommandList>
+                {!isMobile && (
+                    <div className="border-t px-4 py-2 text-xs text-muted-foreground">
+                        <div className="flex items-center justify-between">
+                            <span>
+                                Press <kbd className="rounded border bg-muted px-1.5 py-0.5 font-mono text-[10px]">⌘K</kbd> to open,{' '}
+                                <kbd className="rounded border bg-muted px-1.5 py-0.5 font-mono text-[10px]">Esc</kbd> to close
+                            </span>
+                            <div className="flex items-center gap-4">
+                                <span>
+                                    <kbd className="rounded border bg-muted px-1.5 py-0.5 font-mono text-[10px]">↑↓</kbd> Navigate
+                                </span>
+                                <span>
+                                    <kbd className="rounded border bg-muted px-1.5 py-0.5 font-mono text-[10px]">Enter</kbd> Select
+                                </span>
+                            </div>
                         </div>
                     </div>
-                </div>
-            )}
-        </CommandDialog>
-        <AlertDialog open={showLogoutDialog} onOpenChange={setShowLogoutDialog}>
-            <AlertDialogContent>
-                <AlertDialogHeader>
-                    <AlertDialogTitle>Log out</AlertDialogTitle>
-                    <AlertDialogDescription>
-                        Are you sure you want to log out? You will need to log in again to access your account.
-                    </AlertDialogDescription>
-                </AlertDialogHeader>
-                <AlertDialogFooter>
-                    <AlertDialogCancel>Cancel</AlertDialogCancel>
-                    <AlertDialogAction
-                        onClick={confirmLogout}
-                        className="bg-red-500 hover:bg-red-600"
-                    >
-                        Log out
-                    </AlertDialogAction>
-                </AlertDialogFooter>
-            </AlertDialogContent>
-        </AlertDialog>
+                )}
+            </CommandDialog>
+            <AlertDialog open={showLogoutDialog} onOpenChange={setShowLogoutDialog}>
+                <AlertDialogContent>
+                    <AlertDialogHeader>
+                        <AlertDialogTitle>Log out</AlertDialogTitle>
+                        <AlertDialogDescription>
+                            Are you sure you want to log out? You will need to log in again to access your account.
+                        </AlertDialogDescription>
+                    </AlertDialogHeader>
+                    <AlertDialogFooter>
+                        <AlertDialogCancel>Cancel</AlertDialogCancel>
+                        <AlertDialogAction onClick={confirmLogout} className="bg-red-500 hover:bg-red-600">
+                            Log out
+                        </AlertDialogAction>
+                    </AlertDialogFooter>
+                </AlertDialogContent>
+            </AlertDialog>
         </>
     );
 }
-

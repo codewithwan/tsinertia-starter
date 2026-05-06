@@ -20,7 +20,7 @@ class MaintenanceFlag
             $isHome = $path === '';
             $isMaintenance = $path === 'maintenance';
 
-            if (!$isHome && !$isMaintenance) {
+            if (! $isHome && ! $isMaintenance) {
                 if ($request->expectsJson()) {
                     return response()->json(['message' => 'Maintenance in progress'], 503);
                 }

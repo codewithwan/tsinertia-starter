@@ -68,7 +68,7 @@ class NotificationController extends Controller
 
         $query = User::whereIn('id', $userIds);
 
-        if ($currentUser->hasRole('admin') && !$currentUser->hasRole('superadmin')) {
+        if ($currentUser->hasRole('admin') && ! $currentUser->hasRole('superadmin')) {
             $query->whereDoesntHave('roles', function ($q) {
                 $q->whereIn('name', ['admin', 'superadmin']);
             });
@@ -89,12 +89,12 @@ class NotificationController extends Controller
 
         NotificationFacade::send($users, $notification);
 
-        return back()->with('success', 'Notification sent successfully to ' . $users->count() . ' user(s)');
+        return back()->with('success', 'Notification sent successfully to '.$users->count().' user(s)');
     }
 
     public function broadcast(Request $request): RedirectResponse
     {
-        if (!$request->user()->hasRole('superadmin')) {
+        if (! $request->user()->hasRole('superadmin')) {
             abort(403);
         }
 
@@ -122,13 +122,13 @@ class NotificationController extends Controller
     {
         $currentUser = $request->user();
 
-        if (!$currentUser->hasRole('admin') && !$currentUser->hasRole('superadmin')) {
+        if (! $currentUser->hasRole('admin') && ! $currentUser->hasRole('superadmin')) {
             abort(403);
         }
 
         $query = User::with('roles')->orderBy('name');
 
-        if ($currentUser->hasRole('admin') && !$currentUser->hasRole('superadmin')) {
+        if ($currentUser->hasRole('admin') && ! $currentUser->hasRole('superadmin')) {
             $query->whereDoesntHave('roles', function ($q) {
                 $q->whereIn('name', ['admin', 'superadmin']);
             });
@@ -139,7 +139,7 @@ class NotificationController extends Controller
                 'id' => $user->id,
                 'name' => $user->name,
                 'email' => $user->email,
-                'roles' => $user->roles->map(fn($role) => [
+                'roles' => $user->roles->map(fn ($role) => [
                     'id' => $role->id,
                     'name' => $role->name,
                 ]),
@@ -152,4 +152,3 @@ class NotificationController extends Controller
         ]);
     }
 }
-

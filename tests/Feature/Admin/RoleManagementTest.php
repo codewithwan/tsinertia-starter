@@ -2,10 +2,11 @@
 
 /** @phpstan-ignore-file */
 use App\Models\User;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 
-uses(\Illuminate\Foundation\Testing\RefreshDatabase::class);
+uses(RefreshDatabase::class);
 
 beforeEach(function () {
     /** @var Role $superadminRole */
@@ -14,7 +15,7 @@ beforeEach(function () {
     $adminRole = Role::create(['name' => 'admin']);
     /** @var Role $userRole */
     $userRole = Role::create(['name' => 'user']);
-    
+
     $this->superadminRole = $superadminRole;
     $this->adminRole = $adminRole;
     $this->userRole = $userRole;
@@ -27,10 +28,9 @@ test('superadmin can view roles index', function () {
     $response = $this->actingAs($superadmin)->get('/admin/roles');
 
     $response->assertOk();
-    $response->assertInertia(fn ($page) => 
-        $page->component('admin/roles/index')
-            ->has('roles')
-            ->has('permissions')
+    $response->assertInertia(fn ($page) => $page->component('admin/roles/index')
+        ->has('roles')
+        ->has('permissions')
     );
 });
 
@@ -180,4 +180,3 @@ test('role update requires unique name excluding current role', function () {
 
     $response->assertSessionHasErrors('name');
 });
-

@@ -11,8 +11,8 @@ class DashboardController extends Controller
     public function index()
     {
         /** @var User $user */
-        $user = Auth::user();   
-        
+        $user = Auth::user();
+
         if ($user->hasRole('superadmin')) {
             return Inertia::render('superadmin/dashboard');
         } elseif ($user->hasRole('admin')) {
@@ -21,17 +21,17 @@ class DashboardController extends Controller
             return Inertia::render('user/dashboard');
         }
     }
-    
+
     public function superadmin()
     {
         return Inertia::render('superadmin/dashboard');
     }
-    
+
     public function admin()
     {
         return Inertia::render('admin/dashboard');
     }
-    
+
     public function user()
     {
         return Inertia::render('user/dashboard');

@@ -21,8 +21,8 @@ class TestUsersSeeder extends Seeder
         // Create 20 users with 'user' role
         for ($i = 1; $i <= 20; $i++) {
             $user = User::factory()->create([
-                'name' => 'Test User ' . $i,
-                'email' => 'user' . $i . '@test.com',
+                'name' => 'Test User '.$i,
+                'email' => 'user'.$i.'@test.com',
                 'password' => Hash::make('password'),
                 'email_verified_at' => now(),
             ]);
@@ -32,8 +32,8 @@ class TestUsersSeeder extends Seeder
         // Create 5 admins with 'admin' role
         for ($i = 1; $i <= 5; $i++) {
             $admin = User::factory()->create([
-                'name' => 'Test Admin ' . $i,
-                'email' => 'admin' . $i . '@test.com',
+                'name' => 'Test Admin '.$i,
+                'email' => 'admin'.$i.'@test.com',
                 'password' => Hash::make('password'),
                 'email_verified_at' => now(),
             ]);
@@ -43,4 +43,3 @@ class TestUsersSeeder extends Seeder
         $this->command->info('Created 20 test users and 5 test admins successfully!');
     }
 }
-

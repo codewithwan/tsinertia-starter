@@ -14,4 +14,3 @@ Route::middleware(['auth', 'verified', 'role:admin|superadmin'])->prefix('admin/
     Route::post('/send', [NotificationController::class, 'send'])->name('send');
     Route::post('/broadcast', [NotificationController::class, 'broadcast'])->name('broadcast')->middleware('role:superadmin');
 });
-

@@ -1,13 +1,12 @@
-import { PageProps, SharedData } from '@/types';
-import { Head, Link, usePage, router } from '@inertiajs/react';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { CheckCircle2, XCircle, ArrowLeft, Edit, Mail } from 'lucide-react';
-import AppLayout from '@/layouts/app-layout';
-import { type BreadcrumbItem } from '@/types';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { useInitials } from '@/hooks/use-initials';
+import AppLayout from '@/layouts/app-layout';
+import { PageProps, SharedData, type BreadcrumbItem } from '@/types';
+import { Head, Link, router, usePage } from '@inertiajs/react';
+import { ArrowLeft, CheckCircle2, Edit, Mail, XCircle } from 'lucide-react';
 
 interface User {
     id: number;
@@ -46,11 +45,11 @@ export default function Show({ user }: Props) {
     const { auth } = usePage<SharedData>().props;
     const getInitials = useInitials();
     const isOwnAccount = user.id === auth.user.id;
-    const isSuperadmin = auth.user.roles?.some(role => role.name === 'superadmin') || false;
-    const isAdmin = auth.user.roles?.some(role => role.name === 'admin') || false;
-    const userHasAdminRole = user.roles.some(role => role.name === 'admin');
-    const userHasSuperadminRole = user.roles.some(role => role.name === 'superadmin');
-    
+    const isSuperadmin = auth.user.roles?.some((role) => role.name === 'superadmin') || false;
+    const isAdmin = auth.user.roles?.some((role) => role.name === 'admin') || false;
+    const userHasAdminRole = user.roles.some((role) => role.name === 'admin');
+    const userHasSuperadminRole = user.roles.some((role) => role.name === 'superadmin');
+
     const canSendResetPassword = () => {
         if (isOwnAccount) return false;
         if (isSuperadmin) return true;
@@ -61,12 +60,16 @@ export default function Show({ user }: Props) {
     };
 
     const handleSendResetPassword = () => {
-        router.post(route('users.send-reset-password', user.id), {}, {
-            preserveScroll: true,
-            onSuccess: () => {
-                // Success message will be shown via flash message
+        router.post(
+            route('users.send-reset-password', user.id),
+            {},
+            {
+                preserveScroll: true,
+                onSuccess: () => {
+                    // Success message will be shown via flash message
+                },
             },
-        });
+        );
     };
 
     const formatDate = (dateString: string) => {
@@ -125,9 +128,7 @@ export default function Show({ user }: Props) {
                         <div className="flex items-center gap-4">
                             <Avatar className="h-20 w-20">
                                 <AvatarImage src={user.avatar || undefined} alt={user.name} />
-                                <AvatarFallback className="bg-primary/10 text-primary text-2xl">
-                                    {getInitials(user.name)}
-                                </AvatarFallback>
+                                <AvatarFallback className="bg-primary/10 text-2xl text-primary">{getInitials(user.name)}</AvatarFallback>
                             </Avatar>
                             <div className="flex flex-col gap-2">
                                 <CardTitle className="text-2xl">{user.name}</CardTitle>
@@ -148,7 +149,7 @@ export default function Show({ user }: Props) {
                         <div className="grid gap-6 md:grid-cols-2">
                             <div className="space-y-4">
                                 <div>
-                                    <h3 className="text-sm font-medium text-muted-foreground mb-2">User Information</h3>
+                                    <h3 className="mb-2 text-sm font-medium text-muted-foreground">User Information</h3>
                                     <div className="space-y-3">
                                         <div>
                                             <p className="text-sm text-muted-foreground">Username</p>
@@ -166,7 +167,7 @@ export default function Show({ user }: Props) {
                                         </div>
                                         <div>
                                             <p className="text-sm text-muted-foreground">Roles</p>
-                                            <div className="flex gap-1 flex-wrap mt-1">
+                                            <div className="mt-1 flex flex-wrap gap-1">
                                                 {user.roles.map((role) => (
                                                     <Badge key={role.id} variant="secondary">
                                                         {role.name}
@@ -179,7 +180,7 @@ export default function Show({ user }: Props) {
                             </div>
                             <div className="space-y-4">
                                 <div>
-                                    <h3 className="text-sm font-medium text-muted-foreground mb-2">Account Information</h3>
+                                    <h3 className="mb-2 text-sm font-medium text-muted-foreground">Account Information</h3>
                                     <div className="space-y-3">
                                         <div>
                                             <p className="text-sm text-muted-foreground">Joined</p>
@@ -191,7 +192,7 @@ export default function Show({ user }: Props) {
                                         </div>
                                         <div>
                                             <p className="text-sm text-muted-foreground">User ID</p>
-                                            <p className="font-medium font-mono text-sm">#{user.id}</p>
+                                            <p className="font-mono text-sm font-medium">#{user.id}</p>
                                         </div>
                                     </div>
                                 </div>
@@ -203,4 +204,3 @@ export default function Show({ user }: Props) {
         </AppLayout>
     );
 }
-

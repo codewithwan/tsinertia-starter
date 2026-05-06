@@ -2,10 +2,11 @@
 
 /** @phpstan-ignore-file */
 use App\Models\User;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Password;
 use Spatie\Permission\Models\Role;
 
-uses(\Illuminate\Foundation\Testing\RefreshDatabase::class);
+uses(RefreshDatabase::class);
 
 beforeEach(function () {
     /** @var Role $superadminRole */
@@ -14,7 +15,7 @@ beforeEach(function () {
     $adminRole = Role::create(['name' => 'admin']);
     /** @var Role $userRole */
     $userRole = Role::create(['name' => 'user']);
-    
+
     $this->superadminRole = $superadminRole;
     $this->adminRole = $adminRole;
     $this->userRole = $userRole;
@@ -61,11 +62,10 @@ test('admin cannot see superadmin users', function () {
     $response = $this->actingAs($admin)->get('/admin/users');
 
     $response->assertOk();
-    $response->assertInertia(fn ($page) => 
-        $page->has('users.data')
-            ->where('users.data', function ($users) use ($superadmin) {
-                return !collect($users)->contains('id', $superadmin->id);
-            })
+    $response->assertInertia(fn ($page) => $page->has('users.data')
+        ->where('users.data', function ($users) use ($superadmin) {
+            return ! collect($users)->contains('id', $superadmin->id);
+        })
     );
 });
 
@@ -117,9 +117,8 @@ test('superadmin can view user details', function () {
     $response = $this->actingAs($superadmin)->get("/admin/users/{$user->id}");
 
     $response->assertOk();
-    $response->assertInertia(fn ($page) => 
-        $page->component('admin/users/show')
-            ->has('user')
+    $response->assertInertia(fn ($page) => $page->component('admin/users/show')
+        ->has('user')
     );
 });
 
@@ -145,10 +144,9 @@ test('superadmin can edit user roles', function () {
     $response = $this->actingAs($superadmin)->get("/admin/users/{$user->id}/edit");
 
     $response->assertOk();
-    $response->assertInertia(fn ($page) => 
-        $page->component('admin/users/edit')
-            ->has('user')
-            ->has('roles')
+    $response->assertInertia(fn ($page) => $page->component('admin/users/edit')
+        ->has('user')
+        ->has('roles')
     );
 });
 
@@ -254,4 +252,3 @@ test('role update requires valid role id', function () {
 
     $response->assertSessionHasErrors('role_id');
 });
-

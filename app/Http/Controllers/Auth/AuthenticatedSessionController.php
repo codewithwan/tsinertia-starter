@@ -51,7 +51,7 @@ class AuthenticatedSessionController extends Controller
     public function destroy(Request $request): RedirectResponse
     {
         $user = $request->user();
-        
+
         ActivityLogService::logFromRequest(
             $request,
             'logout',

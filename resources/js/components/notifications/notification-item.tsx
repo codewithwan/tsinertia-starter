@@ -1,6 +1,6 @@
+import { Badge } from '@/components/ui/badge';
 import { cn } from '@/lib/utils';
 import { router } from '@inertiajs/react';
-import { Badge } from '@/components/ui/badge';
 import { ExternalLink } from 'lucide-react';
 
 interface NotificationItemProps {
@@ -47,25 +47,20 @@ export function NotificationItem({ notification, onMarkAsRead }: NotificationIte
 
     return (
         <div
-            className={cn(
-                'px-4 py-3 transition-colors hover:bg-muted/50',
-                notification.data.action_url && 'cursor-pointer'
-            )}
+            className={cn('px-4 py-3 transition-colors hover:bg-muted/50', notification.data.action_url && 'cursor-pointer')}
             onClick={notification.data.action_url ? handleClick : undefined}
         >
             <div className="flex items-start gap-3">
-                <div className="flex-1 space-y-1 min-w-0">
+                <div className="min-w-0 flex-1 space-y-1">
                     <div className="flex items-start justify-between gap-2">
-                        <p className={cn('text-sm font-medium flex-1', isUnread && 'font-semibold')}>
-                            {notification.data.title}
-                        </p>
-                        <div className="flex items-center gap-1.5 shrink-0">
+                        <p className={cn('flex-1 text-sm font-medium', isUnread && 'font-semibold')}>{notification.data.title}</p>
+                        <div className="flex shrink-0 items-center gap-1.5">
                             {notification.data.action_url && notification.data.action_text && (
                                 <Badge
                                     variant="outline"
                                     className={cn(
-                                        'text-xs font-medium cursor-pointer hover:bg-accent',
-                                        notification.data.action_url && isExternalUrl(notification.data.action_url) && 'flex items-center gap-1'
+                                        'cursor-pointer text-xs font-medium hover:bg-accent',
+                                        notification.data.action_url && isExternalUrl(notification.data.action_url) && 'flex items-center gap-1',
                                     )}
                                 >
                                     {notification.data.action_text}
@@ -74,18 +69,13 @@ export function NotificationItem({ notification, onMarkAsRead }: NotificationIte
                                     )}
                                 </Badge>
                             )}
-                            {isUnread && (
-                                <div className="h-2 w-2 rounded-full bg-primary shrink-0" />
-                            )}
+                            {isUnread && <div className="h-2 w-2 shrink-0 rounded-full bg-primary" />}
                         </div>
                     </div>
-                    <p className="text-xs text-muted-foreground line-clamp-2">
-                        {notification.data.message}
-                    </p>
+                    <p className="line-clamp-2 text-xs text-muted-foreground">{notification.data.message}</p>
                     <p className="text-xs text-muted-foreground">{notification.created_at}</p>
                 </div>
             </div>
         </div>
     );
 }
-

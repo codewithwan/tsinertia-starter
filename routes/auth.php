@@ -39,7 +39,7 @@ Route::middleware('guest')->group(function () {
         ->name('oauth.google');
     Route::get('auth/google/callback', [OAuthController::class, 'handleGoogleCallback'])
         ->name('oauth.google.callback');
-    
+
     Route::get('auth/github', [OAuthController::class, 'redirectToGithub'])
         ->name('oauth.github');
     Route::get('auth/github/callback', [OAuthController::class, 'handleGithubCallback'])

@@ -87,7 +87,7 @@ class SessionController extends Controller
      */
     private function getDeviceInfo(?string $userAgent): string
     {
-        if (!$userAgent) {
+        if (! $userAgent) {
             return 'Unknown Device';
         }
 
@@ -113,11 +113,11 @@ class SessionController extends Controller
         }
 
         // Detect Browser
-        if (preg_match('/Chrome/i', $userAgent) && !preg_match('/Edg|OPR/i', $userAgent)) {
+        if (preg_match('/Chrome/i', $userAgent) && ! preg_match('/Edg|OPR/i', $userAgent)) {
             $browser = 'Chrome';
         } elseif (preg_match('/Firefox/i', $userAgent)) {
             $browser = 'Firefox';
-        } elseif (preg_match('/Safari/i', $userAgent) && !preg_match('/Chrome/i', $userAgent)) {
+        } elseif (preg_match('/Safari/i', $userAgent) && ! preg_match('/Chrome/i', $userAgent)) {
             $browser = 'Safari';
         } elseif (preg_match('/Edg/i', $userAgent)) {
             $browser = 'Edge';
@@ -135,7 +135,7 @@ class SessionController extends Controller
      */
     private function getLocationInfo(?string $ipAddress): string
     {
-        if (!$ipAddress || $ipAddress === '127.0.0.1' || $ipAddress === '::1') {
+        if (! $ipAddress || $ipAddress === '127.0.0.1' || $ipAddress === '::1') {
             return 'Local';
         }
 
@@ -144,4 +144,3 @@ class SessionController extends Controller
         return $ipAddress;
     }
 }
-

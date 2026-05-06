@@ -1,19 +1,19 @@
-import AppLayout from '@/layouts/app-layout';
-import { Head, router } from '@inertiajs/react';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
-import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import { Badge } from '@/components/ui/badge';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { type BreadcrumbItem, type PageProps } from '@/types';
-import { useState, useEffect, useRef, useCallback } from 'react';
-import { Search, X, Calendar, User, Star, Bug, Sparkles, Lightbulb, HelpCircle } from 'lucide-react';
-import { route } from 'ziggy-js';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { useInitials } from '@/hooks/use-initials';
+import AppLayout from '@/layouts/app-layout';
 import { cn } from '@/lib/utils';
+import { type BreadcrumbItem, type PageProps } from '@/types';
+import { Head, router } from '@inertiajs/react';
+import { Bug, Calendar, HelpCircle, Lightbulb, Search, Sparkles, Star, User, X } from 'lucide-react';
+import { useCallback, useEffect, useRef, useState } from 'react';
+import { route } from 'ziggy-js';
 
 interface Feedback {
     id: number;
@@ -192,21 +192,18 @@ export default function FeedbackIndex({ feedbacks, users, types, filters: initia
         setSelectedRating('');
         setDateFrom('');
         setDateTo('');
-        router.get(route('admin.feedback.index'), {}, {
-            preserveState: true,
-            preserveScroll: true,
-            replace: true,
-        });
+        router.get(
+            route('admin.feedback.index'),
+            {},
+            {
+                preserveState: true,
+                preserveScroll: true,
+                replace: true,
+            },
+        );
     };
 
-    const hasActiveFilters = !!(
-        searchQuery ||
-        selectedType ||
-        selectedUserId ||
-        selectedRating ||
-        dateFrom ||
-        dateTo
-    );
+    const hasActiveFilters = !!(searchQuery || selectedType || selectedUserId || selectedRating || dateFrom || dateTo);
 
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
@@ -214,13 +211,11 @@ export default function FeedbackIndex({ feedbacks, users, types, filters: initia
             <div className="w-full px-4 py-6 lg:px-6 xl:px-8">
                 <div className="mb-8">
                     <h1 className="text-2xl font-bold">Feedback Management</h1>
-                    <p className="text-sm text-muted-foreground mt-1">
-                        View and manage all user feedback
-                    </p>
+                    <p className="mt-1 text-sm text-muted-foreground">View and manage all user feedback</p>
                 </div>
 
                 {/* Statistics */}
-                <div className="grid gap-4 md:grid-cols-3 mb-6">
+                <div className="mb-6 grid gap-4 md:grid-cols-3">
                     <Card>
                         <CardHeader className="pb-2">
                             <CardDescription>Total Feedback</CardDescription>
@@ -232,20 +227,22 @@ export default function FeedbackIndex({ feedbacks, users, types, filters: initia
                             <CardDescription>Average Rating</CardDescription>
                             <CardTitle className="text-3xl">
                                 {safeStats.avg_rating ? Number(safeStats.avg_rating).toFixed(1) : 'N/A'}
-                                {safeStats.avg_rating && <Star className="inline h-5 w-5 ml-1 fill-yellow-400 text-yellow-400" />}
+                                {safeStats.avg_rating && <Star className="ml-1 inline h-5 w-5 fill-yellow-400 text-yellow-400" />}
                             </CardTitle>
                         </CardHeader>
                     </Card>
                     <Card>
                         <CardHeader className="pb-2">
                             <CardDescription>By Type</CardDescription>
-                            <CardTitle className="text-sm space-y-1">
+                            <CardTitle className="space-y-1 text-sm">
                                 {Object.entries(safeStats.by_type).map(([type, count]) => {
                                     const Icon = getTypeIcon(type);
                                     return (
                                         <div key={type} className="flex items-center gap-2">
                                             <Icon className="h-4 w-4" />
-                                            <span>{getTypeLabel(type)}: {count}</span>
+                                            <span>
+                                                {getTypeLabel(type)}: {count}
+                                            </span>
                                         </div>
                                     );
                                 })}
@@ -264,7 +261,7 @@ export default function FeedbackIndex({ feedbacks, users, types, filters: initia
                             <div className="space-y-2">
                                 <Label htmlFor="search">Search</Label>
                                 <div className="relative">
-                                    <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                                    <Search className="absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 transform text-muted-foreground" />
                                     <Input
                                         id="search"
                                         placeholder="Search subject or message..."
@@ -278,10 +275,13 @@ export default function FeedbackIndex({ feedbacks, users, types, filters: initia
                             <div className="space-y-2">
                                 <Label htmlFor="type">Type</Label>
                                 <div className="flex gap-2">
-                                    <Select value={selectedType || undefined} onValueChange={(value) => {
-                                        setSelectedType(value);
-                                        setTimeout(applyFilters, 100);
-                                    }}>
+                                    <Select
+                                        value={selectedType || undefined}
+                                        onValueChange={(value) => {
+                                            setSelectedType(value);
+                                            setTimeout(applyFilters, 100);
+                                        }}
+                                    >
                                         <SelectTrigger id="type" className="flex-1">
                                             <SelectValue placeholder="All types" />
                                         </SelectTrigger>
@@ -318,10 +318,13 @@ export default function FeedbackIndex({ feedbacks, users, types, filters: initia
                                 <div className="space-y-2">
                                     <Label htmlFor="user">User</Label>
                                     <div className="flex gap-2">
-                                        <Select value={selectedUserId || undefined} onValueChange={(value) => {
-                                            setSelectedUserId(value);
-                                            setTimeout(applyFilters, 100);
-                                        }}>
+                                        <Select
+                                            value={selectedUserId || undefined}
+                                            onValueChange={(value) => {
+                                                setSelectedUserId(value);
+                                                setTimeout(applyFilters, 100);
+                                            }}
+                                        >
                                             <SelectTrigger id="user" className="flex-1">
                                                 <SelectValue placeholder="All users" />
                                             </SelectTrigger>
@@ -352,10 +355,13 @@ export default function FeedbackIndex({ feedbacks, users, types, filters: initia
                             <div className="space-y-2">
                                 <Label htmlFor="rating">Rating</Label>
                                 <div className="flex gap-2">
-                                    <Select value={selectedRating || undefined} onValueChange={(value) => {
-                                        setSelectedRating(value);
-                                        setTimeout(applyFilters, 100);
-                                    }}>
+                                    <Select
+                                        value={selectedRating || undefined}
+                                        onValueChange={(value) => {
+                                            setSelectedRating(value);
+                                            setTimeout(applyFilters, 100);
+                                        }}
+                                    >
                                         <SelectTrigger id="rating" className="flex-1">
                                             <SelectValue placeholder="All ratings" />
                                         </SelectTrigger>
@@ -368,7 +374,7 @@ export default function FeedbackIndex({ feedbacks, users, types, filters: initia
                                                                 key={i}
                                                                 className={cn(
                                                                     'h-4 w-4',
-                                                                    i < rating ? 'fill-yellow-400 text-yellow-400' : 'text-gray-300'
+                                                                    i < rating ? 'fill-yellow-400 text-yellow-400' : 'text-gray-300',
                                                                 )}
                                                             />
                                                         ))}
@@ -396,7 +402,7 @@ export default function FeedbackIndex({ feedbacks, users, types, filters: initia
                             <div className="space-y-2">
                                 <Label htmlFor="date_from">Date From</Label>
                                 <div className="relative">
-                                    <Calendar className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                                    <Calendar className="absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 transform text-muted-foreground" />
                                     <Input
                                         id="date_from"
                                         type="date"
@@ -413,7 +419,7 @@ export default function FeedbackIndex({ feedbacks, users, types, filters: initia
                             <div className="space-y-2">
                                 <Label htmlFor="date_to">Date To</Label>
                                 <div className="relative">
-                                    <Calendar className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                                    <Calendar className="absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 transform text-muted-foreground" />
                                     <Input
                                         id="date_to"
                                         type="date"
@@ -428,9 +434,9 @@ export default function FeedbackIndex({ feedbacks, users, types, filters: initia
                             </div>
 
                             {hasActiveFilters && (
-                                <div className="space-y-2 flex items-end">
+                                <div className="flex items-end space-y-2">
                                     <Button variant="outline" onClick={clearFilters} className="w-full">
-                                        <X className="h-4 w-4 mr-2" />
+                                        <X className="mr-2 h-4 w-4" />
                                         Clear Filters
                                     </Button>
                                 </div>
@@ -461,12 +467,12 @@ export default function FeedbackIndex({ feedbacks, users, types, filters: initia
                                     {safeFeedbacks.data.map((feedback) => {
                                         const TypeIcon = getTypeIcon(feedback.type);
                                         return (
-                                            <div key={feedback.id} className="border rounded-lg p-4 hover:bg-muted/50 transition-colors">
+                                            <div key={feedback.id} className="rounded-lg border p-4 transition-colors hover:bg-muted/50">
                                                 <div className="flex items-start gap-4">
                                                     <div className="flex-1 space-y-2">
-                                                        <div className="flex items-center gap-2 flex-wrap">
+                                                        <div className="flex flex-wrap items-center gap-2">
                                                             <Badge variant="outline" className={getTypeColor(feedback.type)}>
-                                                                <TypeIcon className="h-3 w-3 mr-1" />
+                                                                <TypeIcon className="mr-1 h-3 w-3" />
                                                                 {getTypeLabel(feedback.type)}
                                                             </Badge>
                                                             {feedback.rating && (
@@ -476,11 +482,13 @@ export default function FeedbackIndex({ feedbacks, users, types, filters: initia
                                                                             key={i}
                                                                             className={cn(
                                                                                 'h-4 w-4',
-                                                                                i < feedback.rating! ? 'fill-yellow-400 text-yellow-400' : 'text-gray-300'
+                                                                                i < feedback.rating!
+                                                                                    ? 'fill-yellow-400 text-yellow-400'
+                                                                                    : 'text-gray-300',
                                                                             )}
                                                                         />
                                                                     ))}
-                                                                    <span className="text-sm text-muted-foreground ml-1">({feedback.rating})</span>
+                                                                    <span className="ml-1 text-sm text-muted-foreground">({feedback.rating})</span>
                                                                 </div>
                                                             )}
                                                             <span className="text-sm text-muted-foreground">
@@ -493,15 +501,13 @@ export default function FeedbackIndex({ feedbacks, users, types, filters: initia
                                                                 })}
                                                             </span>
                                                         </div>
-                                                        {feedback.subject && (
-                                                            <p className="text-sm font-semibold">{feedback.subject}</p>
-                                                        )}
-                                                        <p className="text-sm text-muted-foreground whitespace-pre-wrap">{feedback.message}</p>
+                                                        {feedback.subject && <p className="text-sm font-semibold">{feedback.subject}</p>}
+                                                        <p className="text-sm whitespace-pre-wrap text-muted-foreground">{feedback.message}</p>
                                                         {feedback.user && (
                                                             <div className="flex items-center gap-2 text-sm">
                                                                 <Avatar className="h-6 w-6">
                                                                     <AvatarImage src={feedback.user.avatar || undefined} alt={feedback.user.name} />
-                                                                    <AvatarFallback className="bg-primary/10 text-primary text-xs">
+                                                                    <AvatarFallback className="bg-primary/10 text-xs text-primary">
                                                                         {getInitials(feedback.user.name)}
                                                                     </AvatarFallback>
                                                                 </Avatar>
@@ -550,4 +556,3 @@ export default function FeedbackIndex({ feedbacks, users, types, filters: initia
         </AppLayout>
     );
 }
-

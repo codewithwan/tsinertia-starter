@@ -1,38 +1,25 @@
-import { PageProps, SharedData } from '@/types';
-import { Head, Link, usePage, router } from '@inertiajs/react';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
-import { Badge } from '@/components/ui/badge';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import {
-    DropdownMenu,
-    DropdownMenuContent,
-    DropdownMenuItem,
-    DropdownMenuSeparator,
-    DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
+import { Input } from '@/components/ui/input';
 import {
     Pagination,
     PaginationContent,
+    PaginationEllipsis,
     PaginationItem,
     PaginationLink,
     PaginationNext,
     PaginationPrevious,
-    PaginationEllipsis,
 } from '@/components/ui/pagination';
-import {
-    Select,
-    SelectContent,
-    SelectItem,
-    SelectTrigger,
-    SelectValue,
-} from '@/components/ui/select';
-import { Input } from '@/components/ui/input';
-import { Eye, Edit, MoreVertical, Trash2, UserX, CheckCircle2, XCircle, Search, X } from 'lucide-react';
-import AppLayout from '@/layouts/app-layout';
-import { type BreadcrumbItem } from '@/types';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { useInitials } from '@/hooks/use-initials';
+import AppLayout from '@/layouts/app-layout';
+import { PageProps, SharedData, type BreadcrumbItem } from '@/types';
+import { Head, Link, router, usePage } from '@inertiajs/react';
+import { CheckCircle2, Edit, Eye, MoreVertical, Search, Trash2, UserX, X, XCircle } from 'lucide-react';
 import { useCallback, useEffect, useRef, useState } from 'react';
 
 interface User {
@@ -81,22 +68,22 @@ const breadcrumbs: BreadcrumbItem[] = [
 export default function Index({ users: paginatedUsers }: Props) {
     const { auth } = usePage<SharedData>().props;
     const getInitials = useInitials();
-    const isSuperadmin = auth.user.roles?.some(role => role.name === 'superadmin') || false;
-    const isAdmin = auth.user.roles?.some(role => role.name === 'admin') || false;
+    const isSuperadmin = auth.user.roles?.some((role) => role.name === 'superadmin') || false;
+    const isAdmin = auth.user.roles?.some((role) => role.name === 'admin') || false;
     const currentUserId = auth.user.id;
-    
+
     const [searchQuery, setSearchQuery] = useState(() => {
         const urlParams = new URLSearchParams(window.location.search);
         return urlParams.get('search') || '';
     });
     const searchTimeoutRef = useRef<NodeJS.Timeout | null>(null);
-    
+
     const canDeactivateUser = (user: User) => {
         if (user.id === currentUserId) return false;
         if (isSuperadmin) return true;
         if (isAdmin) {
-            const userHasAdminRole = user.roles.some(role => role.name === 'admin');
-            const userHasSuperadminRole = user.roles.some(role => role.name === 'superadmin');
+            const userHasAdminRole = user.roles.some((role) => role.name === 'admin');
+            const userHasSuperadminRole = user.roles.some((role) => role.name === 'superadmin');
             return !userHasAdminRole && !userHasSuperadminRole;
         }
         return false;
@@ -112,8 +99,8 @@ export default function Index({ users: paginatedUsers }: Props) {
     };
 
     const getUserRoleType = (user: User) => {
-        if (user.roles.some(role => role.name === 'superadmin')) return 'superadmin';
-        if (user.roles.some(role => role.name === 'admin')) return 'admin';
+        if (user.roles.some((role) => role.name === 'superadmin')) return 'superadmin';
+        if (user.roles.some((role) => role.name === 'admin')) return 'admin';
         return 'user';
     };
 
@@ -130,28 +117,25 @@ export default function Index({ users: paginatedUsers }: Props) {
         router.visit(url.toString(), { preserveState: true, preserveScroll: false });
     };
 
-    const handleSearch = useCallback(
-        (value: string) => {
-            const url = new URL(window.location.href);
-            if (value.trim()) {
-                url.searchParams.set('search', value.trim());
-            } else {
-                url.searchParams.delete('search');
-            }
-            url.searchParams.set('page', '1'); // Reset to first page when searching
-            router.visit(url.toString(), { preserveState: true, preserveScroll: false });
-        },
-        []
-    );
+    const handleSearch = useCallback((value: string) => {
+        const url = new URL(window.location.href);
+        if (value.trim()) {
+            url.searchParams.set('search', value.trim());
+        } else {
+            url.searchParams.delete('search');
+        }
+        url.searchParams.set('page', '1'); // Reset to first page when searching
+        router.visit(url.toString(), { preserveState: true, preserveScroll: false });
+    }, []);
 
     const handleSearchChange = (value: string) => {
         setSearchQuery(value);
-        
+
         // Clear existing timeout
         if (searchTimeoutRef.current) {
             clearTimeout(searchTimeoutRef.current);
         }
-        
+
         // Set new timeout for debounce
         searchTimeoutRef.current = setTimeout(() => {
             handleSearch(value);
@@ -174,7 +158,6 @@ export default function Index({ users: paginatedUsers }: Props) {
         };
     }, []);
 
-
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="User Management" />
@@ -188,7 +171,7 @@ export default function Index({ users: paginatedUsers }: Props) {
                                 <CardDescription>Manage users, roles, and permissions</CardDescription>
                             </div>
                             <div className="relative">
-                                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                                <Search className="absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 transform text-muted-foreground" />
                                 <Input
                                     type="text"
                                     placeholder="Search by email or username..."
@@ -202,13 +185,13 @@ export default function Index({ users: paginatedUsers }: Props) {
                                             handleSearch(searchQuery);
                                         }
                                     }}
-                                    className="pl-9 pr-9"
+                                    className="pr-9 pl-9"
                                 />
                                 {searchQuery && (
                                     <Button
                                         variant="ghost"
                                         size="sm"
-                                        className="absolute right-1 top-1/2 transform -translate-y-1/2 h-7 w-7 p-0"
+                                        className="absolute top-1/2 right-1 h-7 w-7 -translate-y-1/2 transform p-0"
                                         onClick={clearSearch}
                                     >
                                         <X className="h-4 w-4" />
@@ -220,7 +203,7 @@ export default function Index({ users: paginatedUsers }: Props) {
                     </CardHeader>
                     <CardContent>
                         {/* Desktop Table View */}
-                        <div className="hidden md:block rounded-md border">
+                        <div className="hidden rounded-md border md:block">
                             <Table>
                                 <TableHeader>
                                     <TableRow>
@@ -248,11 +231,13 @@ export default function Index({ users: paginatedUsers }: Props) {
                                             return (
                                                 <TableRow key={user.id}>
                                                     <TableCell>
-                                                        <div className={`flex items-center justify-center w-8 h-8 rounded-full border-2 text-sm font-semibold ${
-                                                            isAdminOrSuperadmin 
-                                                                ? 'bg-foreground/5 border-foreground/20 text-foreground' 
-                                                                : 'bg-muted border-border text-muted-foreground'
-                                                        }`}>
+                                                        <div
+                                                            className={`flex h-8 w-8 items-center justify-center rounded-full border-2 text-sm font-semibold ${
+                                                                isAdminOrSuperadmin
+                                                                    ? 'border-foreground/20 bg-foreground/5 text-foreground'
+                                                                    : 'border-border bg-muted text-muted-foreground'
+                                                            }`}
+                                                        >
                                                             {numberIndex + 1}
                                                         </div>
                                                     </TableCell>
@@ -266,7 +251,9 @@ export default function Index({ users: paginatedUsers }: Props) {
                                                             </Avatar>
                                                             <div className="flex flex-col">
                                                                 <span className="font-medium">{user.name}</span>
-                                                                <span className="text-sm text-muted-foreground">@{user.name.toLowerCase().replace(/\s+/g, '.')}</span>
+                                                                <span className="text-sm text-muted-foreground">
+                                                                    @{user.name.toLowerCase().replace(/\s+/g, '.')}
+                                                                </span>
                                                             </div>
                                                         </div>
                                                     </TableCell>
@@ -282,7 +269,10 @@ export default function Index({ users: paginatedUsers }: Props) {
                                                     </TableCell>
                                                     <TableCell>
                                                         {user.email_verified_at ? (
-                                                            <Badge variant="default" className="bg-green-500/10 text-green-600 dark:text-green-500 border-green-500/20">
+                                                            <Badge
+                                                                variant="default"
+                                                                className="border-green-500/20 bg-green-500/10 text-green-600 dark:text-green-500"
+                                                            >
                                                                 Verified
                                                             </Badge>
                                                         ) : (
@@ -290,7 +280,7 @@ export default function Index({ users: paginatedUsers }: Props) {
                                                         )}
                                                     </TableCell>
                                                     <TableCell>
-                                                        <div className="flex gap-1 flex-wrap">
+                                                        <div className="flex flex-wrap gap-1">
                                                             {user.roles.map((role) => (
                                                                 <Badge key={role.id} variant="secondary">
                                                                     {role.name}
@@ -299,30 +289,18 @@ export default function Index({ users: paginatedUsers }: Props) {
                                                         </div>
                                                     </TableCell>
                                                     <TableCell>
-                                                        <span className="text-sm text-muted-foreground">
-                                                            {formatDate(user.created_at)}
-                                                        </span>
+                                                        <span className="text-sm text-muted-foreground">{formatDate(user.created_at)}</span>
                                                     </TableCell>
                                                     <TableCell className="text-right">
                                                         <div className="flex items-center justify-end gap-2">
-                                                            <Button
-                                                                variant="ghost"
-                                                                size="sm"
-                                                                asChild
-                                                                className="h-8 w-8 p-0"
-                                                            >
+                                                            <Button variant="ghost" size="sm" asChild className="h-8 w-8 p-0">
                                                                 <Link href={`/admin/users/${user.id}`}>
                                                                     <Eye className="h-4 w-4" />
                                                                     <span className="sr-only">View</span>
                                                                 </Link>
                                                             </Button>
                                                             {user.id !== currentUserId && isSuperadmin && (
-                                                                <Button
-                                                                    variant="ghost"
-                                                                    size="sm"
-                                                                    asChild
-                                                                    className="h-8 w-8 p-0"
-                                                                >
+                                                                <Button variant="ghost" size="sm" asChild className="h-8 w-8 p-0">
                                                                     <Link href={`/admin/users/${user.id}/edit`}>
                                                                         <Edit className="h-4 w-4" />
                                                                         <span className="sr-only">Edit</span>
@@ -332,11 +310,7 @@ export default function Index({ users: paginatedUsers }: Props) {
                                                             {user.id !== currentUserId && (
                                                                 <DropdownMenu>
                                                                     <DropdownMenuTrigger asChild>
-                                                                        <Button
-                                                                            variant="ghost"
-                                                                            size="sm"
-                                                                            className="h-8 w-8 p-0"
-                                                                        >
+                                                                        <Button variant="ghost" size="sm" className="h-8 w-8 p-0">
                                                                             <MoreVertical className="h-4 w-4" />
                                                                             <span className="sr-only">More actions</span>
                                                                         </Button>
@@ -383,11 +357,9 @@ export default function Index({ users: paginatedUsers }: Props) {
                         </div>
 
                         {/* Mobile Card View */}
-                        <div className="md:hidden space-y-4">
+                        <div className="space-y-4 md:hidden">
                             {paginatedUsers.data.length === 0 ? (
-                                <div className="text-center text-muted-foreground py-8">
-                                    No users found
-                                </div>
+                                <div className="py-8 text-center text-muted-foreground">No users found</div>
                             ) : (
                                 paginatedUsers.data.map((user, index) => {
                                     const numberIndex = (paginatedUsers.current_page - 1) * paginatedUsers.per_page + index;
@@ -397,16 +369,18 @@ export default function Index({ users: paginatedUsers }: Props) {
                                         <Card key={user.id}>
                                             <CardContent className="p-4">
                                                 <div className="flex items-start gap-3">
-                                                    <div className={`flex items-center justify-center w-10 h-10 rounded-full border-2 text-sm font-semibold shrink-0 ${
-                                                        isAdminOrSuperadmin 
-                                                            ? 'bg-foreground/5 border-foreground/20 text-foreground' 
-                                                            : 'bg-muted border-border text-muted-foreground'
-                                                    }`}>
+                                                    <div
+                                                        className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-full border-2 text-sm font-semibold ${
+                                                            isAdminOrSuperadmin
+                                                                ? 'border-foreground/20 bg-foreground/5 text-foreground'
+                                                                : 'border-border bg-muted text-muted-foreground'
+                                                        }`}
+                                                    >
                                                         {numberIndex + 1}
                                                     </div>
-                                                    <div className="flex-1 min-w-0">
-                                                        <div className="flex items-start justify-between gap-2 mb-2">
-                                                            <div className="flex items-center gap-2 min-w-0 flex-1">
+                                                    <div className="min-w-0 flex-1">
+                                                        <div className="mb-2 flex items-start justify-between gap-2">
+                                                            <div className="flex min-w-0 flex-1 items-center gap-2">
                                                                 <Avatar className="h-10 w-10 shrink-0">
                                                                     <AvatarImage src={user.avatar || undefined} alt={user.name} />
                                                                     <AvatarFallback className="bg-primary/10 text-primary">
@@ -414,17 +388,15 @@ export default function Index({ users: paginatedUsers }: Props) {
                                                                     </AvatarFallback>
                                                                 </Avatar>
                                                                 <div className="min-w-0 flex-1">
-                                                                    <p className="font-medium truncate">{user.name}</p>
-                                                                    <p className="text-sm text-muted-foreground truncate">@{user.name.toLowerCase().replace(/\s+/g, '.')}</p>
+                                                                    <p className="truncate font-medium">{user.name}</p>
+                                                                    <p className="truncate text-sm text-muted-foreground">
+                                                                        @{user.name.toLowerCase().replace(/\s+/g, '.')}
+                                                                    </p>
                                                                 </div>
                                                             </div>
                                                             <DropdownMenu>
                                                                 <DropdownMenuTrigger asChild>
-                                                                    <Button
-                                                                        variant="ghost"
-                                                                        size="sm"
-                                                                        className="h-8 w-8 p-0 shrink-0"
-                                                                    >
+                                                                    <Button variant="ghost" size="sm" className="h-8 w-8 shrink-0 p-0">
                                                                         <MoreVertical className="h-4 w-4" />
                                                                         <span className="sr-only">More actions</span>
                                                                     </Button>
@@ -482,15 +454,18 @@ export default function Index({ users: paginatedUsers }: Props) {
                                                                 <span className="text-muted-foreground">Email:</span>
                                                                 <span className="truncate">{user.email}</span>
                                                                 {user.email_verified_at ? (
-                                                                    <CheckCircle2 className="h-4 w-4 text-green-600 dark:text-green-500 shrink-0" />
+                                                                    <CheckCircle2 className="h-4 w-4 shrink-0 text-green-600 dark:text-green-500" />
                                                                 ) : (
-                                                                    <XCircle className="h-4 w-4 text-muted-foreground shrink-0" />
+                                                                    <XCircle className="h-4 w-4 shrink-0 text-muted-foreground" />
                                                                 )}
                                                             </div>
                                                             <div className="flex items-center gap-2 text-sm">
                                                                 <span className="text-muted-foreground">Status:</span>
                                                                 {user.email_verified_at ? (
-                                                                    <Badge variant="default" className="bg-green-500/10 text-green-600 dark:text-green-500 border-green-500/20">
+                                                                    <Badge
+                                                                        variant="default"
+                                                                        className="border-green-500/20 bg-green-500/10 text-green-600 dark:text-green-500"
+                                                                    >
                                                                         Verified
                                                                     </Badge>
                                                                 ) : (
@@ -499,7 +474,7 @@ export default function Index({ users: paginatedUsers }: Props) {
                                                             </div>
                                                             <div className="flex items-center gap-2 text-sm">
                                                                 <span className="text-muted-foreground">Role:</span>
-                                                                <div className="flex gap-1 flex-wrap">
+                                                                <div className="flex flex-wrap gap-1">
                                                                     {user.roles.map((role) => (
                                                                         <Badge key={role.id} variant="secondary">
                                                                             {role.name}
@@ -522,14 +497,11 @@ export default function Index({ users: paginatedUsers }: Props) {
                         </div>
 
                         {/* Pagination Controls - Bottom only */}
-                        <div className="flex flex-col sm:flex-row items-center justify-between gap-4 mt-6 pt-4 border-t">
-                            <div className="flex items-center gap-2 flex-wrap">
+                        <div className="mt-6 flex flex-col items-center justify-between gap-4 border-t pt-4 sm:flex-row">
+                            <div className="flex flex-wrap items-center gap-2">
                                 <span className="text-sm text-muted-foreground">Show per page:</span>
-                                <Select
-                                    value={paginatedUsers.per_page.toString()}
-                                    onValueChange={handlePerPageChange}
-                                >
-                                    <SelectTrigger className="w-[80px] h-8">
+                                <Select value={paginatedUsers.per_page.toString()} onValueChange={handlePerPageChange}>
+                                    <SelectTrigger className="h-8 w-[80px]">
                                         <SelectValue />
                                     </SelectTrigger>
                                     <SelectContent>
@@ -585,9 +557,14 @@ export default function Index({ users: paginatedUsers }: Props) {
                                                 href={paginatedUsers.links[paginatedUsers.links.length - 1].url || undefined}
                                                 onClick={(e) => {
                                                     e.preventDefault();
-                                                    if (paginatedUsers.links[paginatedUsers.links.length - 1].url) handlePageChange(paginatedUsers.links[paginatedUsers.links.length - 1].url);
+                                                    if (paginatedUsers.links[paginatedUsers.links.length - 1].url)
+                                                        handlePageChange(paginatedUsers.links[paginatedUsers.links.length - 1].url);
                                                 }}
-                                                className={!paginatedUsers.links[paginatedUsers.links.length - 1].url ? 'pointer-events-none opacity-50' : 'cursor-pointer'}
+                                                className={
+                                                    !paginatedUsers.links[paginatedUsers.links.length - 1].url
+                                                        ? 'pointer-events-none opacity-50'
+                                                        : 'cursor-pointer'
+                                                }
                                             />
                                         </PaginationItem>
                                     </PaginationContent>

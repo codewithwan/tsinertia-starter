@@ -5,7 +5,7 @@ use App\Models\User;
 
 test('activity log can be created', function () {
     $user = User::factory()->create();
-    
+
     $log = ActivityLog::create([
         'user_id' => $user->id,
         'action' => 'login',
@@ -57,14 +57,13 @@ test('activity log metadata is cast to array', function () {
 
 test('activity log can store various actions', function () {
     $actions = ['login', 'logout', 'profile_updated', 'password_changed', 'user_created'];
-    
+
     foreach ($actions as $action) {
         $log = ActivityLog::create([
             'action' => $action,
             'description' => "Action: {$action}",
         ]);
-        
+
         expect($log->action)->toBe($action);
     }
 });
-

@@ -1,7 +1,9 @@
 <?php
 
+use Illuminate\Foundation\Testing\RefreshDatabase;
+
 /** @phpstan-ignore-file */
-uses(\Illuminate\Foundation\Testing\RefreshDatabase::class);
+uses(RefreshDatabase::class);
 
 test('registration screen can be rendered', function () {
     $response = $this->get('/register');

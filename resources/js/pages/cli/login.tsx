@@ -33,10 +33,7 @@ export default function CliLogin({ callback, errors: propErrors }: CliLoginProps
     const allErrors = { ...propErrors, ...errors };
 
     return (
-        <AuthLayout 
-            title="CLI Authentication" 
-            description="Login to authorize your CLI tool"
-        >
+        <AuthLayout title="CLI Authentication" description="Login to authorize your CLI tool">
             <Head title="CLI Login" />
 
             <div className="mb-6 rounded-md bg-blue-50 p-4 text-sm text-blue-800 dark:bg-blue-950/30 dark:text-blue-200">
@@ -88,14 +85,10 @@ export default function CliLogin({ callback, errors: propErrors }: CliLoginProps
                     <InputError message={allErrors.password} className="animate-in fade-in-0 zoom-in-95" />
                 </div>
 
-                {allErrors.callback && (
-                    <div className="rounded-md bg-red-50 p-3 text-sm text-red-600 dark:bg-red-950/30">
-                        {allErrors.callback}
-                    </div>
-                )}
+                {allErrors.callback && <div className="rounded-md bg-red-50 p-3 text-sm text-red-600 dark:bg-red-950/30">{allErrors.callback}</div>}
 
-                <Button 
-                    className="h-11 w-full transition-all duration-200 hover:shadow-md disabled:opacity-50 cursor-pointer" 
+                <Button
+                    className="h-11 w-full cursor-pointer transition-all duration-200 hover:shadow-md disabled:opacity-50"
                     disabled={processing}
                     type="submit"
                 >
@@ -106,4 +99,3 @@ export default function CliLogin({ callback, errors: propErrors }: CliLoginProps
         </AuthLayout>
     );
 }
-

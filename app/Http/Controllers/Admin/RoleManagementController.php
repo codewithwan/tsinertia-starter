@@ -39,7 +39,7 @@ class RoleManagementController extends Controller
         }
 
         $validated = $request->validate([
-            'name' => ['required', 'string', 'max:255', 'unique:roles,name,' . $role->id],
+            'name' => ['required', 'string', 'max:255', 'unique:roles,name,'.$role->id],
             'permissions' => ['required', 'array'],
             'permissions.*' => ['exists:permissions,id'],
         ]);
@@ -61,4 +61,3 @@ class RoleManagementController extends Controller
         return back()->with('success', 'Role deleted successfully.');
     }
 }
-

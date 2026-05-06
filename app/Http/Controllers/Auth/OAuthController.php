@@ -6,8 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Str;
 use Laravel\Socialite\Facades\Socialite;
 use Spatie\Permission\Models\Role;
 
@@ -28,7 +26,7 @@ class OAuthController extends Controller
     {
         try {
             $googleUser = Socialite::driver('google')->user();
-            
+
             return $this->handleOAuthCallback($googleUser, 'google');
         } catch (\Exception $e) {
             return redirect()->route('login')->with('error', 'Failed to authenticate with Google.');
@@ -50,7 +48,7 @@ class OAuthController extends Controller
     {
         try {
             $githubUser = Socialite::driver('github')->user();
-            
+
             return $this->handleOAuthCallback($githubUser, 'github');
         } catch (\Exception $e) {
             return redirect()->route('login')->with('error', 'Failed to authenticate with GitHub.');
@@ -70,6 +68,7 @@ class OAuthController extends Controller
         if ($user) {
             // User exists, log them in
             Auth::login($user, true);
+
             return redirect()->intended(route('dashboard', absolute: false));
         }
 
@@ -84,6 +83,7 @@ class OAuthController extends Controller
             ]);
 
             Auth::login($existingUser, true);
+
             return redirect()->intended(route('dashboard', absolute: false));
         }
 
