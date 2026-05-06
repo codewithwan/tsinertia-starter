@@ -3,6 +3,7 @@
 namespace App\Notifications;
 
 use Illuminate\Bus\Queueable;
+use Illuminate\Notifications\Messages\BroadcastMessage;
 use Illuminate\Notifications\Notification;
 
 class SystemNotification extends Notification
@@ -18,7 +19,7 @@ class SystemNotification extends Notification
 
     public function via(object $notifiable): array
     {
-        return ['database'];
+        return ['database', 'broadcast'];
     }
 
     public function toArray(object $notifiable): array
@@ -30,5 +31,13 @@ class SystemNotification extends Notification
             'action_url' => $this->actionUrl,
             'action_text' => $this->actionText,
         ];
+    }
+
+    public function toBroadcast(object $notifiable): BroadcastMessage
+    {
+        return new BroadcastMessage([
+            'id' => $this->id,
+            ...$this->toArray($notifiable),
+        ]);
     }
 }

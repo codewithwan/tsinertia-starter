@@ -13,13 +13,6 @@ export function NotificationBell() {
     const [open, setOpen] = useState(false);
 
     useEffect(() => {
-        const interval = setInterval(() => {
-            router.reload({ only: ['unreadNotificationCount', 'notifications'] });
-        }, 30000);
-        return () => clearInterval(interval);
-    }, []);
-
-    useEffect(() => {
         if (open) {
             router.reload({ only: ['unreadNotificationCount', 'notifications'] });
         }
